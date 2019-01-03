@@ -1,0 +1,162 @@
+package rs.ac.bg.etf.pp1;
+
+import java_cup.runtime.*;
+import org.apache.log4j.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+
+parser code
+{:
+	boolean errorDetected = false;
+
+	Logger log = Logger.getLogger(getClass());
+
+	public void report_fatal_error(String message, Object info) throws java.lang.Exception
+	{
+		done_parsing();
+		report_error(message, info);
+	}
+
+	public void syntax_error(Symbol cur_token)
+	{
+		report_error("\nSyntax error", cur_token);
+	}
+
+	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception
+	{
+		report_fatal_error("Fatal error, parsing cannot continue", cur_token);
+	}
+
+	public void report_error(String message, Object info)
+	{
+		errorDetected = true;
+
+		StringBuilder msg = new StringBuilder(message);
+
+		if (info instanceof Symbol)
+		{
+			msg
+				.append(" on line ")
+				.append(((Symbol)info).left);
+		}
+
+		log.error(msg.toString());
+	}
+
+	public void report_info(String message, Object info)
+	{
+		StringBuilder msg = new StringBuilder(message);
+
+		if (info instanceof Symbol)
+		{
+			msg
+				.append (" on line ")
+				.append(((Symbol)info).left);
+		}
+
+		log.info(msg.toString());
+	}
+
+:}
+
+init with
+{:
+	errorDetected = false;
+:}
+
+scan with
+{:
+	Symbol s = this.getScanner().next_token();
+
+	if (s != null && s.value != null)
+	{
+		log.info(s.toString() + " " + s.value.toString());
+	}
+
+	return s;
+:}
+
+// Keywords
+terminal PROG, PRINT, RETURN;
+// Constants
+terminal Integer NUMBER;
+// Identifiers
+terminal String IDENT;
+// Operators
+terminal PLUS, EQUAL;
+terminal COMMA, SEMI;
+terminal LPAREN, RPAREN;
+terminal LBRACE, RBRACE;
+// Control
+terminal IF, ELSE;
+// Void
+terminal VOID;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, MethodDecl, MethodReg, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, VarDeclList, Expr, Term, Factor, FuncCall;
+
+nonterminal MethodDeclList, VarDecl;
+nonterminal Params, ParamList, Param, Args, ArgList;
+nonterminal StatementList, Statement;
+nonterminal Unmatched, Matched;
+nonterminal Op;
+
+Program ::= (ProgramNode) PROG ProgName:progName VarDeclList LBRACE MethodDeclList RBRACE;
+ProgName ::= (ProgNameNode) IDENT:name;
+
+VarDeclList ::= (VarDeclsNode) VarDeclList VarDecl | (NoVarDeclsNode) /* epsilon */;
+VarDecl ::= (VarDeclNode) Type:varType IDENT:varName SEMI;
+
+Type ::= (TypeNode) IDENT:typeName;
+
+MethodDeclList ::= (MethodDeclsNode) MethodDeclList MethodDecl | (NoMethodDeclsNode) /* epsilon */;
+MethodDecl ::= (MethodDeclNode) MethodReg LPAREN Params RPAREN VarDeclList LBRACE StatementList RBRACE;
+MethodReg ::= (MethodRegNode) Type:retType IDENT:methodName;
+
+Params ::= (ParamsNode) ParamList | (NoParamsNode) /* epsilon */;
+ParamList ::= (ParamListNode) ParamList COMMA Param | (ParamNode) Param;
+Param ::= (ParamDeclNode) Type IDENT;
+
+StatementList ::= (StatementsNode) StatementList Statement | (NoStatementsNode) /* epsilon */;
+Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched;
+
+Unmatched ::= (UnmatchedIfNode) IF Expr Statement | (UnmatchedIfElseNode) IF Expr Matched ELSE Unmatched;
+Matched ::=
+	(AssignmentNode) Designator:dest EQUAL Expr:expr SEMI
+	|
+	(ErrAssignmentNode) Designator EQUAL error SEMI {: parser.log.debug("Successful error recovery on assignment."); :}
+	|
+	(PrintNode) PRINT LPAREN Expr RPAREN SEMI
+	|
+	(ReturnExprNode) RETURN Expr:expr SEMI
+	|
+	(ReturnVoidNode) RETURN SEMI
+	|
+	(MatchedIfNode) IF Expr Matched ELSE Matched
+	|
+	(NoRetCallNode) FuncCall SEMI
+	;
+
+Expr ::=
+	(OpExprNode) Expr:expr Op Term:term
+	|
+	(TermExprNode) Term:term
+	;
+
+Term ::= (TermNode) Factor:factor;
+Factor ::=
+	(ConstantNode) NUMBER
+	|
+	(VariableNode) Designator:designator
+	|
+	(RetCallNode) FuncCall
+	;
+
+FuncCall ::= (FuncCallNode) Designator:callee LPAREN Args RPAREN;
+
+Args ::= (ArgsNode) ArgList | (NoArgsNode) /* epsilon */;
+ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
+
+Designator ::= (DesignatorNode) IDENT:name;
+
+Op ::= (AddopNode) PLUS ;

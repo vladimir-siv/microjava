@@ -21,3 +21,21 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+### user spec ###
+
+# include main libraries
+!src/MJCompiler/lib/*.jar
+
+# build files
+src/MJCompiler/out/
+
+# ignore cup generated files
+src/MJCompiler/spec/mjparser_astbuild.cup
+src/MJCompiler/src/rs/ac/bg/etf/pp1/MJParser.java
+src/MJCompiler/src/rs/ac/bg/etf/pp1/sym.java
+src/MJCompiler/src/rs/ac/bg/etf/pp1/Yylex.java
+src/MJCompiler/src/rs/ac/bg/etf/pp1/ast/
+
+# object files
+src/MJCompiler/test/*.obj

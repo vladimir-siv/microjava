@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MJCompiler" default="lexer-gen" basedir=".">
+	
+	<target name="delete">
+		<delete>
+			<file name="src/rs/ac/bg/etf/pp1/MJParser.java" />
+			<file name="src/rs/ac/bg/etf/pp1/sym.java" />
+			<file name="src/rs/ac/bg/etf/pp1/Yylex.java" />
+		</delete>
+		<delete>
+			<fileset dir="spec">
+				<exclude name="mjlexer.flex" />
+				<exclude name="mjparser.cup" />
+			</fileset>
+			<fileset dir="src/rs/ac/bg/etf/pp1/ast" />
+		</delete>
+	</target>
+	
+	<target name="parser-gen" depends="delete">
+		<java jar="lib/cup_v10k.jar" fork="true">
+			<arg value="-destdir" />
+			<arg value="src/rs/ac/bg/etf/pp1" />
+			<arg value="-ast" />
+			<arg value="src.rs.ac.bg.etf.pp1.ast" />
+			<arg value="-parser" />
+			<arg value="MJParser" />
+			<arg value="-dump_states" />
+			<arg value="-buildtree" />
+			<arg value="spec/mjparser.cup" />
+		</java>
+	</target>
+	
+	<target name="repackage" depends="parser-gen">
+		<replace dir="src" value="rs.ac.bg.etf.pp1.ast" token="src.rs.ac.bg.etf.pp1.ast" summary="true" />
+	</target>
+	
+	<target name="lexer-gen" depends="repackage">
+		<java jar="lib/JFlex.jar" fork="true">
+			<arg value="-d" />
+			<arg value="./src/rs/ac/bg/etf/pp1" />
+			<arg value="spec/mjlexer.flex" />
+		</java>
+	</target>
+	
+</project>
