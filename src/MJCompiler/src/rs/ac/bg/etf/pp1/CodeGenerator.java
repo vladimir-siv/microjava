@@ -101,7 +101,7 @@ public class CodeGenerator extends VisitorAdaptor
 	{
 		Obj cnst = Tab.insert(Obj.Con, "$", node.struct);
 		cnst.setLevel(0);
-		cnst.setAdr(node.getI1());
+		cnst.setAdr(node.getValue());
 		
 		Code.load(cnst);
 	}

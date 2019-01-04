@@ -117,9 +117,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	// ======= [S] VARIABLES =======
 	
+	private Type typeNode = null;
+	
+	public void visit(VarSectDeclNode node)
+	{
+		typeNode = node.getType();
+	}
+	
 	public void visit(VarDeclNode node)
 	{
-		Tab.insert(Obj.Var, node.getVarName(), node.getType().struct);
+		Tab.insert(Obj.Var, node.getVarName(), typeNode.struct);
 	}
 	
 	// ======= [E] VARIABLES =======
