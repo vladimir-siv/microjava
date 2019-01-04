@@ -10,7 +10,7 @@ program MJProgram
 
 	int main()
 	{
-		y = 1;
+		y = 3;
 		print(1);
 		x = y + 5 + k();
 		print(x);

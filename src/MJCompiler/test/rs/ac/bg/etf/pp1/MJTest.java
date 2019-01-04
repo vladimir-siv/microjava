@@ -33,22 +33,19 @@ public class MJTest
 			br = new BufferedReader(new FileReader(sourceCode));
 			Yylex lexer = new Yylex(br);
 			
-			MJParser p = new MJParser(lexer);
-			Symbol s = p.parse();
+			MJParser parser = new MJParser(lexer);
+			Symbol symbol = parser.parse();
 			
-			Program prog = (Program)(s.value);
+			Program prog = (Program)(symbol.value);
+			
 			Tab.init();
+			SemanticAnalyzer analyzer = new SemanticAnalyzer();
+			prog.traverseBottomUp(analyzer);
 			
-			log.info(prog.toString(""));
-			log.info("===================================");
+			//log.info(prog.toString(""));
+			//Tab.dump();
 			
-			SemanticPass v = new SemanticPass();
-			prog.traverseBottomUp(v);
-			
-			log.info("===================================");
-			Tab.dump();
-			
-			if (!p.errorDetected && v.passed())
+			if (!parser.errorDetected && analyzer.passed())
 			{
 				log.info("Parsing completed with no errors.");
 				
@@ -59,18 +56,19 @@ public class MJTest
 				CodeGenerator generator = new CodeGenerator();
 				prog.traverseBottomUp(generator);
 				
-				Code.dataSize = v.getnVars();
+				Code.dataSize = analyzer.getnVars();
 				Code.mainPc = generator.getMainPC();
 				Code.write(new FileOutputStream(objFile));
 			}
-			else
-			{
-				log.info("Parsing failed due to one or more errors.");
-			}
+			else log.info("Parsing failed due to one or more errors.");
 		}
 		finally
 		{
-			if (br != null) try { br.close(); } catch (IOException e1) { log.error(e1.getMessage(), e1); }
+			if (br != null)
+			{
+				try { br.close(); }
+				catch (IOException ex) { log.error(ex.getMessage(), ex); }
+			}
 		}
 	}
 }

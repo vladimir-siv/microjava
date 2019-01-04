@@ -68,10 +68,10 @@ scan with
 {:
 	Symbol s = this.getScanner().next_token();
 
-	if (s != null && s.value != null)
-	{
-		log.info(s.toString() + " " + s.value.toString());
-	}
+	//if (s != null && s.value != null)
+	//{
+	//	log.info(s.toString() + " " + s.value.toString());
+	//}
 
 	return s;
 :}
@@ -92,7 +92,7 @@ terminal IF, ELSE;
 // Void
 terminal VOID;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, MethodDecl, MethodReg, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgDecl, MethodDecl, MethodReg, Designator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, VarDeclList, Expr, Term, Factor, FuncCall;
 
 nonterminal MethodDeclList, VarDecl;
@@ -101,27 +101,34 @@ nonterminal StatementList, Statement;
 nonterminal Unmatched, Matched;
 nonterminal Op;
 
-Program ::= (ProgramNode) PROG ProgName:progName VarDeclList LBRACE MethodDeclList RBRACE;
-ProgName ::= (ProgNameNode) IDENT:name;
+Program ::= (ProgramNode) PROG ProgDecl:decl VarDeclList LBRACE MethodDeclList RBRACE;
+ProgDecl ::= (ProgDeclNode) IDENT:progName;
 
-VarDeclList ::= (VarDeclsNode) VarDeclList VarDecl | (NoVarDeclsNode) /* epsilon */;
+VarDeclList ::= (VarListNode) VarDeclList VarDecl | (EmptyVarListNode) /* epsilon */;
 VarDecl ::= (VarDeclNode) Type:varType IDENT:varName SEMI;
 
 Type ::= (TypeNode) IDENT:typeName;
 
-MethodDeclList ::= (MethodDeclsNode) MethodDeclList MethodDecl | (NoMethodDeclsNode) /* epsilon */;
-MethodDecl ::= (MethodDeclNode) MethodReg LPAREN Params RPAREN VarDeclList LBRACE StatementList RBRACE;
-MethodReg ::= (MethodRegNode) Type:retType IDENT:methodName;
+MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
+MethodDecl ::= (MethodNode) MethodReg LPAREN Params RPAREN VarDeclList LBRACE StatementList RBRACE;
+MethodReg ::= (MethodDeclNode) Type:retType IDENT:methodName;
 
-Params ::= (ParamsNode) ParamList | (NoParamsNode) /* epsilon */;
+Params ::= (ParamsNode) ParamList | (EmptyParamsNode) /* epsilon */;
 ParamList ::= (ParamListNode) ParamList COMMA Param | (ParamNode) Param;
 Param ::= (ParamDeclNode) Type IDENT;
 
-StatementList ::= (StatementsNode) StatementList Statement | (NoStatementsNode) /* epsilon */;
+Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
+ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
+
+StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
 Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched;
 
-Unmatched ::= (UnmatchedIfNode) IF Expr Statement | (UnmatchedIfElseNode) IF Expr Matched ELSE Unmatched;
+Designator ::= (DesignatorNode) IDENT:name;
+
+Unmatched ::= (UnmatchedIfNode) IF LPAREN Expr RPAREN Statement | (UnmatchedIfElseNode) IF LPAREN Expr RPAREN Matched ELSE Unmatched;
 Matched ::=
+	(MatchedIfNode) IF Expr Matched ELSE Matched
+	|
 	(AssignmentNode) Designator:dest EQUAL Expr:expr SEMI
 	|
 	(ErrAssignmentNode) Designator EQUAL error SEMI {: parser.log.debug("Successful error recovery on assignment."); :}
@@ -132,9 +139,7 @@ Matched ::=
 	|
 	(ReturnVoidNode) RETURN SEMI
 	|
-	(MatchedIfNode) IF Expr Matched ELSE Matched
-	|
-	(NoRetCallNode) FuncCall SEMI
+	(CallNode) FuncCall SEMI
 	;
 
 Expr ::=
@@ -143,20 +148,15 @@ Expr ::=
 	(TermExprNode) Term:term
 	;
 
-Term ::= (TermNode) Factor:factor;
+Term ::= (FactorNode) Factor:factor;
 Factor ::=
-	(ConstantNode) NUMBER
+	(ConstantFactorNode) NUMBER
 	|
-	(VariableNode) Designator:designator
+	(VariableFactorNode) Designator:designator
 	|
-	(RetCallNode) FuncCall
+	(CallFactorNode) FuncCall
 	;
 
 FuncCall ::= (FuncCallNode) Designator:callee LPAREN Args RPAREN;
-
-Args ::= (ArgsNode) ArgList | (NoArgsNode) /* epsilon */;
-ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
-
-Designator ::= (DesignatorNode) IDENT:name;
 
 Op ::= (AddopNode) PLUS ;

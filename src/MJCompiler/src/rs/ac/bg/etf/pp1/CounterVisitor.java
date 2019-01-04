@@ -4,20 +4,15 @@ import rs.ac.bg.etf.pp1.ast.*;
 
 public class CounterVisitor extends VisitorAdaptor
 {
-	protected int count;
-	
-	public int getCount()
+	private int paramCount;
+	public int getParamCount()
 	{
-		return count;
+		return paramCount;
 	}
 	
-	public static class ParamCounter extends CounterVisitor
-	{
-		public void visit(ParamDeclNode node) { ++count; }
-	}
+	private int varCount;
+	public int getVarCount() { return varCount; }
 	
-	public static class VarCounter extends CounterVisitor
-	{
-		public void visit(VarDeclNode node) { ++count; }
-	}
+	public void visit(ParamDeclNode node) { ++paramCount; }
+	public void visit(VarDeclNode node) { ++varCount; }
 }
