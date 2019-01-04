@@ -19,7 +19,7 @@ parser code
 
 	public void syntax_error(Symbol cur_token)
 	{
-		report_error("\nSyntax error", cur_token);
+		report_error("Syntax error", cur_token);
 	}
 
 	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception
@@ -121,7 +121,7 @@ Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
 ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
 
 StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
-Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched;
+Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched | (ErrorStatement) error SEMI;
 
 Designator ::= (DesignatorNode) IDENT:name;
 
@@ -130,8 +130,6 @@ Matched ::=
 	(MatchedIfNode) IF Expr Matched ELSE Matched
 	|
 	(AssignmentNode) Designator:dest EQUAL Expr:expr SEMI
-	|
-	(ErrAssignmentNode) Designator EQUAL error SEMI {: parser.log.debug("Successful error recovery on assignment."); :}
 	|
 	(PrintNode) PRINT LPAREN Expr RPAREN SEMI
 	|

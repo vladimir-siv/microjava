@@ -90,7 +90,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			}
 			else
 			{
-				report_error("Error: Name " + node.getTypeName() + " does not represent a type!", node);
+				report_error("Error: Name " + node.getTypeName() + " does not represent a type", node);
 				node.struct = Tab.noType;
 			}
 		}
@@ -106,7 +106,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (obj == Tab.noObj)
 		{
-			report_error("Error on line " + node.getLine() + ": name \'" + node.getName() + "\' has not been declared!");
+			report_error("Error on line " + node.getLine() + ": name \'" + node.getName() + "\' has not been declared");
 		}
 		
 		node.obj = obj;
@@ -141,7 +141,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		if (!returnFound && currentMethod.getType() != Tab.noType)
 		{
-			report_error("Semantic error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement!");
+			report_error("Semantic error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement");
 		}
 		
 		Tab.chainLocalSymbols(currentMethod);
