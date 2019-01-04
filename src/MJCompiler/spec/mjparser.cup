@@ -4,6 +4,7 @@ import java_cup.runtime.*;
 import org.apache.log4j.*;
 import rs.ac.bg.etf.pp1.ast.*;
 
+// #===# [S] GLOBAL #===#
 
 parser code
 {:
@@ -76,33 +77,80 @@ scan with
 	return s;
 :}
 
+// #===# [E] GLOBAL #===#
+
+
+// #===# [S] TERMINALS #===#
+
 // Keywords
-terminal PROG, PRINT, RETURN;
+terminal PROG;
+terminal CONST, ENUM;
+terminal PRINT, RETURN, VOID;
 // Constants
-terminal Integer NUMBER;
+terminal Integer INT;
+terminal Character CHAR;
+terminal Boolean BOOL;
 // Identifiers
 terminal String IDENT;
 // Operators
-terminal PLUS, EQUAL;
-terminal COMMA, SEMI;
+terminal PLUS, MINUS, MULTIPLY, DIVIDE, MODULO;
+terminal EQU, NEQ, GTR, GEQ, LSS, LEQ;
+terminal AND, OR;
+terminal EQUAL;
+terminal INC, DEC;
+terminal DOT, COMMA, SEMI;
 terminal LPAREN, RPAREN;
+terminal LBRACKET, RBRACKET;
 terminal LBRACE, RBRACE;
 // Control
 terminal IF, ELSE;
-// Void
-terminal VOID;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgDecl, MethodDecl, MethodReg, Designator;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, VarDeclList, Expr, Term, Factor, FuncCall;
+// #===# [E] TERMINALS #===#
 
-nonterminal MethodDeclList, VarDecl;
-nonterminal Params, ParamList, Param, Args, ArgList;
-nonterminal StatementList, Statement;
-nonterminal Unmatched, Matched;
-nonterminal Op;
+
+// #===# [S] NON TERMINALS #===#
+
+nonterminal rs.etf.pp1.symboltable.concepts.Obj		Program, ProgDecl;
+
+nonterminal											ConstDecl;
+
+nonterminal											EnumDecl, EnumReg;
+nonterminal											EnumConstDeclList;
+nonterminal											EnumConstDecl, EnumOptValue;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Struct	VarDeclList;
+nonterminal											VarDecl;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Struct	Type;
+
+nonterminal											MethodDeclList;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj		MethodDecl, MethodReg;
+nonterminal											Params, ParamList, Param;
+nonterminal											Args, ArgList;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Obj		Designator;
+
+nonterminal											StatementList, Statement;
+nonterminal											Unmatched, Matched;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Struct	Expr, Term, Factor;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct	FuncCall;
+
+nonterminal											Op;
+
+// #===# [E] NON TERMINALS #===#
+
 
 Program ::= (ProgramNode) PROG ProgDecl:decl VarDeclList LBRACE MethodDeclList RBRACE;
 ProgDecl ::= (ProgDeclNode) IDENT:progName;
+
+ConstDecl ::= (ConstNode) CONST Type:constType IDENT:constName;
+
+EnumDecl ::= (EnumNode) EnumReg LBRACE EnumConstDeclList RBRACE;
+EnumReg ::= (EnumDeclNode) ENUM IDENT:enumName;
+EnumConstDeclList ::= (EnumConstListNode) EnumConstDeclList COMMA EnumConstDecl | (EnumConstNode) EnumConstDecl;
+EnumConstDecl ::= (EnumConstDeclNode) IDENT:enumConstName EnumOptValue;
+EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsilon */;
 
 VarDeclList ::= (VarListNode) VarDeclList VarDecl | (EmptyVarListNode) /* epsilon */;
 VarDecl ::= (VarDeclNode) Type:varType IDENT:varName SEMI;
@@ -120,10 +168,10 @@ Param ::= (ParamDeclNode) Type IDENT;
 Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
 ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
 
+Designator ::= (DesignatorNode) IDENT:name;
+
 StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
 Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched | (ErrorStatement) error SEMI;
-
-Designator ::= (DesignatorNode) IDENT:name;
 
 Unmatched ::= (UnmatchedIfNode) IF LPAREN Expr RPAREN Statement | (UnmatchedIfElseNode) IF LPAREN Expr RPAREN Matched ELSE Unmatched;
 Matched ::=
@@ -148,7 +196,7 @@ Expr ::=
 
 Term ::= (FactorNode) Factor:factor;
 Factor ::=
-	(ConstantFactorNode) NUMBER
+	(ConstantFactorNode) INT
 	|
 	(VariableFactorNode) Designator:designator
 	|
