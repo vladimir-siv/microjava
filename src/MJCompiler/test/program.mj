@@ -11,7 +11,7 @@ program MJProgram
 		z = -4;
 		z++;
 		c = c % 5 * (-z);
-		print(0);
+		print(0, 3);
 		return (c - (2 + 2 * (1 + 1) / 2)) * 2;
 	}
 
@@ -24,9 +24,9 @@ program MJProgram
 		e++;
 
 		y = X;
-		print(1);
+		print(1, 3);
 		x = - 1 + y + 5 + k();
-		print(x);
+		print(x, 3);
 		k();
 
 		print(eol);

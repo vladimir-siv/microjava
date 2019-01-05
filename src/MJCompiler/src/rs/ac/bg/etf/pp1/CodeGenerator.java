@@ -107,14 +107,22 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(PrintNode node)
 	{
+		PrintSpace printSpace = node.getPrintSpace();
+		int space = 1;
+		
+		if (printSpace instanceof PrintSpaceNode)
+		{
+			space = ((PrintSpaceNode)printSpace).getValue();
+		}
+		
 		if (node.getExpr().struct == Tab.intType || node.getExpr().struct == Extensions.boolType)
 		{
-			Code.loadConst(5);
+			Code.loadConst(space);
 			Code.put(Code.print);
 		}
 		else
 		{
-			Code.loadConst(1);
+			Code.loadConst(space);
 			Code.put(Code.bprint);
 		}
 	}

@@ -149,6 +149,8 @@ nonterminal											StatementList;
 nonterminal											Statement, DesignatorStatement;
 nonterminal											Unmatched, Matched;
 
+nonterminal											PrintSpace;
+
 nonterminal											Condition, CondTerm, CondFact;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Struct	Expr, Term, Factor;
@@ -235,7 +237,7 @@ Matched ::=
 	|
 	(BlockNode) LBRACE StatementList RBRACE
 	|
-	(PrintNode) PRINT LPAREN Expr RPAREN SEMI
+	(PrintNode) PRINT LPAREN Expr PrintSpace RPAREN SEMI
 	|
 	(ReadNode) READ LPAREN Designator RPAREN SEMI
 	|
@@ -243,6 +245,8 @@ Matched ::=
 	|
 	(ReturnVoidNode) RETURN SEMI
 	;
+
+PrintSpace ::= (PrintSpaceNode) COMMA INT:value | (DefaultPrintSpaceNode) /* epsilon */;
 
 Condition ::= (ConditionOrNode) Condition OR CondTerm | (ConditionNode) CondTerm;
 CondTerm ::= (CondTermAndNode) CondTerm AND CondFact | (CondTermNode) CondFact;
