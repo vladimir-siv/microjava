@@ -140,8 +140,14 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		ConstValue constValue = node.getConstValue();
 		if (constValue.struct == constTypeNode.struct)
 		{
-			Obj obj = Tab.insert(Obj.Con, node.getConstName(), constTypeNode.struct);
-			Extensions.UpdateConstantValue(constValue, obj);
+			Obj declared = Tab.currentScope.findSymbol(node.getConstName());
+			
+			if (declared == Tab.noObj || declared == null)
+			{
+				Obj obj = Tab.insert(Obj.Con, node.getConstName(), constTypeNode.struct);
+				Extensions.UpdateConstantValue(constValue, obj);
+			}
+			else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 		}
 		else report_error("Error on line " + node.getLine() + ": invalid constant type");
 	}
@@ -158,7 +164,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(VarDeclNode node)
 	{
-		Tab.insert(Obj.Var, node.getVarName(), varTypeNode.struct);
+		Obj declared = Tab.currentScope.findSymbol(node.getVarName());
+		
+		if (declared == Tab.noObj || declared == null)
+		{
+			Tab.insert(Obj.Var, node.getVarName(), varTypeNode.struct);
+		}
+		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
 	
 	// ======= [E] VARIABLES =======
@@ -183,9 +195,19 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			}
 		}
 		
-		node.obj = Tab.insert(Obj.Meth, node.getMethodName(), node.getMethodType().struct);
-		Tab.openScope();
+		Obj declared = Tab.currentScope.findSymbol(node.getMethodName());
 		
+		if (declared == Tab.noObj || declared == null)
+		{
+			node.obj = Tab.insert(Obj.Meth, node.getMethodName(), node.getMethodType().struct);
+		}
+		else
+		{
+			report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
+			node.obj = Tab.noObj;
+		}
+		
+		Tab.openScope();
 		currentMethod = node.obj;
 	}
 	public void visit(MethodNode node)

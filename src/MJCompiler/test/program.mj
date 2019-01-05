@@ -22,7 +22,7 @@ program MJProgram
 		read(u);
 		read(e);
 		e++;
-		
+
 		y = X;
 		print(1);
 		x = - 1 + y + 5 + k();
