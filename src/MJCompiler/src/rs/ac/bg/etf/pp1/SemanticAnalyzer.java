@@ -121,22 +121,44 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		node.struct = Tab.intType;
 	}
+	public void visit(CharConstNode node)
+	{
+		node.struct = Tab.charType;
+	}
+	public void visit(BoolConstNode node)
+	{
+		node.struct = Extensions.boolType;
+	}
+	
+	private Type constTypeNode = null;
+	public void visit(ConstSectDeclNode node)
+	{
+		constTypeNode = node.getType();
+	}
+	public void visit(ConstDeclNode node)
+	{
+		ConstValue constValue = node.getConstValue();
+		if (constValue.struct == constTypeNode.struct)
+		{
+			Obj obj = Tab.insert(Obj.Con, node.getConstName(), constTypeNode.struct);
+			Extensions.UpdateConstantValue(constValue, obj);
+		}
+		else report_error("Error on line " + node.getLine() + ": invalid constant type");
+	}
 	
 	// ======= [E] CONSTANTS =======
 	
 	
 	// ======= [S] VARIABLES =======
 	
-	private Type typeNode = null;
-	
+	private Type varTypeNode = null;
 	public void visit(VarSectDeclNode node)
 	{
-		typeNode = node.getType();
+		varTypeNode = node.getType();
 	}
-	
 	public void visit(VarDeclNode node)
 	{
-		Tab.insert(Obj.Var, node.getVarName(), typeNode.struct);
+		Tab.insert(Obj.Var, node.getVarName(), varTypeNode.struct);
 	}
 	
 	// ======= [E] VARIABLES =======
@@ -158,7 +180,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		if (!returnFound && currentMethod.getType() != Tab.noType)
 		{
-			report_error("Semantic error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement");
+			report_error("Error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement");
 		}
 		
 		Tab.chainLocalSymbols(currentMethod);
@@ -215,9 +237,18 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(PrintNode node)
 	{
-		if (node.getExpr().struct != Tab.intType && node.getExpr().struct != Tab.charType)
+		if
+		(
+			node.getExpr().struct != Tab.intType
+			&&
+			node.getExpr().struct != Tab.charType
+			&&
+			node.getExpr().struct != Extensions.boolType
+			&&
+			node.getExpr().struct != Extensions.enumType
+		)
 		{
-			report_error("Semantic error on line " + node.getLine() + ": Operand of PRINT instruction has to be char or int");
+			report_error("Error on line " + node.getLine() + ": Operand of PRINT instruction has to be char, int, bool or enum");
 		}
 	}
 	
@@ -226,19 +257,35 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		Struct exprType = node.getExpr().struct;
 		Struct termType = node.getTerm().struct;
 		
-		if (exprType.equals(termType) && termType == Tab.intType)
+		if (exprType == Tab.intType && termType == Tab.intType)
 		{
-			node.struct = exprType;
+			node.struct = Tab.intType;
 		}
 		else
 		{
-			report_error("Error on line " + node.getLine() + ": types not compatible for such operator");
+			report_error("Error on line " + node.getLine() + ": addition/subtraction can only be done on ints");
 			node.struct = Tab.noType;
 		}
 	}
 	public void visit(ExprNode node)
 	{
 		node.struct = node.getTerm().struct;
+	}
+	
+	public void visit(MulTermNode node)
+	{
+		Struct termType = node.getTerm().struct;
+		Struct factorType = node.getFactor().struct;
+		
+		if (termType == Tab.intType && factorType == Tab.intType)
+		{
+			node.struct = Tab.intType;
+		}
+		else
+		{
+			report_error("Error on line " + node.getLine() + ": multiplication/division/modulo can only be done on ints");
+			node.struct = Tab.noType;
+		}
 	}
 	public void visit(TermNode node)
 	{
@@ -262,7 +309,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			if (obj.getType() == Tab.noType)
 			{
 				// is void func
-				report_error("Semantic error: \'" + obj.getName() + "\' cannot be used in expressions because it does not have a return type (it is void)", node);
+				report_error("Error: \'" + obj.getName() + "\' cannot be used in expressions because it does not have a return type (it is void)", node);
 			}
 			else node.struct = obj.getType();
 		}
@@ -271,6 +318,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": name \'" + obj.getName() + "\' is not a function");
 			node.struct = Tab.noType;
 		}
+	}
+	public void visit(PriorityFactorNode node)
+	{
+		node.struct = node.getExpr().struct;
 	}
 	
 	// ======= [E] STATEMENTS =======

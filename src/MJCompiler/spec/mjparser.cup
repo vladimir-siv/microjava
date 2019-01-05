@@ -249,7 +249,7 @@ CondTerm ::= (CondTermAndNode) CondTerm AND CondFact | (CondTermNode) CondFact;
 CondFact ::= (RelCondFactNode) Expr Relop Expr | (CondFactNode) Expr;
 
 Expr ::= (AddExprNode) Expr Addop Term | (ExprNode) Unaryop Term;
-Term ::= (MulExpNode) Term Mulop Factor | (TermNode) Factor;
+Term ::= (MulTermNode) Term Mulop Factor | (TermNode) Factor;
 Factor ::=
 	(ConstantFactorNode) ConstValue
 	|

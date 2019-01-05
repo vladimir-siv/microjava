@@ -1,19 +1,29 @@
 program MJProgram
-	int x; int y;
+	int x; int y, z;
+	const int X = 2, Y = 4;
+	const char C = '_';
+	const bool B = false;
 {
 	int k() int c;
 	{
-		c = 2;
+		c = 2 % 5 * 3;
 		print(0);
-		return c + 2;
+		return (c - (2 + 2 * (1 + 1) / 2)) * 2;
 	}
 
 	void main()
 	{
-		y = 1;
+		y = X;
 		print(1);
-		x = y + 5 + k();
+		x = - 1 + y + 5 + k();
 		print(x);
 		k();
+
+		print(eol);
+		print(C);
+		print('R');
+		print(eol);
+		print(B);
+		print(true);
 	}
 }

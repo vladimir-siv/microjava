@@ -20,9 +20,8 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(DesignatorNode node)
 	{
 		SyntaxNode parent = node.getParent();
-		Class parentType = parent.getClass();
 		
-		if (parentType != AssignmentNode.class && parentType != FuncCallNode.class)
+		if (!(parent instanceof AssignmentNode) && !(parent instanceof FuncCallNode))
 		{
 			Code.load(node.obj);
 		}
@@ -36,13 +35,9 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(ConstantFactorNode node)
 	{
 		Obj cnst = Tab.insert(Obj.Con, "$", node.struct);
+		
 		cnst.setLevel(0);
-		
-		ConstValue constValue = node.getConstValue();
-		
-		if (constValue instanceof IntConstNode)
-			cnst.setAdr(((IntConstNode)constValue).getValue());
-		else cnst.setAdr(0);
+		Extensions.UpdateConstantValue( node.getConstValue(), cnst);
 		
 		Code.load(cnst);
 	}
@@ -114,7 +109,19 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(AddExprNode node)
 	{
-		Code.put(Code.add);
+		if (node.getAddop() instanceof PlusNode) Code.put(Code.add);
+		else if (node.getAddop() instanceof MinusNode) Code.put(Code.sub);
+	}
+	public void visit(ExprNode node)
+	{
+		if (node.getUnaryop() instanceof UnaryMinusNode) Code.put(Code.neg);
+	}
+	
+	public void visit(MulTermNode node)
+	{
+		if (node.getMulop() instanceof  MultiplyNode) Code.put(Code.mul);
+		else if (node.getMulop() instanceof DivideNode) Code.put(Code.div);
+		else if (node.getMulop() instanceof ModuloNode) Code.put(Code.rem);
 	}
 	
 	public void visit(FuncCallNode node)

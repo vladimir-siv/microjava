@@ -39,6 +39,8 @@ public class MJTest
 			Program prog = (Program)(symbol.value);
 			
 			Tab.init();
+			Extensions.init();
+			
 			SemanticAnalyzer analyzer = new SemanticAnalyzer();
 			prog.traverseBottomUp(analyzer);
 			
