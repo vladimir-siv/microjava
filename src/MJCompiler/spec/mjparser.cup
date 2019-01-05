@@ -215,7 +215,7 @@ Param ::= (ParamDeclNode) Type:paramType IDENT:paramName;
 Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
 ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
 
-Designator ::= (DesignatorChainNode) Designator DOT IDENT:name | (DesignatorNode) IDENT:name;
+Designator ::= (DesignatorChainNode) Designator DOT IDENT:chainedDesignatorName | (DesignatorNode) IDENT:name;
 
 StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
 Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched | (ErrorStatement) error SEMI;

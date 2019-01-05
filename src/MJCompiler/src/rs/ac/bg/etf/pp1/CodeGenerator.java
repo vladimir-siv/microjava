@@ -20,11 +20,30 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(DesignatorNode node)
 	{
 		SyntaxNode parent = node.getParent();
+		if
+		(
+			parent instanceof AssignmentNode
+			||
+			parent instanceof FuncCallNode
+			||
+			node.obj.getType() == Extensions.enumType
+		) return;
 		
-		if (!(parent instanceof AssignmentNode) && !(parent instanceof FuncCallNode))
-		{
-			Code.load(node.obj);
-		}
+		Code.load(node.obj);
+	}
+	public void visit(DesignatorChainNode node)
+	{
+		SyntaxNode parent = node.getParent();
+		if
+		(
+			parent instanceof AssignmentNode
+			||
+			parent instanceof FuncCallNode
+			||
+			node.obj.getType() == Extensions.enumType // this should not be able to happen
+		) return;
+		
+		Code.load(node.obj);
 	}
 	
 	// ======= [E] PERMA LEAVES =======
@@ -49,7 +68,7 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(MethodDeclNode node)
 	{
-		if (node.getMethodName().equalsIgnoreCase("main"))
+		if (node.getMethodName().equals("main"))
 		{
 			mainPc = Code.pc;
 		}
@@ -115,15 +134,15 @@ public class CodeGenerator extends VisitorAdaptor
 			space = ((PrintSpaceNode)printSpace).getValue();
 		}
 		
-		if (node.getExpr().struct == Tab.intType || node.getExpr().struct == Extensions.boolType)
+		if (node.getExpr().struct == Tab.charType)
 		{
 			Code.loadConst(space);
-			Code.put(Code.print);
+			Code.put(Code.bprint);
 		}
 		else
 		{
 			Code.loadConst(space);
-			Code.put(Code.bprint);
+			Code.put(Code.print);
 		}
 	}
 	public void visit(ReadNode node)

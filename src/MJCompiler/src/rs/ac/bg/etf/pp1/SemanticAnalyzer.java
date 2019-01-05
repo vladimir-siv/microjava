@@ -5,6 +5,10 @@ import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
+import rs.etf.pp1.symboltable.factory.SymbolTableFactory;
+import rs.etf.pp1.symboltable.structure.SymbolDataStructure;
+
+import java.util.Iterator;
 
 public class SemanticAnalyzer extends VisitorAdaptor
 {
@@ -111,6 +115,36 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		node.obj = obj;
 	}
+	public void visit(DesignatorChainNode node)
+	{
+		node.obj = Tab.noObj;
+		
+		Designator chain = node.getDesignator();
+		
+		if (chain.obj.getKind() == Obj.Type)
+		{
+			if (chain.obj.getType() == Extensions.enumType)
+			{
+				Obj enumConst = null;
+				
+				Iterator<Obj> i = chain.obj.getLocalSymbols().iterator();
+				while (enumConst == null && i.hasNext())
+				{
+					Obj obj = i.next();
+					
+					if (obj.getName().equals(node.getChainedDesignatorName()))
+					{
+						enumConst = obj;
+					}
+				}
+				
+				if (enumConst != null) node.obj = enumConst;
+				else report_error("Error on line " + node.getLine() + ": enum \'" + chain.obj.getName() + "\' does not have a constant named \'" + node.getChainedDesignatorName() + "\'");
+			}
+			else report_error("Error on line " + node.getLine() + ": invalid use of dot operator [x02]");
+		}
+		else report_error("Error on line " + node.getLine() + ": invalid use of dot operator [x01]");
+	}
 	
 	// ======= [E] PERMA LEAVES =======
 	
@@ -168,12 +202,58 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (declared == Tab.noObj || declared == null)
 		{
-			Tab.insert(Obj.Var, node.getVarName(), varTypeNode.struct);
+			Tab.insert(Obj.Var, node.getVarName(), varTypeNode.struct != Extensions.enumType ? varTypeNode.struct : Tab.intType);
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
 	
 	// ======= [E] VARIABLES =======
+	
+	
+	// ======= [S] ENUMS =======
+	
+	private SymbolDataStructure currentEnumConstants = null;
+	private int currentValue = 0;
+	
+	public void visit(EnumDeclNode node)
+	{
+		currentEnumConstants = null;
+		currentValue = 0;
+		
+		Obj declared = Tab.currentScope.findSymbol(node.getEnumName());
+		
+		if (declared == Tab.noObj || declared == null)
+		{
+			Obj enumObj = Tab.insert(Obj.Type, node.getEnumName(), Extensions.enumType);
+			currentEnumConstants = SymbolTableFactory.instance().createSymbolTableDataStructure();
+			enumObj.setLocals(currentEnumConstants);
+		}
+		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
+	}
+	public void visit(EnumConstDeclNode node)
+	{
+		if (currentEnumConstants == null) return;
+		
+		if (currentEnumConstants.searchKey(node.getEnumConstName()) == null)
+		{
+			int constValue = 0;
+			
+			EnumOptValue enumOptValue = node.getEnumOptValue();
+			
+			if (enumOptValue instanceof  EnumValueNode)
+			{
+				constValue = ((EnumValueNode)enumOptValue).getValue();
+				currentValue = constValue + 1;
+			}
+			else constValue = currentValue++;
+			
+			Obj enumConstObj = new Obj(Obj.Con, node.getEnumConstName(), Tab.intType, constValue, 1);
+			currentEnumConstants.insertKey(enumConstObj);
+		}
+		else report_error("Error on line " + node.getLine() + ": name \'" + node.getEnumConstName() + "\' has already been defined in this enumeration");
+	}
+	
+	// ======= [E] ENUMS =======
 	
 	
 	// ======= [S] METHODS =======
@@ -186,7 +266,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(MethodDeclNode node)
 	{
-		if (node.getMethodName().equalsIgnoreCase("main"))
+		if (node.getMethodName().equals("main"))
 		{
 			mainFound = true;
 			if (node.getMethodType().struct != Tab.noType)

@@ -3,6 +3,9 @@ program MJProgram
 	const int X = 2, Y = 4;
 	const char C = '_';
 	const bool B = false;
+
+	enum ThingA { FirstThing, SecondThing = 4, ThirdThing, FourthThing = 7 }
+	enum ThingB { OneThing = 2, SecondThing, ThreeThing, FourThing }
 {
 	int k() int c, d;
 	{
@@ -18,29 +21,52 @@ program MJProgram
 	void main()
 		char u; int e;
 		bool b;
+		ThingA t1; ThingB t2;
 	{
 		b = true;
-
 		u = 'f';
+
+		t1 = ThingA.FourthThing;
+		t2 = ThingB.SecondThing;
+
 		read(u);
 		read(e);
 		e++;
 
+		// PRINT:   1  0 10  0
 		y = X;
 		print(1, 3);
 		x = - 1 + y + 5 + k();
 		print(x, 3);
 		k();
+		print(eol);
 
+		// PRINT: _R{u}
+		print(C); print('R'); print(u);
 		print(eol);
-		print(C);
-		print('R');
-		print(u);
+
+		// PRINT: 011
+		print(B); print(true); print(b);
 		print(eol);
-		print(B);
-		print(true);
-		print(b);
-		print(eol);
+
+		// PRINT: {e+1}
 		print(e);
+		print(eol);
+
+		// PRINT: 04577
+		print(ThingA.FirstThing);
+		print(ThingA.SecondThing);
+		print(ThingA.ThirdThing);
+		print(ThingA.FourthThing);
+		print(t1);
+		print(eol);
+
+		// PRINT: 23345
+		print(ThingB.OneThing);
+		print(t2);
+		print(ThingB.SecondThing);
+		print(ThingB.ThreeThing);
+		print(ThingB.FourThing);
+		print(eol);
 	}
 }
