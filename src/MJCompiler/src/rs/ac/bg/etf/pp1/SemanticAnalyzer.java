@@ -246,6 +246,20 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": cannot do the assignment due to incompatible types");
 		}
 	}
+	public void visit(IncrementNode node)
+	{
+		if (node.getDesignator().obj.getType() != Tab.intType)
+		{
+			report_error("Error on line " + node.getLine() + ": increment can only be applied on int");
+		}
+	}
+	public void visit(DecrementNode node)
+	{
+		if (node.getDesignator().obj.getType() != Tab.intType)
+		{
+			report_error("Error on line " + node.getLine() + ": decrement can only be applied on int");
+		}
+	}
 	
 	public void visit(PrintNode node)
 	{

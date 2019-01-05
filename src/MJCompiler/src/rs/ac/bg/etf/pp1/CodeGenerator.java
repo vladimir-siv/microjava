@@ -92,6 +92,20 @@ public class CodeGenerator extends VisitorAdaptor
 	{
 		Code.store(node.getDesignator().obj);
 	}
+	public void visit(IncrementNode node)
+	{
+		ConstantFactorNode cnst = new ConstantFactorNode(new IntConstNode(1));
+		visit(cnst);
+		Code.put(Code.add);
+		Code.store(node.getDesignator().obj);
+	}
+	public void visit(DecrementNode node)
+	{
+		ConstantFactorNode cnst = new ConstantFactorNode(new IntConstNode(1));
+		visit(cnst);
+		Code.put(Code.sub);
+		Code.store(node.getDesignator().obj);
+	}
 	
 	public void visit(PrintNode node)
 	{

@@ -6,7 +6,11 @@ program MJProgram
 {
 	int k() int c;
 	{
-		c = 2 % 5 * 3;
+		c = 3;
+		c--;
+		z = -4;
+		z++;
+		c = c % 5 * (-z);
 		print(0);
 		return (c - (2 + 2 * (1 + 1) / 2)) * 2;
 	}
