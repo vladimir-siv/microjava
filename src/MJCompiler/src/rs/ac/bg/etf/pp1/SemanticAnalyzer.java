@@ -23,8 +23,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	// ======= [S] ERROR REPORTING =======
 	
-	private void report_error(String message) { report_error(message, null); }
-	private void report_error(String message, SyntaxNode info)
+	public void report_error(String message) { report_error(message, null); }
+	public void report_error(String message, SyntaxNode info)
 	{
 		errorDetected = true;
 		
@@ -40,8 +40,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		log.error(msg.toString());
 	}
-	private void report_info(String message) { report_info(message, null); }
-	private void report_info(String message, SyntaxNode info)
+	public void report_info(String message) { report_info(message, null); }
+	public void report_info(String message, SyntaxNode info)
 	{
 		StringBuilder msg = new StringBuilder(message);
 		int line = info == null ? 0 : info.getLine();
@@ -169,8 +169,20 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	private Obj currentMethod = null;
 	private boolean returnFound = false;
 	
+	private boolean mainFound = false;
+	public boolean isMainFound() { return mainFound; }
+	
 	public void visit(MethodDeclNode node)
 	{
+		if (node.getMethodName().equalsIgnoreCase("main"))
+		{
+			mainFound = true;
+			if (node.getMethodType().struct != Tab.noType)
+			{
+				report_error("Error on line " + node.getLine() + ": main must be of type void");
+			}
+		}
+		
 		node.obj = Tab.insert(Obj.Meth, node.getMethodName(), node.getMethodType().struct);
 		Tab.openScope();
 		

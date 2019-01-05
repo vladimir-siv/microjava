@@ -44,6 +44,11 @@ public class MJTest
 			SemanticAnalyzer analyzer = new SemanticAnalyzer();
 			prog.traverseBottomUp(analyzer);
 			
+			if (!analyzer.isMainFound())
+			{
+				analyzer.report_error("Semantic error: no main method found");
+			}
+			
 			//log.info(prog.toString(""));
 			//Tab.dump();
 			
