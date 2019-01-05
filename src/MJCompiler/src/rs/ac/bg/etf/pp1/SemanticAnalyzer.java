@@ -314,6 +314,20 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		}
 	}
 	
+	public void visit(RelCondFactNode node)
+	{
+		if (!node.getExpr().struct.compatibleWith(node.getExpr1().struct))
+		{
+			report_error("Error on line " + node.getLine() + ": types are not compatible for relational operation");
+		}
+		
+		node.struct = Extensions.boolType;
+	}
+	public void visit(CondFactNode node)
+	{
+		node.struct = Extensions.boolType;
+	}
+	
 	public void visit(AddExprNode node)
 	{
 		Struct exprType = node.getExpr().struct;
@@ -331,6 +345,11 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(ExprNode node)
 	{
+		if (node.getUnaryop() instanceof UnaryMinusNode && node.getTerm().struct != Tab.intType)
+		{
+			report_error("Error on line " + node.getLine() + ": cannot apply unary minus on type other than int");
+		}
+		
 		node.struct = node.getTerm().struct;
 	}
 	

@@ -151,7 +151,7 @@ nonterminal											Unmatched, Matched;
 
 nonterminal											PrintSpace;
 
-nonterminal											Condition, CondTerm, CondFact;
+nonterminal	rs.etf.pp1.symboltable.concepts.Struct	Condition, CondTerm, CondFact;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Struct	Expr, Term, Factor;
 
@@ -250,7 +250,7 @@ PrintSpace ::= (PrintSpaceNode) COMMA INT:value | (DefaultPrintSpaceNode) /* eps
 
 Condition ::= (ConditionOrNode) Condition OR CondTerm | (ConditionNode) CondTerm;
 CondTerm ::= (CondTermAndNode) CondTerm AND CondFact | (CondTermNode) CondFact;
-CondFact ::= (RelCondFactNode) Expr Relop Expr | (CondFactNode) Expr;
+CondFact ::= (RelCondFactNode) Expr:lexpr Relop Expr:rexpr | (CondFactNode) Expr;
 
 Expr ::= (AddExprNode) Expr Addop Term | (ExprNode) Unaryop Term;
 Term ::= (MulTermNode) Term Mulop Factor | (TermNode) Factor;

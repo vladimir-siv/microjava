@@ -17,7 +17,10 @@ program MJProgram
 
 	void main()
 		char u; int e;
+		bool b;
 	{
+		b = true;
+
 		u = 'f';
 		read(u);
 		read(e);
@@ -36,6 +39,7 @@ program MJProgram
 		print(eol);
 		print(B);
 		print(true);
+		print(b);
 		print(eol);
 		print(e);
 	}
