@@ -9,7 +9,7 @@ public class Extensions
 {
 	public enum Bool
 	{
-		False(48), True(49);
+		False(0), True(1);
 		private int value;
 		Bool(int value) { this.value = value; }
 		public int v() { return value; }

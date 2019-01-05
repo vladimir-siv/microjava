@@ -4,7 +4,7 @@ program MJProgram
 	const char C = '_';
 	const bool B = false;
 {
-	int k() int c;
+	int k() int c, d;
 	{
 		c = 3;
 		c--;
@@ -16,7 +16,13 @@ program MJProgram
 	}
 
 	void main()
+		char u; int e;
 	{
+		u = 'f';
+		read(u);
+		read(e);
+		e++;
+		
 		y = X;
 		print(1);
 		x = - 1 + y + 5 + k();
@@ -26,8 +32,11 @@ program MJProgram
 		print(eol);
 		print(C);
 		print('R');
+		print(u);
 		print(eol);
 		print(B);
 		print(true);
+		print(eol);
+		print(e);
 	}
 }

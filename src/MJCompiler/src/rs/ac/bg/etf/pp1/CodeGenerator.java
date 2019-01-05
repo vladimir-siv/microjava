@@ -94,22 +94,20 @@ public class CodeGenerator extends VisitorAdaptor
 	}
 	public void visit(IncrementNode node)
 	{
-		ConstantFactorNode cnst = new ConstantFactorNode(new IntConstNode(1));
-		visit(cnst);
+		Code.loadConst(1);
 		Code.put(Code.add);
 		Code.store(node.getDesignator().obj);
 	}
 	public void visit(DecrementNode node)
 	{
-		ConstantFactorNode cnst = new ConstantFactorNode(new IntConstNode(1));
-		visit(cnst);
+		Code.loadConst(1);
 		Code.put(Code.sub);
 		Code.store(node.getDesignator().obj);
 	}
 	
 	public void visit(PrintNode node)
 	{
-		if (node.getExpr().struct == Tab.intType)
+		if (node.getExpr().struct == Tab.intType || node.getExpr().struct == Extensions.boolType)
 		{
 			Code.loadConst(5);
 			Code.put(Code.print);
@@ -119,6 +117,19 @@ public class CodeGenerator extends VisitorAdaptor
 			Code.loadConst(1);
 			Code.put(Code.bprint);
 		}
+	}
+	public void visit(ReadNode node)
+	{
+		if (node.getDesignator().obj.getType() == Tab.intType || node.getDesignator().obj.getType() == Extensions.boolType)
+		{
+			Code.put(Code.read);
+		}
+		else
+		{
+			Code.put(Code.bread);
+		}
+		
+		Code.store(node.getDesignator().obj);
 	}
 	
 	public void visit(AddExprNode node)

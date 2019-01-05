@@ -274,7 +274,21 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			node.getExpr().struct != Extensions.enumType
 		)
 		{
-			report_error("Error on line " + node.getLine() + ": Operand of PRINT instruction has to be char, int, bool or enum");
+			report_error("Error on line " + node.getLine() + ": Operand of PRINT instruction has to be an int, char, bool or enum");
+		}
+	}
+	public void visit(ReadNode node)
+	{
+		if
+		(
+			node.getDesignator().obj.getType() != Tab.intType
+			&&
+			node.getDesignator().obj.getType() != Tab.charType
+			&&
+			node.getDesignator().obj.getType() != Extensions.boolType
+		)
+		{
+			report_error("Error on line " + node.getLine() + ": Operand of READ instruction has to be an int, char or bool");
 		}
 	}
 	
