@@ -8,14 +8,12 @@ program MJProgram
 		return c + 2;
 	}
 
-	int main()
+	void main()
 	{
 		y = 1;
 		print(1);
 		x = y + 5 + k();
 		print(x);
 		k();
-
-		return 0;
 	}
 }

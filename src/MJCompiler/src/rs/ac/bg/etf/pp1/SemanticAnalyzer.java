@@ -115,6 +115,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	// ======= [E] PERMA LEAVES =======
 	
 	
+	// ======= [S] CONSTANTS =======
+	
+	public void visit(IntConstNode node)
+	{
+		node.struct = Tab.intType;
+	}
+	
+	// ======= [E] CONSTANTS =======
+	
+	
 	// ======= [S] VARIABLES =======
 	
 	private Type typeNode = null;
@@ -139,7 +149,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(MethodDeclNode node)
 	{
-		node.obj = Tab.insert(Obj.Meth, node.getMethodName(), node.getType().struct);
+		node.obj = Tab.insert(Obj.Meth, node.getMethodName(), node.getMethodType().struct);
 		Tab.openScope();
 		
 		currentMethod = node.obj;
@@ -157,13 +167,36 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		returnFound = false;
 		currentMethod = null;
 	}
+	public void visit(TypedMethodNode node)
+	{
+		node.struct = node.getType().struct;
+	}
+	public void visit(VoidMethodNode node)
+	{
+		node.struct = Tab.noType;
+	}
 	public void visit(ReturnExprNode node)
 	{
 		returnFound = true;
 		Struct currentMethodType = currentMethod.getType();
-		if (!currentMethodType.compatibleWith(node.getExpr().struct))
+		
+		if (currentMethodType == Tab.noType)
+		{
+			report_error("Error on line " + node.getLine() + ": return type of this function is void");
+		}
+		else if (!currentMethodType.compatibleWith(node.getExpr().struct))
 		{
 			report_error("Error on line " + node.getLine() + ": expression type in return statement does not match with the return type of the surrounding function \'" + currentMethod.getName() + "\'");
+		}
+	}
+	public void visit(ReturnVoidNode node)
+	{
+		returnFound = true;
+		Struct currentMethodType = currentMethod.getType();
+		
+		if (currentMethodType != Tab.noType)
+		{
+			report_error("Error on line " + node.getLine() + ": must return an expression");
 		}
 	}
 	
@@ -179,6 +212,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": cannot do the assignment due to incompatible types");
 		}
 	}
+	
 	public void visit(PrintNode node)
 	{
 		if (node.getExpr().struct != Tab.intType && node.getExpr().struct != Tab.charType)
@@ -187,7 +221,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		}
 	}
 	
-	public void visit(OpExprNode node)
+	public void visit(AddExprNode node)
 	{
 		Struct exprType = node.getExpr().struct;
 		Struct termType = node.getTerm().struct;
@@ -202,18 +236,18 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			node.struct = Tab.noType;
 		}
 	}
-	public void visit(TermExprNode node)
+	public void visit(ExprNode node)
 	{
 		node.struct = node.getTerm().struct;
 	}
-	
-	public void visit(FactorNode node)
+	public void visit(TermNode node)
 	{
 		node.struct = node.getFactor().struct;
 	}
+	
 	public void visit(ConstantFactorNode node)
 	{
-		node.struct = Tab.intType;
+		node.struct = node.getConstValue().struct;
 	}
 	public void visit(VariableFactorNode node)
 	{

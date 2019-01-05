@@ -31,6 +31,25 @@ public class CodeGenerator extends VisitorAdaptor
 	// ======= [E] PERMA LEAVES =======
 	
 	
+	// ======= [S] CONSTANTS =======
+	
+	public void visit(ConstantFactorNode node)
+	{
+		Obj cnst = Tab.insert(Obj.Con, "$", node.struct);
+		cnst.setLevel(0);
+		
+		ConstValue constValue = node.getConstValue();
+		
+		if (constValue instanceof IntConstNode)
+			cnst.setAdr(((IntConstNode)constValue).getValue());
+		else cnst.setAdr(0);
+		
+		Code.load(cnst);
+	}
+	
+	// ======= [E] CONSTANTS =======
+	
+	
 	// ======= [S] METHODS =======
 	
 	public void visit(MethodDeclNode node)
@@ -78,6 +97,7 @@ public class CodeGenerator extends VisitorAdaptor
 	{
 		Code.store(node.getDesignator().obj);
 	}
+	
 	public void visit(PrintNode node)
 	{
 		if (node.getExpr().struct == Tab.intType)
@@ -92,18 +112,9 @@ public class CodeGenerator extends VisitorAdaptor
 		}
 	}
 	
-	public void visit(OpExprNode node)
+	public void visit(AddExprNode node)
 	{
 		Code.put(Code.add);
-	}
-	
-	public void visit(ConstantFactorNode node)
-	{
-		Obj cnst = Tab.insert(Obj.Con, "$", node.struct);
-		cnst.setLevel(0);
-		cnst.setAdr(node.getValue());
-		
-		Code.load(cnst);
 	}
 	
 	public void visit(FuncCallNode node)

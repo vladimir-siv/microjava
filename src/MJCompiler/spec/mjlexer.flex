@@ -49,6 +49,8 @@ import java_cup.runtime.Symbol;
 "enum"							{ return new_symbol(sym.ENUM, yytext()); }
 
 "print"							{ return new_symbol(sym.PRINT, yytext()); }
+"read"							{ return new_symbol(sym.READ, yytext()); }
+
 "return"						{ return new_symbol(sym.RETURN, yytext()); }
 "void"							{ return new_symbol(sym.VOID, yytext()); }
 
