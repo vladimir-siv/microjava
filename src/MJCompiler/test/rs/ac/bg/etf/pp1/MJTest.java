@@ -54,8 +54,6 @@ public class MJTest
 			
 			if (!parser.errorDetected && analyzer.passed())
 			{
-				log.info("Parsing completed with no errors.");
-				
 				File objFile = new File("test/program.obj");
 				
 				if (objFile.exists()) objFile.delete();
@@ -66,8 +64,10 @@ public class MJTest
 				Code.dataSize = analyzer.getnVars();
 				Code.mainPc = generator.getMainPC();
 				Code.write(new FileOutputStream(objFile));
+				
+				log.info("Compilation done!");
 			}
-			else log.info("Parsing failed due to one or more errors.");
+			else log.info("Compilation failed due to one or more errors.");
 		}
 		finally
 		{
@@ -79,3 +79,6 @@ public class MJTest
 		}
 	}
 }
+
+// java -cp lib/mj-runtime.jar rs.etf.pp1.mj.runtime.Run test/program.obj
+// java -cp lib/mj-runtime.jar rs.etf.pp1.mj.runtime.disasm test/program.obj >test/program.asm

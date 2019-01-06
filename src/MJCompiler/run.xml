@@ -20,5 +20,3 @@
 	</target>
 	
 </project>
-
-<!-- java -cp lib/mj-runtime.jar rs.etf.pp1.mj.runtime.Run test/program.obj -->

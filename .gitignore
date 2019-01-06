@@ -39,3 +39,6 @@ src/MJCompiler/src/rs/ac/bg/etf/pp1/ast/
 
 # object files
 src/MJCompiler/test/*.obj
+
+# asm files
+src/MJCompiler/test/*.asm

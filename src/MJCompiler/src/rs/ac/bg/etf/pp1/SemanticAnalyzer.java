@@ -273,6 +273,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			if (enumOptValue instanceof  EnumValueNode)
 			{
 				constValue = ((EnumValueNode)enumOptValue).getValue();
+				
+				if (constValue < currentValue)
+				{
+					report_error("Error on line " + node.getLine() + ": enum constant \'" + node.getEnumConstName() + "\' cannot have value equal to " + constValue + " - the least it must have is " + currentValue);
+					constValue = currentValue;
+				}
+				
 				currentValue = constValue + 1;
 			}
 			else constValue = currentValue++;
