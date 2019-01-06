@@ -5,6 +5,8 @@ import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 
+import java.util.Stack;
+
 public class CodeGenerator extends VisitorAdaptor
 {
 	// ======= [S] GLOBAL =======
@@ -138,6 +140,28 @@ public class CodeGenerator extends VisitorAdaptor
 		Code.store(node.getDesignator().obj);
 	}
 	
+	private Stack<Integer> lastJumpAddresses = new Stack<>();
+	public void visit(IfConditionNode node)
+	{
+		Code.loadConst(0);
+		Code.putFalseJump(Code.ne, 0);
+		lastJumpAddresses.add(Code.pc - 2);
+	}
+	public void visit(ElseNode node)
+	{
+		Code.putJump(0);
+		int newJumpAddress = Code.pc - 2;
+		Code.fixup(lastJumpAddresses.pop());
+		lastJumpAddresses.push(newJumpAddress);
+	}
+	private void EndIf()
+	{
+		Code.fixup(lastJumpAddresses.pop());
+	}
+	public void visit(UnmatchedIfNode node) { EndIf(); }
+	public void visit(UnmatchedIfElseNode node) { EndIf(); }
+	public void visit(MatchedIfNode node) { EndIf(); }
+	
 	public void visit(PrintNode node)
 	{
 		PrintSpace printSpace = node.getPrintSpace();
@@ -229,7 +253,7 @@ public class CodeGenerator extends VisitorAdaptor
 	}
 	public void visit(RelCondFactNode node)
 	{
-		Code.putFalseJump(node.getRelop(), Code.pc + 4);
+		Code.putFalseJump(node.getRelop(), Code.pc + 7);
 		Code.loadConst(1);
 		Code.putJump(Code.pc + 4);
 		Code.loadConst(0);

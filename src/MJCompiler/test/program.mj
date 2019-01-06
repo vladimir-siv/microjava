@@ -8,6 +8,37 @@ program MJProgram
 	enum ThingA { FirstThing, SecondThing = 4, ThirdThing, FourthThing = 7 }
 	enum ThingB { OneThing = 2, SecondThing, ThreeThing, FourThing }
 {
+	void prints(char str[], bool convert)
+	{
+		if (convert)
+		{
+			if (str[0] == 'a' || str[0] == 'b')
+			{
+				str[0] = 'A';
+			}
+			else if (str[0] == 'c' && str[1] != 'c')
+			{
+				str[0] = 'B';
+				str[1] = 'C';
+			}
+			else str[0] = 'X';
+
+			if (str[1] != 'C') str[1] = 'Z';
+		}
+		else
+		{
+			if (str[0] == 'a'|| str[1] != 'a' && str[1] != 'b')
+			{
+				str[0] = 'A';
+				str[1] = 'B';
+			}
+		}
+
+		print(str[0]);
+		print(str[1]);
+		print(eol);
+	}
+
 	void print2(int ar[], int x, ThingA thing)
 	{
 		print(ar[0], 3);
@@ -112,9 +143,65 @@ program MJProgram
 		print(str[2]);
 		print(eol);
 
+		// PRINT: !012345
+		print('!');
+		if (e >= 1) print(0);
+		else print(-1);
+		if (e > 1) print(-1);
+		else print(1);
+		if (X <= 3) print(2);
+		else print(-1);
+		if (4 < x) print(3);
+		else print(-1);
+		if (arr[0] == e) print(-1);
+		else print(4);
+		if (e != arr[0]) print(5);
+		else print(-1);
+		print(eol);
+
+		// PRINT: AC
+		str[0] = 'a'; str[1] = 'C';
+		prints(str, true);
+
+		// PRINT: AZ
+		str[0] = 'b'; str[1] = 'H';
+		prints(str, true);
+
+		// PRINT: BC
+		str[0] = 'c'; str[1] = 'p';
+		prints(str, true);
+
+		// PRINT: XZ
+		str[0] = 'r'; str[1] = 'q';
+		prints(str, true);
+
+		// PRINT: XZ
+		str[0] = 'c'; str[1] = 'c';
+		prints(str, true);
+
+		// PRINT: AB
+		str[0] = 'a'; str[1] = 'a';
+		prints(str, false);
+
+		// PRINT: AB
+		str[0] = 'a'; str[1] = 'c';
+		prints(str, false);
+
+		// PRINT: AB
+		str[0] = 'b'; str[1] = 'c';
+		prints(str, false);
+
+		// PRINT: AB
+		str[0] = 'a'; str[1] = 'b';
+		prints(str, false);
+
+		// PRINT: ea
+		str[0] = 'e'; str[1] = 'a';
+		prints(str, false);
+
 		// NULL REF EX
-		arr = null;
-		print(arr[0]);
+		str = null;
+		print(str[0]);
 		print(eol);
 	}
 }

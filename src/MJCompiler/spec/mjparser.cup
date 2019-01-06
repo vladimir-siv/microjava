@@ -155,6 +155,7 @@ nonterminal rs.etf.pp1.symboltable.concepts.Obj		Designator;
 
 nonterminal											StatementList;
 nonterminal											Statement, DesignatorStatement;
+nonterminal											IfCondition, Else;
 nonterminal											Unmatched, Matched;
 
 nonterminal											PrintSpace;
@@ -249,9 +250,12 @@ DesignatorStatement ::=
 	(DecrementNode) Designator DEC SEMI
 	;
 
-Unmatched ::= (UnmatchedIfNode) IF LPAREN Condition RPAREN Statement | (UnmatchedIfElseNode) IF LPAREN Condition RPAREN Matched ELSE Unmatched;
+IfCondition ::= (IfConditionNode) IF LPAREN Condition RPAREN;
+Else ::= (ElseNode) ELSE;
+
+Unmatched ::= (UnmatchedIfNode) IfCondition Statement | (UnmatchedIfElseNode) IfCondition Matched Else Unmatched;
 Matched ::=
-	(MatchedIfNode) IF LPAREN Condition RPAREN Matched ELSE Matched
+	(MatchedIfNode) IfCondition Matched Else Matched
 	|
 	(DesignatorStatementNode) DesignatorStatement
 	|

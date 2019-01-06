@@ -57,6 +57,9 @@ import java_cup.runtime.Symbol;
 "new"							{ return new_symbol(sym.NEW, yytext()); }
 "null"							{ return new_symbol(sym.NULL, yytext()); }
 
+"if"							{ return new_symbol(sym.IF, yytext()); }
+"else"							{ return new_symbol(sym.ELSE, yytext()); }
+
 // # CONSTANTS
 [0-9]+							{ return new_symbol(sym.INT, new Integer(yytext())); }
 "'"[ -~]"'"						{ return new_symbol(sym.CHAR, yytext().charAt(1)); }
