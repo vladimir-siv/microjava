@@ -137,11 +137,14 @@ nonterminal											EnumConstDecl, EnumOptValue;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct	Type;
 
 nonterminal											MethodDeclList;
-nonterminal rs.etf.pp1.symboltable.concepts.Obj		MethodDecl, MethodReg;
+nonterminal											MethodDecl;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj		MethodReg;
 nonterminal	rs.etf.pp1.symboltable.concepts.Struct	MethodType;
 
-nonterminal											Params, ParamList, Param;
+nonterminal											Params, ParamList;
+nonterminal	rs.etf.pp1.symboltable.concepts.Obj		Param;
 nonterminal											Args, ArgList;
+nonterminal											Arg;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj		Designator;
 
@@ -155,7 +158,8 @@ nonterminal	rs.etf.pp1.symboltable.concepts.Struct	Condition, CondTerm, CondFact
 
 nonterminal rs.etf.pp1.symboltable.concepts.Struct	Expr, Term, Factor;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Struct	FuncCall;
+nonterminal											FuncCall;
+nonterminal											Callee;
 
 nonterminal											Relop, Addop, Mulop;
 nonterminal											Unaryop;
@@ -213,7 +217,8 @@ ParamList ::= (ParamListNode) ParamList COMMA Param | (ParamNode) Param;
 Param ::= (ParamDeclNode) Type:paramType IDENT:paramName;
 
 Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
-ArgList ::= (ArgListNode) ArgList COMMA Expr | (ArgNode) Expr;
+ArgList ::= (ArgListNode) ArgList COMMA Arg | (ArgNode) Arg;
+Arg ::= (ArgDeclNode) Expr;
 
 Designator ::= (DesignatorChainNode) Designator DOT IDENT:chainedDesignatorName | (DesignatorNode) IDENT:name;
 
@@ -264,7 +269,8 @@ Factor ::=
 	(PriorityFactorNode) LPAREN Expr RPAREN
 	;
 
-FuncCall ::= (FuncCallNode) Designator:callee LPAREN Args RPAREN;
+FuncCall ::= (FuncCallNode) Callee LPAREN Args RPAREN;
+Callee ::= (CalleeNode) Designator:calleeName;
 
 Relop ::=
 	(EquNode) EQU

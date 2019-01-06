@@ -24,7 +24,7 @@ public class CodeGenerator extends VisitorAdaptor
 		(
 			parent instanceof AssignmentNode
 			||
-			parent instanceof FuncCallNode
+			parent instanceof CalleeNode
 			||
 			node.obj.getType() == Extensions.enumType
 		) return;
@@ -38,7 +38,7 @@ public class CodeGenerator extends VisitorAdaptor
 		(
 			parent instanceof AssignmentNode
 			||
-			parent instanceof FuncCallNode
+			parent instanceof CalleeNode
 			||
 			node.obj.getType() == Extensions.enumType // this should not be able to happen
 		) return;
@@ -178,7 +178,7 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(FuncCallNode node)
 	{
-		Obj functionObj = node.getDesignator().obj;
+		Obj functionObj = ((CalleeNode)node.getCallee()).getDesignator().obj;
 		int offset = functionObj.getAdr() - Code.pc;
 		Code.put(Code.call);
 		Code.put2(offset);

@@ -258,12 +258,21 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	// ======= [S] METHODS =======
 	
-	private Obj currentMethod = null;
-	private boolean returnFound = false;
-	
 	private boolean mainFound = false;
 	public boolean isMainFound() { return mainFound; }
 	
+	private Obj currentMethod = null;
+	private int paramNo = 0;
+	private boolean returnFound = false;
+	
+	public void visit(TypedMethodNode node)
+	{
+		node.struct = node.getType().struct;
+	}
+	public void visit(VoidMethodNode node)
+	{
+		node.struct = Tab.noType;
+	}
 	public void visit(MethodDeclNode node)
 	{
 		if (node.getMethodName().equals("main"))
@@ -287,29 +296,20 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			node.obj = Tab.noObj;
 		}
 		
+		paramNo = 0;
 		Tab.openScope();
 		currentMethod = node.obj;
 	}
-	public void visit(MethodNode node)
+	public void visit(ParamDeclNode node)
 	{
-		if (!returnFound && currentMethod.getType() != Tab.noType)
+		Obj declared = Tab.currentScope.findSymbol(node.getParamName());
+		
+		if (declared == Tab.noObj || declared == null)
 		{
-			report_error("Error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement");
+			node.obj = Tab.insert(Obj.Var, node.getParamName(), node.getType().struct != Extensions.enumType ? node.getType().struct : Tab.intType);
+			node.obj.setFpPos(++paramNo);
 		}
-		
-		Tab.chainLocalSymbols(currentMethod);
-		Tab.closeScope();
-		
-		returnFound = false;
-		currentMethod = null;
-	}
-	public void visit(TypedMethodNode node)
-	{
-		node.struct = node.getType().struct;
-	}
-	public void visit(VoidMethodNode node)
-	{
-		node.struct = Tab.noType;
+		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
 	public void visit(ReturnExprNode node)
 	{
@@ -333,6 +333,61 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		if (currentMethodType != Tab.noType)
 		{
 			report_error("Error on line " + node.getLine() + ": must return an expression");
+		}
+	}
+	public void visit(MethodNode node)
+	{
+		if (!returnFound && currentMethod.getType() != Tab.noType)
+		{
+			report_error("Error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement");
+		}
+		
+		currentMethod.setLevel(paramNo);
+		Tab.chainLocalSymbols(currentMethod);
+		Tab.closeScope();
+		
+		returnFound = false;
+		currentMethod = null;
+	}
+	
+	private Obj currentCalleeMethod = null;
+	private int argNo = 0;
+	
+	public void visit(CalleeNode node)
+	{
+		currentCalleeMethod = Tab.find(node.getDesignator().obj.getName());
+		
+		if (currentMethod == Tab.noObj || currentCalleeMethod.getKind() != Obj.Meth)
+		{
+			report_error("Error on line " + node.getLine() + ": name \'" + node.getDesignator().obj.getName() + "\' is not a function");
+			currentCalleeMethod = null;
+		}
+		
+		argNo = 0;
+	}
+	public void visit(ArgDeclNode node)
+	{
+		if (currentCalleeMethod == null) return;
+		
+		++argNo;
+		
+		Obj param = Extensions.FindMethodParameter(currentCalleeMethod, argNo);
+		
+		if (param == Tab.noObj) return;
+		
+		if (!node.getExpr().struct.assignableTo(param.getType()))
+		{
+			report_error("Error on line " + node.getLine() + ": argument " + argNo + " does not have a type that can be assigned to the method parameter");
+		}
+	}
+	public void visit(FuncCallNode node)
+	{
+		if (currentCalleeMethod == null) return;
+		
+		if (currentCalleeMethod.getLevel() != argNo)
+		{
+			report_error("Error on line " + node.getLine() + ": invalid number of arguments");
+			return;
 		}
 	}
 	
@@ -463,21 +518,21 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(CallFactorNode node)
 	{
-		Obj obj = ((FuncCallNode)node.getFuncCall()).getDesignator().obj;
+		Callee callee = ((FuncCallNode)node.getFuncCall()).getCallee();
+		Obj obj = ((CalleeNode)callee).getDesignator().obj;
 		
 		if (obj.getKind() == Obj.Meth)
 		{
-			if (obj.getType() == Tab.noType)
+			if (obj.getType() != Tab.noType)
 			{
-				// is void func
-				report_error("Error: \'" + obj.getName() + "\' cannot be used in expressions because it does not have a return type (it is void)", node);
+				node.struct = obj.getType();
 			}
-			else node.struct = obj.getType();
+			else report_error("Error on line " + node.getLine() + ": \'" + obj.getName() + "\' cannot be used in expressions because it does not have a return type (it is void)");
 		}
 		else
 		{
-			report_error("Error on line " + node.getLine() + ": name \'" + obj.getName() + "\' is not a function");
 			node.struct = Tab.noType;
+			report_error("Error on line " + node.getLine() + ": name \'" + obj.getName() + "\' is not a function");
 		}
 	}
 	public void visit(PriorityFactorNode node)

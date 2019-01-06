@@ -5,6 +5,8 @@ import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
 
+import java.util.Iterator;
+
 public class Extensions
 {
 	public enum Bool
@@ -29,5 +31,22 @@ public class Extensions
 		else if (constValue instanceof CharConstNode) cnst.setAdr(((CharConstNode)constValue).getValue());
 		else if (constValue instanceof BoolConstNode) cnst.setAdr(((BoolConstNode)constValue).getValue() ? Bool.True.v() : Bool.False.v());
 		else cnst.setAdr(0);
+	}
+	
+	public static Obj FindMethodParameter(Obj method, int paramNo)
+	{
+		Iterator<Obj> i = method.getLocalSymbols().iterator();
+		
+		while (i.hasNext())
+		{
+			Obj obj = i.next();
+			
+			if (obj.getFpPos() == paramNo)
+			{
+				return obj;
+			}
+		}
+		
+		return Tab.noObj;
 	}
 }
