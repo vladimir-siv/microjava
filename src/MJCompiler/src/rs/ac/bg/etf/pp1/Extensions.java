@@ -5,10 +5,12 @@ import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
 
-import java.util.Iterator;
+import java.util.*;
 
 public class Extensions
 {
+	private static LinkedHashMap<Struct, Struct> arrayTypes = new LinkedHashMap<>();
+	
 	public enum Bool
 	{
 		False(0), True(1);
@@ -17,8 +19,19 @@ public class Extensions
 		public int v() { return value; }
 	}
 	
+	public static final Struct classType = new Struct(Struct.Class);
 	public static final Struct boolType = new Struct(5);
 	public static final Struct enumType = new Struct(6);
+	
+	public static Struct arrayType(Struct elemType)
+	{
+		Struct type = arrayTypes.get(elemType);
+		if (type != null) return type;
+		
+		type = new Struct(Struct.Array, elemType);
+		arrayTypes.put(elemType, type);
+		return type;
+	}
 	
 	public static void init()
 	{

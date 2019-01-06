@@ -31,6 +31,20 @@ public class CodeGenerator extends VisitorAdaptor
 		
 		Code.load(node.obj);
 	}
+	public void visit(DesignatorIndexingNode node)
+	{
+		SyntaxNode parent = node.getParent();
+		if
+		(
+			parent instanceof AssignmentNode
+			||
+			parent instanceof CalleeNode				// this should not be able to happen
+			||
+			node.obj.getType() == Extensions.enumType	// this should not be able to happen
+		) return;
+		
+		Code.load(node.obj);
+	}
 	public void visit(DesignatorChainNode node)
 	{
 		SyntaxNode parent = node.getParent();
@@ -40,7 +54,7 @@ public class CodeGenerator extends VisitorAdaptor
 			||
 			parent instanceof CalleeNode
 			||
-			node.obj.getType() == Extensions.enumType // this should not be able to happen
+			node.obj.getType() == Extensions.enumType	// this should not be able to happen
 		) return;
 		
 		Code.load(node.obj);
@@ -159,21 +173,21 @@ public class CodeGenerator extends VisitorAdaptor
 		Code.store(node.getDesignator().obj);
 	}
 	
-	public void visit(AddExprNode node)
+	public void visit(NewNode node)
 	{
-		if (node.getAddop() instanceof PlusNode) Code.put(Code.add);
-		else if (node.getAddop() instanceof MinusNode) Code.put(Code.sub);
-	}
-	public void visit(ExprNode node)
-	{
-		if (node.getUnaryop() instanceof UnaryMinusNode) Code.put(Code.neg);
-	}
-	
-	public void visit(MulTermNode node)
-	{
-		if (node.getMulop() instanceof  MultiplyNode) Code.put(Code.mul);
-		else if (node.getMulop() instanceof DivideNode) Code.put(Code.div);
-		else if (node.getMulop() instanceof ModuloNode) Code.put(Code.rem);
+		ArraySize arraySize = node.getArraySize();
+		
+		if (arraySize instanceof ArraySizeNode)
+		{
+			Code.put(Code.newarray);
+			
+			if (node.struct.getElemType() == Tab.charType)
+			{
+				Code.put(0);
+			}
+			else Code.put(1);
+		}
+		//else new for classes only...
 	}
 	
 	public void visit(FuncCallNode node)
@@ -190,6 +204,23 @@ public class CodeGenerator extends VisitorAdaptor
 				Code.put(Code.pop);
 			}
 		}
+	}
+	
+	public void visit(AddExprNode node)
+	{
+		if (node.getAddop() instanceof PlusNode) Code.put(Code.add);
+		else if (node.getAddop() instanceof MinusNode) Code.put(Code.sub);
+	}
+	public void visit(ExprNode node)
+	{
+		if (node.getUnaryop() instanceof UnaryMinusNode) Code.put(Code.neg);
+	}
+	
+	public void visit(MulTermNode node)
+	{
+		if (node.getMulop() instanceof  MultiplyNode) Code.put(Code.mul);
+		else if (node.getMulop() instanceof DivideNode) Code.put(Code.div);
+		else if (node.getMulop() instanceof ModuloNode) Code.put(Code.rem);
 	}
 	
 	// ======= [E] STATEMENTS =======

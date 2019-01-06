@@ -1,5 +1,6 @@
 program MJProgram
 	int x; int y, z;
+	int arr[];
 	const int X = 2, Y = 4;
 	const char C = '_';
 	const bool B = false;
@@ -7,6 +8,15 @@ program MJProgram
 	enum ThingA { FirstThing, SecondThing = 4, ThirdThing, FourthThing = 7 }
 	enum ThingB { OneThing = 2, SecondThing, ThreeThing, FourThing }
 {
+	void print2(int ar[], int x, ThingA thing)
+	{
+		print(ar[0], 3);
+		print(ar[1], 3);
+		print(x, 3);
+		print(thing, 3);
+		print(eol);
+	}
+
 	int k(int a, int b, ThingB thing) int c, d;
 	{
 		c = 3;
@@ -23,6 +33,8 @@ program MJProgram
 		char u; int e;
 		bool b;
 		ThingA t1; ThingB t2;
+		ThingA things[];
+		char str[];
 	{
 		aa = 5;
 		bb = 2;
@@ -71,6 +83,38 @@ program MJProgram
 		print(ThingB.SecondThing);
 		print(ThingB.ThreeThing);
 		print(ThingB.FourThing);
+		print(eol);
+
+		e = 1;
+
+		arr = new int[10];
+		arr[0] = 3;
+		arr[e] = arr[0] + 2;
+		arr[X] = arr[0] * arr[e];
+
+		things = new ThingA[5];
+		things[0] = ThingA.ThirdThing;
+		things[1] = ThingA.FourthThing;
+		things[2] = ThingA.SecondThing;
+
+		str = new char[5];
+
+		str[0] = 'a';
+		str[1] = 'b';
+		str[2] = 'c';
+
+		// PRINT:   3  5 15 7
+		print2(arr, arr[2], things[1]);
+
+		// PRINT: abc
+		print(str[0]);
+		print(str[1]);
+		print(str[2]);
+		print(eol);
+
+		// NULL REF EX
+		arr = null;
+		print(arr[0]);
 		print(eol);
 	}
 }

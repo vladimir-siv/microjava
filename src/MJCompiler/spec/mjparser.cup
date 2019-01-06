@@ -87,6 +87,7 @@ terminal PROG;
 terminal CONST, ENUM;
 terminal PRINT, READ;
 terminal RETURN, VOID;
+terminal NEW, NULL;
 // Constants
 terminal Integer INT;
 terminal Character CHAR;
@@ -118,6 +119,11 @@ nonterminal	rs.etf.pp1.symboltable.concepts.Struct	ConstValue;
 nonterminal											SectionsDecl;
 nonterminal											Section;
 
+nonterminal rs.etf.pp1.symboltable.concepts.Struct	Type;
+nonterminal											ArrayType;
+nonterminal											ArraySize;
+nonterminal											Index;
+
 nonterminal											ConstSectList;
 nonterminal											ConstSect;
 nonterminal											ConstSectDecl;
@@ -133,8 +139,6 @@ nonterminal											VarDecl;
 nonterminal											EnumDecl, EnumReg;
 nonterminal											EnumConstDeclList;
 nonterminal											EnumConstDecl, EnumOptValue;
-
-nonterminal rs.etf.pp1.symboltable.concepts.Struct	Type;
 
 nonterminal											MethodDeclList;
 nonterminal											MethodDecl;
@@ -187,6 +191,11 @@ Section ::=
 	(EnumSectionNode) EnumDecl
 	;
 
+Type ::= (TypeNode) IDENT:typeName;
+ArrayType ::= (ArrayTypeNode) LBRACKET RBRACKET | (NonArrayTypeNode) /* epsilon */;
+ArraySize ::= (ArraySizeNode) LBRACKET Expr RBRACKET | (NonArraySizeNode) /* epsilon */;
+Index ::= (IndexingNode) LBRACKET Expr RBRACKET;
+
 ConstSectList ::= (ConstSectListNode) ConstSectList ConstSect | (EmptyConstSectListNode) /* epsilon */;
 ConstSect ::= (ConstSectNode) ConstSectDecl ConstDeclList SEMI;
 ConstSectDecl ::= (ConstSectDeclNode) CONST Type:constType;
@@ -197,15 +206,13 @@ VarSectList ::= (VarSectListNode) VarSectList VarSect | (EmptyVarSectListNode) /
 VarSect ::= (VarSectNode) VarSectDecl VarDeclList SEMI;
 VarSectDecl ::= (VarSectDeclNode) Type:varType;
 VarDeclList ::= (VarListNode) VarDeclList COMMA VarDecl | (VarNode) VarDecl;
-VarDecl ::= (VarDeclNode) IDENT:varName;
+VarDecl ::= (VarDeclNode) IDENT:varName ArrayType;
 
 EnumDecl ::= (EnumNode) EnumReg LBRACE EnumConstDeclList RBRACE;
 EnumReg ::= (EnumDeclNode) ENUM IDENT:enumName;
 EnumConstDeclList ::= (EnumConstListNode) EnumConstDeclList COMMA EnumConstDecl | (EnumConstNode) EnumConstDecl;
 EnumConstDecl ::= (EnumConstDeclNode) IDENT:enumConstName EnumOptValue;
 EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsilon */;
-
-Type ::= (TypeNode) IDENT:typeName;
 
 MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
 MethodDecl ::= (MethodNode) MethodReg LPAREN Params RPAREN VarSectList LBRACE StatementList RBRACE;
@@ -214,13 +221,19 @@ MethodType ::= (TypedMethodNode) Type:retType | (VoidMethodNode) VOID;
 
 Params ::= (ParamsNode) ParamList | (EmptyParamsNode) /* epsilon */;
 ParamList ::= (ParamListNode) ParamList COMMA Param | (ParamNode) Param;
-Param ::= (ParamDeclNode) Type:paramType IDENT:paramName;
+Param ::= (ParamDeclNode) Type:paramType IDENT:paramName ArrayType;
 
 Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
 ArgList ::= (ArgListNode) ArgList COMMA Arg | (ArgNode) Arg;
 Arg ::= (ArgDeclNode) Expr;
 
-Designator ::= (DesignatorChainNode) Designator DOT IDENT:chainedDesignatorName | (DesignatorNode) IDENT:name;
+Designator ::=
+	(DesignatorChainNode) Designator DOT IDENT:chainedDesignatorName
+	|
+	(DesignatorIndexingNode) Designator Index
+	|
+	(DesignatorNode) IDENT:name
+	;
 
 StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
 Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched | (ErrorStatement) error SEMI;
@@ -265,6 +278,10 @@ Factor ::=
 	(VariableFactorNode) Designator
 	|
 	(CallFactorNode) FuncCall
+	|
+	(NewNode) NEW Type ArraySize
+	|
+	(NullNode) NULL
 	|
 	(PriorityFactorNode) LPAREN Expr RPAREN
 	;

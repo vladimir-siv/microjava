@@ -115,6 +115,26 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		node.obj = obj;
 	}
+	public void visit(DesignatorIndexingNode node)
+	{
+		node.obj = Tab.noObj;
+		
+		if (node.getDesignator().obj.getType().getKind() != Struct.Array)
+		{
+			report_error("Error on line " + node.getLine() + ": trying to index a non-array type");
+			return;
+		}
+		
+		IndexingNode indexingNode = (IndexingNode)node.getIndex();
+		
+		if (indexingNode.getExpr().struct != Tab.intType)
+		{
+			report_error("Error on line " + node.getLine() + ": indexer has to be an int");
+			return;
+		}
+		
+		node.obj = new Obj(Obj.Elem, "*", node.getDesignator().obj.getType().getElemType());
+	}
 	public void visit(DesignatorChainNode node)
 	{
 		node.obj = Tab.noObj;
@@ -128,6 +148,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 				Obj enumConst = null;
 				
 				Iterator<Obj> i = chain.obj.getLocalSymbols().iterator();
+				
 				while (enumConst == null && i.hasNext())
 				{
 					Obj obj = i.next();
@@ -202,7 +223,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (declared == Tab.noObj || declared == null)
 		{
-			Tab.insert(Obj.Var, node.getVarName(), varTypeNode.struct != Extensions.enumType ? varTypeNode.struct : Tab.intType);
+			Struct type = varTypeNode.struct != Extensions.enumType ? varTypeNode.struct : Tab.intType;
+			
+			if (node.getArrayType() instanceof ArrayTypeNode)
+			{
+				Tab.insert(Obj.Var, node.getVarName(), Extensions.arrayType(type));
+			}
+			else
+			{
+				Tab.insert(Obj.Var, node.getVarName(), type);
+			}
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
@@ -306,7 +336,17 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (declared == Tab.noObj || declared == null)
 		{
-			node.obj = Tab.insert(Obj.Var, node.getParamName(), node.getType().struct != Extensions.enumType ? node.getType().struct : Tab.intType);
+			Struct type = node.getType().struct != Extensions.enumType ? node.getType().struct : Tab.intType;
+			
+			if (node.getArrayType() instanceof ArrayTypeNode)
+			{
+				node.obj = Tab.insert(Obj.Var, node.getParamName(), Extensions.arrayType(type));
+			}
+			else
+			{
+				node.obj = Tab.insert(Obj.Var, node.getParamName(), type);
+			}
+			
 			node.obj.setFpPos(++paramNo);
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
@@ -534,6 +574,36 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			node.struct = Tab.noType;
 			report_error("Error on line " + node.getLine() + ": name \'" + obj.getName() + "\' is not a function");
 		}
+	}
+	public void visit(NewNode node)
+	{
+		ArraySize arraySize = node.getArraySize();
+		Struct type = node.getType().struct != Extensions.enumType ? node.getType().struct : Tab.intType;
+		
+		if (arraySize instanceof ArraySizeNode)
+		{
+			node.struct = Extensions.arrayType(type);
+			
+			ArraySizeNode arraySizeNode = (ArraySizeNode)arraySize;
+			
+			if (arraySizeNode.getExpr().struct != Tab.intType)
+			{
+				report_error("Error on line " + node.getLine() + ": array size must be an int");
+			}
+		}
+		else
+		{
+			node.struct = type;
+			
+			if (node.struct != Extensions.classType)
+			{
+				report_error("Error on line " + node.getLine() + ": new operator cannot be used on anything other than class types or arrays");
+			}
+		}
+	}
+	public void visit(NullNode node)
+	{
+		node.struct = Tab.nullType;
 	}
 	public void visit(PriorityFactorNode node)
 	{
