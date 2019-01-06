@@ -100,17 +100,17 @@ public class CodeGenerator extends VisitorAdaptor
 		Code.put(counter.getParamCount());
 		Code.put(counter.getParamCount() + counter.getVarCount());
 	}
-	public void visit(MethodNode node)
-	{
-		Code.put(Code.exit);
-		Code.put(Code.return_);
-	}
 	public void visit(ReturnExprNode node)
 	{
 		Code.put(Code.exit);
 		Code.put(Code.return_);
 	}
 	public void visit(ReturnVoidNode node)
+	{
+		Code.put(Code.exit);
+		Code.put(Code.return_);
+	}
+	public void visit(MethodNode node)
 	{
 		Code.put(Code.exit);
 		Code.put(Code.return_);
@@ -173,6 +173,85 @@ public class CodeGenerator extends VisitorAdaptor
 		Code.store(node.getDesignator().obj);
 	}
 	
+	public void visit(ConditionOrNode node)
+	{
+		// A || B
+		
+		Code.loadConst(0);
+		Code.putFalseJump(Code.eq, Code.pc + 15);
+		// if (B == 0)
+		// {
+				Code.loadConst(0);
+				Code.putFalseJump(Code.eq, Code.pc + 7);
+				// if (A == 0)
+				// {
+						Code.loadConst(0);
+				// }
+				Code.putJump(Code.pc + 4);
+				// else
+				// {
+						Code.loadConst(1);
+				// }
+		// }
+		Code.putJump(Code.pc + 5);
+		// else
+		// {
+				Code.put(Code.pop); // don't care A
+				Code.loadConst(1);
+		// }
+	}
+	public void visit(CondTermAndNode node)
+	{
+		// A && B
+		
+		Code.loadConst(0);
+		Code.putFalseJump(Code.ne, Code.pc + 15);
+		// if (B != 0)
+		// {
+				Code.loadConst(0);
+				Code.putFalseJump(Code.ne, Code.pc + 7);
+				// if (A != 0)
+				// {
+						Code.loadConst(1);
+				// }
+				Code.putJump(Code.pc + 4);
+				// else
+				// {
+						Code.loadConst(0);
+				// }
+		// }
+		Code.putJump(Code.pc + 5);
+		// else
+		// {
+				Code.put(Code.pop); // don't care A
+				Code.loadConst(0);
+		// }
+	}
+	public void visit(RelCondFactNode node)
+	{
+		Code.putFalseJump(node.getRelop(), Code.pc + 4);
+		Code.loadConst(1);
+		Code.putJump(Code.pc + 4);
+		Code.loadConst(0);
+	}
+	
+	public void visit(ExprNode node)
+	{
+		if (node.getUnaryop() instanceof UnaryMinusNode) Code.put(Code.neg);
+	}
+	public void visit(AddExprNode node)
+	{
+		if (node.getAddop() instanceof PlusNode) Code.put(Code.add);
+		else if (node.getAddop() instanceof MinusNode) Code.put(Code.sub);
+	}
+	
+	public void visit(MulTermNode node)
+	{
+		if (node.getMulop() instanceof  MultiplyNode) Code.put(Code.mul);
+		else if (node.getMulop() instanceof DivideNode) Code.put(Code.div);
+		else if (node.getMulop() instanceof ModuloNode) Code.put(Code.rem);
+	}
+	
 	public void visit(NewNode node)
 	{
 		ArraySize arraySize = node.getArraySize();
@@ -204,23 +283,6 @@ public class CodeGenerator extends VisitorAdaptor
 				Code.put(Code.pop);
 			}
 		}
-	}
-	
-	public void visit(AddExprNode node)
-	{
-		if (node.getAddop() instanceof PlusNode) Code.put(Code.add);
-		else if (node.getAddop() instanceof MinusNode) Code.put(Code.sub);
-	}
-	public void visit(ExprNode node)
-	{
-		if (node.getUnaryop() instanceof UnaryMinusNode) Code.put(Code.neg);
-	}
-	
-	public void visit(MulTermNode node)
-	{
-		if (node.getMulop() instanceof  MultiplyNode) Code.put(Code.mul);
-		else if (node.getMulop() instanceof DivideNode) Code.put(Code.div);
-		else if (node.getMulop() instanceof ModuloNode) Code.put(Code.rem);
 	}
 	
 	// ======= [E] STATEMENTS =======

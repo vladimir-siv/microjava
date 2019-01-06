@@ -496,6 +496,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		}
 	}
 	
+	public void visit(CondFactNode node)
+	{
+		node.struct = Extensions.boolType;
+	}
 	public void visit(RelCondFactNode node)
 	{
 		if (!node.getExpr().struct.compatibleWith(node.getExpr1().struct))
@@ -505,11 +509,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		node.struct = Extensions.boolType;
 	}
-	public void visit(CondFactNode node)
-	{
-		node.struct = Extensions.boolType;
-	}
 	
+	public void visit(ExprNode node)
+	{
+		if (node.getUnaryop() instanceof UnaryMinusNode && node.getTerm().struct != Tab.intType)
+		{
+			report_error("Error on line " + node.getLine() + ": cannot apply unary minus on type other than int");
+		}
+		
+		node.struct = node.getTerm().struct;
+	}
 	public void visit(AddExprNode node)
 	{
 		Struct exprType = node.getExpr().struct;
@@ -524,15 +533,6 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": addition/subtraction can only be done on ints");
 			node.struct = Tab.noType;
 		}
-	}
-	public void visit(ExprNode node)
-	{
-		if (node.getUnaryop() instanceof UnaryMinusNode && node.getTerm().struct != Tab.intType)
-		{
-			report_error("Error on line " + node.getLine() + ": cannot apply unary minus on type other than int");
-		}
-		
-		node.struct = node.getTerm().struct;
 	}
 	
 	public void visit(MulTermNode node)

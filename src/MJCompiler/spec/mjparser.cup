@@ -3,6 +3,7 @@ package rs.ac.bg.etf.pp1;
 import java_cup.runtime.*;
 import org.apache.log4j.*;
 import rs.ac.bg.etf.pp1.ast.*;
+import rs.etf.pp1.mj.runtime.Code;
 
 // #===# [S] GLOBAL #===#
 
@@ -165,7 +166,8 @@ nonterminal rs.etf.pp1.symboltable.concepts.Struct	Expr, Term, Factor;
 nonterminal											FuncCall;
 nonterminal											Callee;
 
-nonterminal											Relop, Addop, Mulop;
+nonterminal Integer									Relop;
+nonterminal											Addop, Mulop;
 nonterminal											Unaryop;
 
 // #===# [E] NON TERMINALS #===#
@@ -290,17 +292,17 @@ FuncCall ::= (FuncCallNode) Callee LPAREN Args RPAREN;
 Callee ::= (CalleeNode) Designator:calleeName;
 
 Relop ::=
-	(EquNode) EQU
+	EQU	{: RESULT = Code.eq; :}
 	|
-	(NeqNode) NEQ
+	NEQ	{: RESULT = Code.ne; :}
 	|
-	(GtrNode) GTR
+	GTR	{: RESULT = Code.gt; :}
 	|
-	(GeqNode) GEQ
+	GEQ	{: RESULT = Code.ge; :}
 	|
-	(LssNode) LSS
+	LSS	{: RESULT = Code.lt; :}
 	|
-	(LeqNode) LEQ
+	LEQ	{: RESULT = Code.le; :}
 	;
 Addop ::=
 	(PlusNode) PLUS
