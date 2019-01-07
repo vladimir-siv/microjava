@@ -66,6 +66,7 @@ program MJProgram
 		ThingA t1; ThingB t2;
 		ThingA things[];
 		char str[];
+		int i, j;
 	{
 		aa = 5;
 		bb = 2;
@@ -198,6 +199,35 @@ program MJProgram
 		// PRINT: ea
 		str[0] = 'e'; str[1] = 'a';
 		prints(str, false);
+
+		// PRINT: 0123456789
+		for (i = 0; i < 10; i++) print(i);
+		print(eol);
+
+		// PRINT: not so crazy but crazy stuff
+		//	3: 456789
+        //	4: 45678
+        //	5: 4
+        //	7: 45
+		for (i = 0; ; i++)
+		{
+			if (i < 3) continue;
+			if (i == 8) break;
+			if (i == 6) continue;
+
+			print(i); print(':'); print(' ');
+			for (j = 0; j < 10; j++)
+			{
+				if (j <= 3) continue;
+				if (j == 13 - i) break;
+
+				print(j);
+
+				if (i == 5) break;
+			}
+
+			print(eol);
+		}
 
 		// NULL REF EX
 		str = null;

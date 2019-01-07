@@ -5,6 +5,8 @@ import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class CodeGenerator extends VisitorAdaptor
@@ -123,6 +125,8 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	// ======= [S] STATEMENTS =======
 	
+	// ### DesignatorStatements
+	
 	public void visit(AssignmentNode node)
 	{
 		Code.store(node.getDesignator().obj);
@@ -140,6 +144,10 @@ public class CodeGenerator extends VisitorAdaptor
 		Code.store(node.getDesignator().obj);
 	}
 	
+	// ### DesignatorStatements
+	
+	// ### If
+	
 	private Stack<Integer> lastJumpAddresses = new Stack<>();
 	public void visit(IfConditionNode node)
 	{
@@ -154,13 +162,99 @@ public class CodeGenerator extends VisitorAdaptor
 		Code.fixup(lastJumpAddresses.pop());
 		lastJumpAddresses.push(newJumpAddress);
 	}
-	private void EndIf()
+	public void visit(IfNode node) { Code.fixup(lastJumpAddresses.pop()); }
+	public void visit(IfElseNode node) { Code.fixup(lastJumpAddresses.pop()); }
+	
+	// ### If
+	
+	// ### For
+	
+	private static class ForContext
 	{
-		Code.fixup(lastJumpAddresses.pop());
+		public int conditionAddress = -1;
+		public int stepAddress = -1;
+		public int bodyAddress = -1;
+		public int forEndAddress = -1;
+		
+		public List<Integer> breaks = new ArrayList<>();
+		
+		public ForContext()
+		{
+			conditionAddress = Code.pc;
+		}
+		
+		public void beginBody()
+		{
+			Code.fixup(bodyAddress);
+			bodyAddress = Code.pc;
+		}
+		
+		public void endFor()
+		{
+			if (forEndAddress != -1) Code.fixup(forEndAddress);
+			for (int breakAddress : breaks) Code.fixup(breakAddress);
+			forEndAddress = Code.pc;
+		}
 	}
-	public void visit(UnmatchedIfNode node) { EndIf(); }
-	public void visit(UnmatchedIfElseNode node) { EndIf(); }
-	public void visit(MatchedIfNode node) { EndIf(); }
+	
+	private Stack<ForContext> forContexts = new Stack<>();
+	
+	public void visit(ForInitNode node) { visit((ForInit)node); }
+	public void visit(EmptyForInitNode node) { visit((ForInit)node); }
+	public void visit(ForInit node)
+	{
+		forContexts.push(new ForContext());
+	}
+	public void visit(ForConditionNode node) { visit((ForCondition)node); }
+	public void visit(EmptyForConditionNode node) { visit((ForCondition)node); }
+	public void visit(ForCondition node)
+	{
+		ForContext currentFor = forContexts.peek();
+		
+		if (node instanceof ForConditionNode)
+		{
+			// Condition check, still loop if value on estack != 0
+			Code.loadConst(0);
+			Code.putFalseJump(Code.ne, 0);
+			currentFor.forEndAddress = Code.pc - 2;
+		}
+		
+		// Jump on body (skip step)
+		Code.putJump(0);
+		currentFor.bodyAddress = Code.pc - 2;
+		
+		currentFor.stepAddress = Code.pc;
+	}
+	public void visit(ForStepNode node) { visit((ForStep)node); }
+	public void visit(EmptyForStepNode node) { visit((ForStep)node); }
+	public void visit(ForStep node)
+	{
+		ForContext currentFor = forContexts.peek();
+		Code.putJump(currentFor.conditionAddress);
+		currentFor.beginBody();
+	}
+	public void visit(ForNode node)
+	{
+		ForContext currentFor = forContexts.pop();
+		Code.putJump(currentFor.stepAddress);
+		currentFor.endFor();
+	}
+	
+	public void visit(BreakNode node)
+	{
+		if (forContexts.size() == 0) return;
+		Code.putJump(0);
+		forContexts.peek().breaks.add(Code.pc - 2);
+	}
+	public void visit(ContinueNode node)
+	{
+		if (forContexts.size() == 0) return;
+		Code.putJump(forContexts.peek().stepAddress);
+	}
+	
+	// ### For
+	
+	// ### Regular statements
 	
 	public void visit(PrintNode node)
 	{
@@ -308,6 +402,8 @@ public class CodeGenerator extends VisitorAdaptor
 			}
 		}
 	}
+	
+	// ### Regular statements
 	
 	// ======= [E] STATEMENTS =======
 }

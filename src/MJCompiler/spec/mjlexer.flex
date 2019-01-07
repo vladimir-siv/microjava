@@ -60,6 +60,10 @@ import java_cup.runtime.Symbol;
 "if"							{ return new_symbol(sym.IF, yytext()); }
 "else"							{ return new_symbol(sym.ELSE, yytext()); }
 
+"for"							{ return new_symbol(sym.FOR, yytext()); }
+"break"							{ return new_symbol(sym.BREAK, yytext()); }
+"continue"						{ return new_symbol(sym.CONTINUE, yytext()); }
+
 // # CONSTANTS
 [0-9]+							{ return new_symbol(sym.INT, new Integer(yytext())); }
 "'"[ -~]"'"						{ return new_symbol(sym.CHAR, yytext().charAt(1)); }

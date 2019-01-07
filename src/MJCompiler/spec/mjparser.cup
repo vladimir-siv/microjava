@@ -107,6 +107,7 @@ terminal LBRACKET, RBRACKET;
 terminal LBRACE, RBRACE;
 // Control
 terminal IF, ELSE;
+terminal FOR, BREAK, CONTINUE;
 
 // #===# [E] TERMINALS #===#
 
@@ -155,8 +156,9 @@ nonterminal rs.etf.pp1.symboltable.concepts.Obj		Designator;
 
 nonterminal											StatementList;
 nonterminal											Statement, DesignatorStatement;
+
 nonterminal											IfCondition, Else;
-nonterminal											Unmatched, Matched;
+nonterminal											ForInit, ForCondition, ForStep;
 
 nonterminal											PrintSpace;
 
@@ -173,6 +175,7 @@ nonterminal											Unaryop;
 
 // #===# [E] NON TERMINALS #===#
 
+precedence left ELSE;
 
 Program ::= (ProgramNode) ProgDecl:decl SectionsDecl LBRACE MethodDeclList RBRACE;
 ProgDecl ::= (ProgDeclNode) PROG IDENT:progName;
@@ -238,36 +241,48 @@ Designator ::=
 	(DesignatorNode) IDENT:name
 	;
 
-StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
-Statement ::= (MatchedStmtNode) Matched | (UnmachedStmtNode) Unmatched | (ErrorStatement) error SEMI;
 DesignatorStatement ::=
-	(AssignmentNode) Designator EQUAL Expr SEMI
+	(AssignmentNode) Designator EQUAL Expr
 	|
-	(CallNode) FuncCall SEMI
+	(CallNode) FuncCall
 	|
-	(IncrementNode) Designator INC SEMI
+	(IncrementNode) Designator INC
 	|
-	(DecrementNode) Designator DEC SEMI
+	(DecrementNode) Designator DEC
 	;
 
 IfCondition ::= (IfConditionNode) IF LPAREN Condition RPAREN;
 Else ::= (ElseNode) ELSE;
 
-Unmatched ::= (UnmatchedIfNode) IfCondition Statement | (UnmatchedIfElseNode) IfCondition Matched Else Unmatched;
-Matched ::=
-	(MatchedIfNode) IfCondition Matched Else Matched
+ForInit ::= (ForInitNode) DesignatorStatement | (EmptyForInitNode) /* epsilon */;
+ForCondition ::= (ForConditionNode) Condition | (EmptyForConditionNode) /* epsilon */;
+ForStep ::= (ForStepNode) DesignatorStatement | (EmptyForStepNode) /* epsilon */;
+
+StatementList ::= (StatementListNode) StatementList Statement | (EmptyStatementListNode) /* epsilon */;
+Statement ::=
+	(IfNode) IfCondition Statement
 	|
-	(DesignatorStatementNode) DesignatorStatement
+	(IfElseNode) IfCondition Statement Else Statement
+	|
+	(ForNode) FOR LPAREN ForInit SEMI ForCondition SEMI ForStep RPAREN Statement
 	|
 	(BlockNode) LBRACE StatementList RBRACE
+	|
+	(DesignatorStatementNode) DesignatorStatement SEMI
 	|
 	(PrintNode) PRINT LPAREN Expr PrintSpace RPAREN SEMI
 	|
 	(ReadNode) READ LPAREN Designator RPAREN SEMI
 	|
+	(BreakNode) BREAK SEMI
+	|
+	(ContinueNode) CONTINUE SEMI
+	|
 	(ReturnExprNode) RETURN Expr SEMI
 	|
 	(ReturnVoidNode) RETURN SEMI
+	|
+	(ErrorStatement) error SEMI
 	;
 
 PrintSpace ::= (PrintSpaceNode) COMMA INT:value | (DefaultPrintSpaceNode) /* epsilon */;

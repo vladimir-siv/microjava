@@ -443,6 +443,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	// ======= [S] STATEMENTS =======
 	
+	// ### DesignatorStatements
+	
 	public void visit(AssignmentNode node)
 	{
 		if (!node.getExpr().struct.assignableTo(node.getDesignator().obj.getType()))
@@ -464,6 +466,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": decrement can only be applied on int");
 		}
 	}
+	
+	// ### DesignatorStatements
+	
+	// ### Regular statements
 	
 	public void visit(PrintNode node)
 	{
@@ -616,6 +622,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		node.struct = node.getExpr().struct;
 	}
+	
+	// ### Regular statements
 	
 	// ======= [E] STATEMENTS =======
 }
