@@ -386,6 +386,10 @@ public class CodeGenerator extends VisitorAdaptor
 		}
 		//else new for classes only...
 	}
+	public void visit(NullNode node)
+	{
+		Code.loadConst(0);
+	}
 	
 	public void visit(FuncCallNode node)
 	{

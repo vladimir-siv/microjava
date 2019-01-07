@@ -2,6 +2,7 @@ package rs.ac.bg.etf.pp1;
 
 import org.apache.log4j.Logger;
 import rs.ac.bg.etf.pp1.ast.*;
+import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
@@ -9,6 +10,7 @@ import rs.etf.pp1.symboltable.factory.SymbolTableFactory;
 import rs.etf.pp1.symboltable.structure.SymbolDataStructure;
 
 import java.util.Iterator;
+import java.util.Stack;
 
 public class SemanticAnalyzer extends VisitorAdaptor
 {
@@ -300,7 +302,6 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	private Obj currentMethod = null;
 	private int paramNo = 0;
-	private boolean returnFound = false;
 	
 	public void visit(TypedMethodNode node)
 	{
@@ -336,6 +337,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		paramNo = 0;
 		Tab.openScope();
 		currentMethod = node.obj;
+		
+		IfContext.beginMethod();
 	}
 	public void visit(ParamDeclNode node)
 	{
@@ -355,12 +358,18 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			}
 			
 			node.obj.setFpPos(++paramNo);
+			
+			if (currentMethod.getName().equals("main"))
+			{
+				report_error("Semantic error on line " + node.getLine() + ": main function cannot have parameters");
+			}
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
 	public void visit(ReturnExprNode node)
 	{
-		returnFound = true;
+		IfContext.returnDetected();
+		
 		Struct currentMethodType = currentMethod.getType();
 		
 		if (currentMethodType == Tab.noType)
@@ -374,7 +383,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(ReturnVoidNode node)
 	{
-		returnFound = true;
+		IfContext.returnDetected();
+		
 		Struct currentMethodType = currentMethod.getType();
 		
 		if (currentMethodType != Tab.noType)
@@ -384,16 +394,15 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(MethodNode node)
 	{
-		if (!returnFound && currentMethod.getType() != Tab.noType)
+		if (!IfContext.endMethod() && currentMethod.getType() != Tab.noType)
 		{
-			report_error("Error on line " + node.getLine() + ": function \'" + currentMethod.getName() + "\' does not have a return statement");
+			report_error("Error on line " + node.getLine() + ": not all code paths in function \'" + currentMethod.getName() + "\' lead to a return statement");
 		}
 		
 		currentMethod.setLevel(paramNo);
 		Tab.chainLocalSymbols(currentMethod);
 		Tab.closeScope();
 		
-		returnFound = false;
 		currentMethod = null;
 	}
 	
@@ -469,6 +478,90 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	// ### DesignatorStatements
 	
+	// ### If
+	
+	private static final class IfContext
+	{
+		private boolean currentlyInIf = true;
+		private boolean hasElse = false;
+		
+		private boolean ifHasReturn = false;
+		private boolean elseHasReturn = false;
+		
+		private IfContext() { }
+		
+		private static boolean allPathsHaveReturn = false;
+		private static int forContext = 0;
+		private static Stack<IfContext> ifContexts = new Stack<>();
+		
+		public static void beginMethod()
+		{
+			allPathsHaveReturn = false;
+			forContext = 0;		// just in case
+			ifContexts.clear();	// just in case
+		}
+		public static void returnDetected()
+		{
+			if (forContext > 0) return;
+			
+			if (ifContexts.size() > 0)
+			{
+				IfContext current = ifContexts.peek();
+				if (current.currentlyInIf) current.ifHasReturn = true;
+				else current.elseHasReturn = true;
+			}
+			else allPathsHaveReturn = true;
+		}
+		public static boolean endMethod()
+		{
+			return allPathsHaveReturn;
+		}
+		
+		public static void beginIf()
+		{
+			if (forContext > 0) return;
+			ifContexts.push(new IfContext());
+		}
+		public static void beginElse()
+		{
+			if (forContext > 0) return;
+			IfContext current = ifContexts.peek();
+			current.currentlyInIf = false;
+			current.hasElse = true;
+		}
+		public static IfContext endIf()
+		{
+			if (forContext > 0) return null;
+			
+			IfContext current = ifContexts.pop();
+			
+			if (current.ifHasReturn && (current.hasElse && current.elseHasReturn))
+			{
+				returnDetected();
+			}
+			
+			return current;
+		}
+		
+		public static void beginFor() { ++forContext; }
+		public static void endFor() { --forContext; }
+	}
+	
+	public void visit(IfConditionNode node) { IfContext.beginIf(); }
+	public void visit(ElseNode node) { IfContext.beginElse(); }
+	public void visit(IfNode node) { IfContext.endIf(); }
+	public void visit(IfElseNode node) { IfContext.endIf(); }
+	
+	// ### If
+	
+	// ### For
+	
+	public void visit(ForInitNode node) { IfContext.beginFor(); }
+	public void visit(EmptyForInitNode node) { IfContext.beginFor(); }
+	public void visit(ForNode node) { IfContext.endFor(); }
+	
+	// ### For
+	
 	// ### Regular statements
 	
 	public void visit(PrintNode node)
@@ -511,6 +604,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		if (!node.getExpr().struct.compatibleWith(node.getExpr1().struct))
 		{
 			report_error("Error on line " + node.getLine() + ": types are not compatible for relational operation");
+		}
+		
+		if (node.getExpr().struct.isRefType() || node.getExpr1().struct.isRefType())
+		{
+			int relop = node.getRelop();
+			
+			if (relop != Code.eq && relop != Code.ne)
+			{
+				report_error("Error on line " + node.getLine() + ": only relational operators == and != can be used for reference types/arrays");
+			}
 		}
 		
 		node.struct = Extensions.boolType;
