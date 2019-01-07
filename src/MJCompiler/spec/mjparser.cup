@@ -209,10 +209,10 @@ ConstDeclList ::= (ConstListNode) ConstDeclList COMMA ConstDecl | (ConstNode) Co
 ConstDecl ::= (ConstDeclNode) IDENT:constName EQUAL ConstValue:value;
 
 VarSectList ::= (VarSectListNode) VarSectList VarSect | (EmptyVarSectListNode) /* epsilon */;
-VarSect ::= (VarSectNode) VarSectDecl VarDeclList SEMI;
+VarSect ::= (VarSectNode) VarSectDecl VarDeclList SEMI | (ErrorVarSectNode) error:err SEMI {: parser.report_error("Additional syntax error info: invalid variable name", null); :};
 VarSectDecl ::= (VarSectDeclNode) Type:varType;
 VarDeclList ::= (VarListNode) VarDeclList COMMA VarDecl | (VarNode) VarDecl;
-VarDecl ::= (VarDeclNode) IDENT:varName ArrayType;
+VarDecl ::= (VarDeclNode) IDENT:varName ArrayType | (ErrorVarDeclNode) error:err {: parser.report_error("Additional syntax error info: invalid variable name", null); :};
 
 EnumDecl ::= (EnumNode) EnumReg LBRACE EnumConstDeclList RBRACE;
 EnumReg ::= (EnumDeclNode) ENUM IDENT:enumName;
@@ -227,7 +227,7 @@ MethodType ::= (TypedMethodNode) Type:retType | (VoidMethodNode) VOID;
 
 Params ::= (ParamsNode) ParamList | (EmptyParamsNode) /* epsilon */;
 ParamList ::= (ParamListNode) ParamList COMMA Param | (ParamNode) Param;
-Param ::= (ParamDeclNode) Type:paramType IDENT:paramName ArrayType;
+Param ::= (ParamDeclNode) Type:paramType IDENT:paramName ArrayType | (ErrorParamDeclNode) error:err;
 
 Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
 ArgList ::= (ArgListNode) ArgList COMMA Arg | (ArgNode) Arg;
@@ -282,7 +282,7 @@ Statement ::=
 	|
 	(ReturnVoidNode) RETURN SEMI
 	|
-	(ErrorStatement) error SEMI
+	(ErrorStatement) error:err SEMI {: parser.report_error("Additional syntax error info: statement is not valid", null); :}
 	;
 
 PrintSpace ::= (PrintSpaceNode) COMMA INT:value | (DefaultPrintSpaceNode) /* epsilon */;

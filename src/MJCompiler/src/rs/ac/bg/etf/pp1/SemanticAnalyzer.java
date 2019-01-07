@@ -406,12 +406,44 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		currentMethod = null;
 	}
 	
-	private Obj currentCalleeMethod = null;
-	private int argNo = 0;
+	private static final class CalleeMethodContext
+	{
+		private static class Callee
+		{
+			public Obj callee = null;
+			public int argNo = 0;
+			public Callee(Obj callee) { this.callee = callee; }
+		}
+		
+		private CalleeMethodContext() { }
+		
+		private static Stack<Callee> calleeMethodContext = new Stack<>();
+		
+		public static void beginCall(Obj callee)
+		{
+			calleeMethodContext.push(new Callee(callee));
+		}
+		public static Obj getCurrentCallee()
+		{
+			return calleeMethodContext.peek().callee;
+		}
+		public static int getCurrentArgNo()
+		{
+			return calleeMethodContext.peek().argNo;
+		}
+		public static void incCurrentArgNo()
+		{
+			++calleeMethodContext.peek().argNo;
+		}
+		public static Obj endCall()
+		{
+			return calleeMethodContext.pop().callee;
+		}
+	}
 	
 	public void visit(CalleeNode node)
 	{
-		currentCalleeMethod = Tab.find(node.getDesignator().obj.getName());
+		Obj currentCalleeMethod = Tab.find(node.getDesignator().obj.getName());
 		
 		if (currentMethod == Tab.noObj || currentCalleeMethod.getKind() != Obj.Meth)
 		{
@@ -419,13 +451,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			currentCalleeMethod = null;
 		}
 		
-		argNo = 0;
+		CalleeMethodContext.beginCall(currentCalleeMethod);
 	}
 	public void visit(ArgDeclNode node)
 	{
+		Obj currentCalleeMethod = CalleeMethodContext.getCurrentCallee();
+		int argNo = CalleeMethodContext.getCurrentArgNo();
+		
 		if (currentCalleeMethod == null) return;
 		
-		++argNo;
+		CalleeMethodContext.incCurrentArgNo();
 		
 		Obj param = Extensions.FindMethodParameter(currentCalleeMethod, argNo);
 		
@@ -438,6 +473,11 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(FuncCallNode node)
 	{
+		Obj currentCalleeMethod = CalleeMethodContext.getCurrentCallee();
+		int argNo = CalleeMethodContext.getCurrentArgNo();
+		
+		CalleeMethodContext.endCall();
+		
 		if (currentCalleeMethod == null) return;
 		
 		if (currentCalleeMethod.getLevel() != argNo)
