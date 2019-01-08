@@ -64,6 +64,11 @@ import java_cup.runtime.Symbol;
 "break"							{ return new_symbol(sym.BREAK, yytext()); }
 "continue"						{ return new_symbol(sym.CONTINUE, yytext()); }
 
+"class"							{ return new_symbol(sym.CLASS, yytext()); }
+"interface"						{ return new_symbol(sym.INTERFACE, yytext()); }
+"extends"						{ return new_symbol(sym.EXTENDS, yytext()); }
+"implements"					{ return new_symbol(sym.IMPLEMENTS, yytext()); }
+
 // # CONSTANTS
 [0-9]+							{ return new_symbol(sym.INT, new Integer(yytext())); }
 "'"[ -~]"'"						{ return new_symbol(sym.CHAR, yytext().charAt(1)); }

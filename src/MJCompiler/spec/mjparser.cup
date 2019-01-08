@@ -89,6 +89,8 @@ terminal CONST, ENUM;
 terminal PRINT, READ;
 terminal RETURN, VOID;
 terminal NEW, NULL;
+terminal CLASS, INTERFACE;
+terminal EXTENDS, IMPLEMENTS;
 // Constants
 terminal Integer INT;
 terminal Character CHAR;
@@ -141,6 +143,12 @@ nonterminal											VarDecl;
 nonterminal											EnumDecl, EnumReg;
 nonterminal											EnumConstDeclList;
 nonterminal											EnumConstDecl, EnumOptValue;
+
+nonterminal											IList;
+nonterminal											MethodList, IMethodList;
+nonterminal											ClassDecl;
+nonterminal											ExtendsDecl, ImplementsDecl;
+nonterminal											InterfaceDecl;
 
 nonterminal											MethodDeclList;
 nonterminal											MethodDecl, MethodPrototype;
@@ -196,6 +204,10 @@ Section ::=
 	(VarSectionNode) VarSect
 	|
 	(EnumSectionNode) EnumDecl
+	|
+	(ClassSectionNode) ClassDecl
+	|
+	(InterfaceSectionNode) InterfaceDecl
 	;
 
 Type ::= (TypeNode) IDENT:typeName;
@@ -221,8 +233,15 @@ EnumConstDeclList ::= (EnumConstListNode) EnumConstDeclList COMMA EnumConstDecl 
 EnumConstDecl ::= (EnumConstDeclNode) IDENT:enumConstName EnumOptValue;
 EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsilon */;
 
-MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
+IList ::= (IListNode) IList COMMA Type | (INode) Type;
+MethodList ::= (MethodsNode) LBRACE MethodDeclList RBRACE | (NoMethodsNode) /* epsilon */;
+IMethodList ::= (IMethodsNode) IMethodList MethodPrototype SEMI | (IEmptyMethodsNode) /* epsilon */;
+ClassDecl ::= (ClassNode) CLASS IDENT:name ExtendsDecl ImplementsDecl LBRACE VarSectList MethodList RBRACE;
+ExtendsDecl ::= (ClassExtendsNode) EXTENDS Type | (ClassEmptyExtendsNode) /* epsilon */;
+ImplementsDecl ::= (ClassImplementsNode) IMPLEMENTS IList | (ClassEmptyImplementsNode) /* epsilon */;
+InterfaceDecl ::= (InterfaceNode) INTERFACE IDENT:name LBRACE IMethodList RBRACE;
 
+MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
 MethodDecl ::= (MethodNode) MethodPrototype VarSectList LBRACE StatementList RBRACE;
 MethodPrototype ::= (MethodPrototypeNode) MethodReg LPAREN Params RPAREN;
 MethodReg ::= (MethodDeclNode) MethodType IDENT:methodName;

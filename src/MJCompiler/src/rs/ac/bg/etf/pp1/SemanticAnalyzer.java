@@ -93,13 +93,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			}
 			else
 			{
-				report_error("Error: Name " + node.getTypeName() + " does not represent a type", node);
+				report_error("Error on line " + node.getLine() + ": name " + node.getTypeName() + " does not represent a type");
 				node.struct = Tab.noType;
 			}
 		}
 		else
 		{
-			report_error("Type \'" + node.getTypeName() + "\' has not been defined");
+			report_error("Error on line " + node.getLine() + ": type \'" + node.getTypeName() + "\' has not been defined");
 			node.struct = Tab.noType;
 		}
 	}
