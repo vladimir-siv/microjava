@@ -157,6 +157,7 @@ nonterminal rs.etf.pp1.symboltable.concepts.Obj		Designator;
 nonterminal											StatementList;
 nonterminal											Statement, DesignatorStatement;
 
+nonterminal											LParenCondition;
 nonterminal											IfCondition, Else;
 nonterminal											ForInit, ForCondition, ForStep;
 
@@ -252,7 +253,8 @@ DesignatorStatement ::=
 	(DecrementNode) Designator DEC
 	;
 
-IfCondition ::= (IfConditionNode) IF LPAREN Condition RPAREN;
+LParenCondition ::= (LParenConditionNode) LPAREN Condition | (ErrorLParenConditionNode) error:err {: parser.report_error("Additional syntax error info: invalid if statement", null); :};
+IfCondition ::= (IfConditionNode) IF LParenCondition RPAREN;
 Else ::= (ElseNode) ELSE;
 
 ForInit ::= (ForInitNode) DesignatorStatement | (EmptyForInitNode) /* epsilon */;

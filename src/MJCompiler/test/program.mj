@@ -59,6 +59,11 @@ program MJProgram
 		return (c - (2 + 2 * (1 + 1) / 2)) * b;
 	}
 
+	int sum(int b, int a)
+	{
+		return a + b;
+	}
+
 	void main()
 		int aa, bb;
 		char u; int e;
@@ -199,6 +204,11 @@ program MJProgram
 		// PRINT: ea
 		str[0] = 'e'; str[1] = 'a';
 		prints(str, false);
+
+		// PRINT: 5
+		z = 10;
+		print(sum(sum(3, z), sum(sum(X, z), Y)) - sum(sum(sum(6, z), 3), sum(Y, 1)));
+		print(eol);
 
 		// PRINT: 0123456789
 		for (i = 0; i < 10; i++) print(i);
