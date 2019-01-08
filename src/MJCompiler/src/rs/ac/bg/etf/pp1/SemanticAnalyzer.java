@@ -6,10 +6,7 @@ import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
-import rs.etf.pp1.symboltable.factory.SymbolTableFactory;
-import rs.etf.pp1.symboltable.structure.SymbolDataStructure;
 
-import java.util.Iterator;
 import java.util.Stack;
 
 public class SemanticAnalyzer extends VisitorAdaptor
@@ -147,21 +144,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		{
 			if (chain.obj.getType() == Extensions.enumType)
 			{
-				Obj enumConst = null;
-				
-				Iterator<Obj> i = chain.obj.getLocalSymbols().iterator();
-				
-				while (enumConst == null && i.hasNext())
-				{
-					Obj obj = i.next();
-					
-					if (obj.getName().equals(node.getChainedDesignatorName()))
-					{
-						enumConst = obj;
-					}
-				}
-				
-				if (enumConst != null) node.obj = enumConst;
+				Obj enumConst = Extensions.FindEnumConstant(chain.obj, node.getChainedDesignatorName());
+				if (enumConst != Tab.noObj) node.obj = enumConst;
 				else report_error("Error on line " + node.getLine() + ": enum \'" + chain.obj.getName() + "\' does not have a constant named \'" + node.getChainedDesignatorName() + "\'");
 			}
 			else report_error("Error on line " + node.getLine() + ": invalid use of dot operator [x02]");
@@ -244,29 +228,28 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	// ======= [S] ENUMS =======
 	
-	private SymbolDataStructure currentEnumConstants = null;
+	private Obj currentEnum = null;
 	private int currentValue = 0;
 	
 	public void visit(EnumDeclNode node)
 	{
-		currentEnumConstants = null;
+		currentEnum = null;
 		currentValue = 0;
 		
 		Obj declared = Tab.currentScope.findSymbol(node.getEnumName());
 		
 		if (declared == Tab.noObj || declared == null)
 		{
-			Obj enumObj = Tab.insert(Obj.Type, node.getEnumName(), Extensions.enumType);
-			currentEnumConstants = SymbolTableFactory.instance().createSymbolTableDataStructure();
-			enumObj.setLocals(currentEnumConstants);
+			currentEnum = Tab.insert(Obj.Type, node.getEnumName(), Extensions.enumType);
+			Tab.openScope();
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
 	public void visit(EnumConstDeclNode node)
 	{
-		if (currentEnumConstants == null) return;
+		if (currentEnum == null) return;
 		
-		if (currentEnumConstants.searchKey(node.getEnumConstName()) == null)
+		if (Tab.currentScope.findSymbol(node.getEnumConstName()) == null)
 		{
 			int constValue = 0;
 			
@@ -287,9 +270,14 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			else constValue = currentValue++;
 			
 			Obj enumConstObj = new Obj(Obj.Con, node.getEnumConstName(), Tab.intType, constValue, 1);
-			currentEnumConstants.insertKey(enumConstObj);
+			Tab.currentScope.addToLocals(enumConstObj);
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + node.getEnumConstName() + "\' has already been defined in this enumeration");
+	}
+	public void visit(EnumNode node)
+	{
+		Tab.chainLocalSymbols(currentEnum);
+		Tab.closeScope();
 	}
 	
 	// ======= [E] ENUMS =======

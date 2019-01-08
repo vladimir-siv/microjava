@@ -46,6 +46,22 @@ public class Extensions
 		else cnst.setAdr(0);
 	}
 	
+	public static Obj FindEnumConstant(Obj _enum, String constName)
+	{
+		Iterator<Obj> i = _enum.getLocalSymbols().iterator();
+		
+		while (i.hasNext())
+		{
+			Obj obj = i.next();
+			
+			if (obj.getName().equals(constName))
+			{
+				return obj;
+			}
+		}
+		
+		return Tab.noObj;
+	}
 	public static Obj FindMethodParameter(Obj method, int paramNo)
 	{
 		Iterator<Obj> i = method.getLocalSymbols().iterator();
