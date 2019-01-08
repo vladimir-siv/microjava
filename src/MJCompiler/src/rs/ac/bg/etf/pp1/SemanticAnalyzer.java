@@ -614,30 +614,24 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(PrintNode node)
 	{
-		if
-		(
-			node.getExpr().struct != Tab.intType
-			&&
-			node.getExpr().struct != Tab.charType
-			&&
-			node.getExpr().struct != Extensions.boolType
-			&&
-			node.getExpr().struct != Extensions.enumType
-		)
+		Struct objType = node.getExpr().struct;
+		
+		if (objType != Tab.intType && objType != Tab.charType && objType != Extensions.boolType && objType != Extensions.enumType)
 		{
 			report_error("Error on line " + node.getLine() + ": Operand of PRINT instruction has to be an int, char, bool or enum");
 		}
 	}
 	public void visit(ReadNode node)
 	{
-		if
-		(
-			node.getDesignator().obj.getType() != Tab.intType
-			&&
-			node.getDesignator().obj.getType() != Tab.charType
-			&&
-			node.getDesignator().obj.getType() != Extensions.boolType
-		)
+		int objKind = node.getDesignator().obj.getKind();
+		Struct objType = node.getDesignator().obj.getType();
+		
+		if (objKind != Obj.Var && objKind != Obj.Fld && objKind != Obj.Elem)
+		{
+			report_error("Error on line " + node.getLine() + ": READ can only be used on lvalues");
+		}
+		
+		if (objType != Tab.intType && objType != Tab.charType && objType != Extensions.boolType)
 		{
 			report_error("Error on line " + node.getLine() + ": Operand of READ instruction has to be an int, char or bool");
 		}
