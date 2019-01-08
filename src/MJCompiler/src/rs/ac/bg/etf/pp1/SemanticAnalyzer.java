@@ -431,9 +431,9 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		{
 			return calleeMethodContext.peek().argNo;
 		}
-		public static void incCurrentArgNo()
+		public static int incCurrentArgNo()
 		{
-			++calleeMethodContext.peek().argNo;
+			return ++calleeMethodContext.peek().argNo;
 		}
 		public static Obj endCall()
 		{
@@ -456,11 +456,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	public void visit(ArgDeclNode node)
 	{
 		Obj currentCalleeMethod = CalleeMethodContext.getCurrentCallee();
-		int argNo = CalleeMethodContext.getCurrentArgNo();
 		
 		if (currentCalleeMethod == null) return;
 		
-		CalleeMethodContext.incCurrentArgNo();
+		int argNo = CalleeMethodContext.incCurrentArgNo();
 		
 		Obj param = Extensions.FindMethodParameter(currentCalleeMethod, argNo);
 		

@@ -15,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.41782323">
+    <splitter split-orientation="horizontal" split-proportion="0.5671533">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="MJTest.java" pinned="false" current-in-tab="false">
@@ -30,11 +30,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SemanticAnalyzer.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="SemanticAnalyzer.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="223">
-                  <caret line="313" column="36" lean-forward="false" selection-start-line="313" selection-start-column="22" selection-end-line="313" selection-end-column="36" />
+                <state relative-caret-position="220">
+                  <caret line="407" column="4" lean-forward="false" selection-start-line="407" selection-start-column="4" selection-end-line="407" selection-end-column="4" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#getnVars#0;class#SemanticAnalyzer#0" expanded="false" />
@@ -57,7 +57,6 @@
                     <element signature="method#visit#19;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#20;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#21;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#22;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#23;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#24;class#SemanticAnalyzer#0" expanded="false" />
@@ -78,6 +77,16 @@
                     <element signature="method#visit#45;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#46;class#SemanticAnalyzer#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Struct.java" pinned="false" current-in-tab="false">
+            <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1241">
+                  <caret line="84" column="19" lean-forward="false" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -123,11 +132,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="program.mj" pinned="false" current-in-tab="false">
+          <file leaf-file-name="program.mj" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/program.mj">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="442">
-                  <caret line="26" column="9" lean-forward="false" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+                <state relative-caret-position="-1619">
+                  <caret line="138" column="14" lean-forward="false" selection-start-line="138" selection-start-column="8" selection-end-line="138" selection-end-column="14" />
                   <folding />
                 </state>
               </provider>
@@ -140,15 +149,15 @@
           <file leaf-file-name="mjparser.cup" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1741">
-                  <caret line="309" column="53" lean-forward="false" selection-start-line="309" selection-start-column="53" selection-end-line="309" selection-end-column="53" />
+                <state relative-caret-position="249">
+                  <caret line="230" column="66" lean-forward="false" selection-start-line="230" selection-start-column="66" selection-end-line="230" selection-end-column="66" />
                   <folding>
-                    <marker date="1546905181537" expanded="false" signature="189:1187" ph="{...}" />
-                    <marker date="1546905181537" expanded="true" signature="1203:1205" ph=" { " />
-                    <marker date="1546905181537" expanded="true" signature="1203:1228" ph="{...}" />
-                    <marker date="1546905181537" expanded="true" signature="1203:1404" ph="{...}" />
-                    <marker date="1546905181537" expanded="true" signature="1244:1404" ph="{...}" />
-                    <marker date="1546905181537" expanded="true" signature="1291:1391" ph="//..." />
+                    <marker date="1546908069618" expanded="false" signature="189:1187" ph="{...}" />
+                    <marker date="1546908069618" expanded="true" signature="1203:1205" ph=" { " />
+                    <marker date="1546908069618" expanded="true" signature="1203:1228" ph="{...}" />
+                    <marker date="1546908069618" expanded="true" signature="1203:1404" ph="{...}" />
+                    <marker date="1546908069618" expanded="true" signature="1244:1404" ph="{...}" />
+                    <marker date="1546908069618" expanded="true" signature="1291:1391" ph="//..." />
                   </folding>
                 </state>
               </provider>
@@ -196,9 +205,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>in this enume</find>
-      <find>print</find>
-      <find>Extensions.enumType</find>
       <find>new Obj</find>
       <find>setLevel</find>
       <find>.level</find>
@@ -226,6 +232,9 @@
       <find>Syntax error</find>
       <find>Ass</find>
       <find>DesignatorStatement</find>
+      <find>MethodDeclNode</find>
+      <find>can be assigned to the method parameter</find>
+      <find>print2</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -259,9 +268,9 @@
         <option value="$PROJECT_DIR$/test/program.asm" />
         <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/MJParser.java" />
         <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" />
-        <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" />
         <option value="$PROJECT_DIR$/test/program.mj" />
         <option value="$PROJECT_DIR$/spec/mjparser.cup" />
+        <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" />
       </list>
     </option>
   </component>
@@ -271,7 +280,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="928" />
     <option name="y" value="40" />
     <option name="width" value="977" />
@@ -588,12 +597,12 @@
       <workItem from="1546781375163" duration="38163000" />
       <workItem from="1546869522349" duration="72000" />
       <workItem from="1546869676419" duration="110000" />
-      <workItem from="1546881107665" duration="21837000" />
+      <workItem from="1546881107665" duration="24694000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="218035000" />
+    <option name="totallyTimeSpent" value="220892000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -605,20 +614,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25326088" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29782608" sideWeight="0.46375266" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29782608" sideWeight="0.4402985" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18804348" sideWeight="0.37526652" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20108695" sideWeight="0.52025586" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4914712" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18804348" sideWeight="0.62473345" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19891304" sideWeight="0.48400852" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18804348" sideWeight="0.5954158" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20108695" sideWeight="0.47974414" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19989339" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -626,11 +634,11 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.4936034" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07036247" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06982943" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.48933902" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.48720682" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -646,7 +654,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="41" />
+      <option name="time" value="44" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -950,17 +958,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="84" column="19" lean-forward="false" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
-          <folding>
-            <element signature="e#1815#1816#0" expanded="false" />
-            <element signature="e#1859#1860#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/MJParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="407">
@@ -1043,33 +1040,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/program.mj">
+    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="9" lean-forward="false" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+        <state relative-caret-position="1241">
+          <caret line="84" column="19" lean-forward="false" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1741">
-          <caret line="309" column="53" lean-forward="false" selection-start-line="309" selection-start-column="53" selection-end-line="309" selection-end-column="53" />
+        <state relative-caret-position="249">
+          <caret line="230" column="66" lean-forward="false" selection-start-line="230" selection-start-column="66" selection-end-line="230" selection-end-column="66" />
           <folding>
-            <marker date="1546905181537" expanded="false" signature="189:1187" ph="{...}" />
-            <marker date="1546905181537" expanded="true" signature="1203:1205" ph=" { " />
-            <marker date="1546905181537" expanded="true" signature="1203:1228" ph="{...}" />
-            <marker date="1546905181537" expanded="true" signature="1203:1404" ph="{...}" />
-            <marker date="1546905181537" expanded="true" signature="1244:1404" ph="{...}" />
-            <marker date="1546905181537" expanded="true" signature="1291:1391" ph="//..." />
+            <marker date="1546908069618" expanded="false" signature="189:1187" ph="{...}" />
+            <marker date="1546908069618" expanded="true" signature="1203:1205" ph=" { " />
+            <marker date="1546908069618" expanded="true" signature="1203:1228" ph="{...}" />
+            <marker date="1546908069618" expanded="true" signature="1203:1404" ph="{...}" />
+            <marker date="1546908069618" expanded="true" signature="1244:1404" ph="{...}" />
+            <marker date="1546908069618" expanded="true" signature="1291:1391" ph="//..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="313" column="36" lean-forward="false" selection-start-line="313" selection-start-column="22" selection-end-line="313" selection-end-column="36" />
+        <state relative-caret-position="220">
+          <caret line="407" column="4" lean-forward="false" selection-start-line="407" selection-start-column="4" selection-end-line="407" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getnVars#0;class#SemanticAnalyzer#0" expanded="false" />
@@ -1092,7 +1089,6 @@
             <element signature="method#visit#19;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#20;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#21;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#22;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#23;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#24;class#SemanticAnalyzer#0" expanded="false" />
@@ -1113,6 +1109,14 @@
             <element signature="method#visit#45;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#46;class#SemanticAnalyzer#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/program.mj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1619">
+          <caret line="138" column="14" lean-forward="false" selection-start-line="138" selection-start-column="8" selection-end-line="138" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>

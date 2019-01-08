@@ -209,10 +209,10 @@ ConstDeclList ::= (ConstListNode) ConstDeclList COMMA ConstDecl | (ConstNode) Co
 ConstDecl ::= (ConstDeclNode) IDENT:constName EQUAL ConstValue:value;
 
 VarSectList ::= (VarSectListNode) VarSectList VarSect | (EmptyVarSectListNode) /* epsilon */;
-VarSect ::= (VarSectNode) VarSectDecl VarDeclList SEMI | (ErrorVarSectNode) error:err SEMI {: parser.report_error("Additional syntax error info: invalid variable name", null); :};
+VarSect ::= (VarSectNode) VarSectDecl VarDeclList SEMI | (ErrorVarSectNode) error:err SEMI {: parser.report_error("Additional syntax error info: invalid variable declaration specification", null); :};
 VarSectDecl ::= (VarSectDeclNode) Type:varType;
 VarDeclList ::= (VarListNode) VarDeclList COMMA VarDecl | (VarNode) VarDecl;
-VarDecl ::= (VarDeclNode) IDENT:varName ArrayType | (ErrorVarDeclNode) error:err {: parser.report_error("Additional syntax error info: invalid variable name", null); :};
+VarDecl ::= (VarDeclNode) IDENT:varName ArrayType | (ErrorVarDeclNode) error:err {: parser.report_error("Additional syntax error info: invalid variable declaration specification", null); :};
 
 EnumDecl ::= (EnumNode) EnumReg LBRACE EnumConstDeclList RBRACE;
 EnumReg ::= (EnumDeclNode) ENUM IDENT:enumName;
@@ -221,13 +221,14 @@ EnumConstDecl ::= (EnumConstDeclNode) IDENT:enumConstName EnumOptValue;
 EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsilon */;
 
 MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
+
 MethodDecl ::= (MethodNode) MethodReg LPAREN Params RPAREN VarSectList LBRACE StatementList RBRACE;
 MethodReg ::= (MethodDeclNode) MethodType IDENT:methodName;
 MethodType ::= (TypedMethodNode) Type:retType | (VoidMethodNode) VOID;
 
 Params ::= (ParamsNode) ParamList | (EmptyParamsNode) /* epsilon */;
 ParamList ::= (ParamListNode) ParamList COMMA Param | (ParamNode) Param;
-Param ::= (ParamDeclNode) Type:paramType IDENT:paramName ArrayType | (ErrorParamDeclNode) error:err;
+Param ::= (ParamDeclNode) Type:paramType IDENT:paramName ArrayType | (ErrorParamDeclNode) error:err {: parser.report_error("Additional syntax error info: invalid parameter specification", null); :};
 
 Args ::= (ArgsNode) ArgList | (EmptyArgsNode) /* epsilon */;
 ArgList ::= (ArgListNode) ArgList COMMA Arg | (ArgNode) Arg;
@@ -305,6 +306,8 @@ Factor ::=
 	(NullNode) NULL
 	|
 	(PriorityFactorNode) LPAREN Expr RPAREN
+	|
+	(ErrorFactorNode) error:err {: parser.report_error("Additional syntax error info: expression is not valid", null); :}
 	;
 
 FuncCall ::= (FuncCallNode) Callee LPAREN Args RPAREN;
