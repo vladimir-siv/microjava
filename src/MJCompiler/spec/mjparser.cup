@@ -143,7 +143,7 @@ nonterminal											EnumConstDeclList;
 nonterminal											EnumConstDecl, EnumOptValue;
 
 nonterminal											MethodDeclList;
-nonterminal											MethodDecl;
+nonterminal											MethodDecl, MethodPrototype;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj		MethodReg;
 nonterminal	rs.etf.pp1.symboltable.concepts.Struct	MethodType;
 
@@ -223,7 +223,8 @@ EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsil
 
 MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
 
-MethodDecl ::= (MethodNode) MethodReg LPAREN Params RPAREN VarSectList LBRACE StatementList RBRACE;
+MethodDecl ::= (MethodNode) MethodPrototype VarSectList LBRACE StatementList RBRACE;
+MethodPrototype ::= (MethodPrototypeNode) MethodReg LPAREN Params RPAREN;
 MethodReg ::= (MethodDeclNode) MethodType IDENT:methodName;
 MethodType ::= (TypedMethodNode) Type:retType | (VoidMethodNode) VOID;
 

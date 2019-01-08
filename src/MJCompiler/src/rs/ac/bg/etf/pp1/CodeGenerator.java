@@ -71,7 +71,7 @@ public class CodeGenerator extends VisitorAdaptor
 		node.obj.setAdr(Code.pc);
 		
 		// Collect arguments and local variables
-		SyntaxNode methodNode = node.getParent();
+		SyntaxNode methodNode = node.getParent().getParent();
 		
 		CounterVisitor counter = new CounterVisitor();
 		methodNode.traverseTopDown(counter);
