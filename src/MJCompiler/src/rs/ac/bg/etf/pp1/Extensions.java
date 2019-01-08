@@ -66,6 +66,15 @@ public class Extensions
 	{
 		Iterator<Obj> i = method.getLocalSymbols().iterator();
 		
+		if
+		(
+			method.getName().equals("chr")
+			||
+			method.getName().equals("ord")
+			||
+			method.getName().equals("len")
+		) return i.next();
+		
 		while (i.hasNext())
 		{
 			Obj obj = i.next();

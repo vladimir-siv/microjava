@@ -64,6 +64,18 @@ program MJProgram
 		return a + b;
 	}
 
+	bool isEqual(int v1, int v2)
+	{
+		if (v1 == v2) return true;
+		return false;
+	}
+
+	int increment(int x)
+	{
+		x++;
+		return x;
+	}
+
 	void main()
 		int aa, bb;
 		char u; int e;
@@ -258,6 +270,25 @@ program MJProgram
 
 			print(i);
 			i++;
+		}
+		print(eol);
+
+		// PRINT: 10 -> [CHARACTER[i] + 1] [INT[i] + 1]
+		str = new char[10];
+		arr = new int[10];
+		for (i = 0; isEqual(i, 7) == false; i = increment(i))
+		{
+			read(arr[i]);
+			arr[i]++;
+			str[i] = chr(arr[i]);
+		}
+		print(len(str)); print(' '); print('-'); print('>');
+		for (i = 0; isEqual(i, 7) != true; )
+		{
+			print(' ');
+			print(str[i]);
+			print(ord(str[i]));
+			i = increment(i);
 		}
 		print(eol);
 

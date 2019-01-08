@@ -483,6 +483,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(AssignmentNode node)
 	{
+		int objKind = node.getDesignator().obj.getKind();
+		
+		if (objKind != Obj.Var && objKind != Obj.Fld && objKind != Obj.Elem)
+		{
+			report_error("Error on line " + node.getLine() + ": assignment can only be used on lvalues");
+		}
+		
 		if (!node.getExpr().struct.assignableTo(node.getDesignator().obj.getType()))
 		{
 			report_error("Error on line " + node.getLine() + ": cannot do the assignment due to incompatible types");
@@ -490,6 +497,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(IncrementNode node)
 	{
+		int objKind = node.getDesignator().obj.getKind();
+		
+		if (objKind != Obj.Var && objKind != Obj.Fld && objKind != Obj.Elem)
+		{
+			report_error("Error on line " + node.getLine() + ": increment can only be used on lvalues");
+		}
+		
 		if (node.getDesignator().obj.getType() != Tab.intType)
 		{
 			report_error("Error on line " + node.getLine() + ": increment can only be applied on int");
@@ -497,6 +511,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(DecrementNode node)
 	{
+		int objKind = node.getDesignator().obj.getKind();
+		
+		if (objKind != Obj.Var && objKind != Obj.Fld && objKind != Obj.Elem)
+		{
+			report_error("Error on line " + node.getLine() + ": decrement can only be used on lvalues");
+		}
+		
 		if (node.getDesignator().obj.getType() != Tab.intType)
 		{
 			report_error("Error on line " + node.getLine() + ": decrement can only be applied on int");

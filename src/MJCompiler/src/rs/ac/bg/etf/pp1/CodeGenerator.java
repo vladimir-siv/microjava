@@ -21,48 +21,25 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	// ======= [S] PERMA LEAVES =======
 	
-	public void visit(DesignatorNode node)
+	public void visit(Designator node)
 	{
 		SyntaxNode parent = node.getParent();
 		if
 		(
-			parent instanceof AssignmentNode
+			parent instanceof DesignatorStatement
+			||
+			parent instanceof ReadNode
 			||
 			parent instanceof CalleeNode
 			||
-			node.obj.getType() == Extensions.enumType
+			node.obj.getType() == Extensions.enumType	// only should be able to happen with DesignatorNode
 		) return;
 		
 		Code.load(node.obj);
 	}
-	public void visit(DesignatorIndexingNode node)
-	{
-		SyntaxNode parent = node.getParent();
-		if
-		(
-			parent instanceof AssignmentNode
-			||
-			parent instanceof CalleeNode				// this should not be able to happen
-			||
-			node.obj.getType() == Extensions.enumType	// this should not be able to happen
-		) return;
-		
-		Code.load(node.obj);
-	}
-	public void visit(DesignatorChainNode node)
-	{
-		SyntaxNode parent = node.getParent();
-		if
-		(
-			parent instanceof AssignmentNode
-			||
-			parent instanceof CalleeNode
-			||
-			node.obj.getType() == Extensions.enumType	// this should not be able to happen
-		) return;
-		
-		Code.load(node.obj);
-	}
+	public void visit(DesignatorNode node) { visit((Designator)node); }
+	public void visit(DesignatorIndexingNode node) { visit((Designator)node); }
+	public void visit(DesignatorChainNode node) { visit((Designator)node); }
 	
 	// ======= [E] PERMA LEAVES =======
 	
@@ -133,12 +110,16 @@ public class CodeGenerator extends VisitorAdaptor
 	}
 	public void visit(IncrementNode node)
 	{
+		if (node.getDesignator() instanceof DesignatorIndexingNode) Code.put(Code.dup2);
+		Code.load(node.getDesignator().obj);
 		Code.loadConst(1);
 		Code.put(Code.add);
 		Code.store(node.getDesignator().obj);
 	}
 	public void visit(DecrementNode node)
 	{
+		if (node.getDesignator() instanceof DesignatorIndexingNode) Code.put(Code.dup2);
+		Code.load(node.getDesignator().obj);
 		Code.loadConst(1);
 		Code.put(Code.sub);
 		Code.store(node.getDesignator().obj);
@@ -394,9 +375,22 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(FuncCallNode node)
 	{
 		Obj functionObj = ((CalleeNode)node.getCallee()).getDesignator().obj;
-		int offset = functionObj.getAdr() - Code.pc;
-		Code.put(Code.call);
-		Code.put2(offset);
+		
+		if
+		(
+			!functionObj.getName().equals("chr")
+			&&
+			!functionObj.getName().equals("ord")
+		)
+		{
+			if (!functionObj.getName().equals("len"))
+			{
+				int offset = functionObj.getAdr() - Code.pc;
+				Code.put(Code.call);
+				Code.put2(offset);
+			}
+			else Code.put(Code.arraylength);
+		}
 		
 		if (node.getParent() instanceof CallNode)
 		{
