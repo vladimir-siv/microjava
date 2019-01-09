@@ -144,7 +144,7 @@ nonterminal											EnumDecl, EnumReg;
 nonterminal											EnumConstDeclList;
 nonterminal											EnumConstDecl, EnumOptValue;
 
-nonterminal											IList, IMethodList;
+nonterminal											IList, IMethodList, InterfaceType;
 nonterminal											FieldSectList, FieldSect;
 nonterminal											ClassDecl, ClassReg, ClassBody;
 nonterminal											ExtendsDecl, ImplementsDecl;
@@ -233,7 +233,8 @@ EnumConstDeclList ::= (EnumConstListNode) EnumConstDeclList COMMA EnumConstDecl 
 EnumConstDecl ::= (EnumConstDeclNode) IDENT:enumConstName EnumOptValue;
 EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsilon */;
 
-IList ::= (IListNode) IList COMMA Type | (INode) Type;
+IList ::= (IListNode) IList COMMA InterfaceType | (INode) InterfaceType;
+InterfaceType ::= (InterfaceImplementationNode) Type;
 IMethodList ::= (IMethodsNode) IMethodList MethodPrototype SEMI | (IEmptyMethodsNode) /* epsilon */;
 
 FieldSectList ::= (FieldSectListNode) FieldSectList FieldSect | (EmptyFieldSectListNode) /* epsilon */ | (ErrorFieldSectListNode) error:err;

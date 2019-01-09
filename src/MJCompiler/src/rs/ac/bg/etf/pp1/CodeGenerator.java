@@ -41,7 +41,8 @@ public class CodeGenerator extends VisitorAdaptor
 	{
 		if (node.obj.getKind() == Obj.Fld)
 		{
-			Code.load(Tab.find("this"));
+			// implicit this
+			Code.put(Code.load_n);
 		}
 		
 		visit((Designator)node);

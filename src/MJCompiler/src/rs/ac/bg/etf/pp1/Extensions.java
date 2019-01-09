@@ -118,6 +118,22 @@ public class Extensions
 		
 		return Tab.noObj;
 	}
+	public static Obj FindClassField(Struct _class, int field)
+	{
+		Iterator<Obj> i = _class.getMembers().symbols().iterator();
+		
+		while (i.hasNext())
+		{
+			Obj obj = i.next();
+			
+			if (obj.getKind() == Obj.Fld && obj.getAdr() == field)
+			{
+				return obj;
+			}
+		}
+		
+		return Tab.noObj;
+	}
 	
 	private static java.lang.reflect.Field numOfFields = null;
 }

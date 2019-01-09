@@ -8,13 +8,21 @@ class A
 	}
 }
 
+class B extends A
+{
+	{
+		int y() { return this.k * k; }
+	}
+}
+
 {
 	int x() { return 2; }
 	void func2() { }
 
-	void main() A a; int k;
+	void main() A a; B b; int k;
 	{
 		a = new A;
+		b = new B;
 
 		// PRINT: 6778
 		read(a.k);		// a.k = 5
@@ -30,5 +38,15 @@ class A
 		// PRINT: 25
 		k = 6 + a.x();
 		print(k);
+		print(eol);
+
+		// PRINT: 21
+		b.k = 6;
+		print(b.x() + b.k);
+		print(eol);
+
+		// PRINT: 36
+		print(b.y());
+		print(eol);
 	}
 }

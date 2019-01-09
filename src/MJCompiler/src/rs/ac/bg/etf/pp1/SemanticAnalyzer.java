@@ -7,6 +7,7 @@ import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 public class SemanticAnalyzer extends VisitorAdaptor
@@ -364,6 +365,59 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 		
 		openScope(Obj.Fld);	// interfaces actually can't have fields, so var kind is ignored
+	}
+	
+	public void visit(ClassExtendsNode node)
+	{
+		Struct extendType = node.getType().struct;
+		
+		if (currentClass.getType() != extendType)
+		{
+			if (extendType.getKind() == Struct.Class)
+			{
+				int fields = extendType.getNumberOfFields();
+				
+				if (fields >= 0)
+				{
+					// ONLY LOCAL SYMBOL, IT IS NOT A DECLARATION/CREATION OF A TYPE !!!
+					// Also it is necessary to put any symbol in current scope, so that method inheritance will be possible
+					// (check the code below, it wouldn't be possible to do that if nothing was inserted in the tab, because in that case, SymbolDataStructure references would not be set - Struct members are invalid - getMembers() would return new HashTable() which will be lost upon next chaining)
+					Tab.insert(Obj.Type, "$extends", extendType);
+					// refresh to put the reference to the SymbolDataStructure inside the Struct
+					Tab.chainLocalSymbols(currentClass.getType());
+					
+					for (int i = 0; i < fields; ++i)
+					{
+						Obj fld = Extensions.FindClassField(extendType, i);
+						
+						if (fld != Tab.noObj)
+						{
+							// Inherit the field
+							Tab.insert(fld.getKind(), fld.getName(), fld.getType());
+						}
+						else report_error("Fatal error on line " + node.getLine() + ": could not inherit field \'" + fld.getName() + "\'");
+					}
+					
+					for (Iterator<Obj> i = extendType.getMembers().symbols().iterator(); i.hasNext(); )
+					{
+						Obj obj = i.next();
+						
+						if (obj.getKind() == Obj.Meth)
+						{
+							// Inherit the method
+							currentClass.getType().getMembers().insertKey(obj);
+						}
+					}
+				}
+				else report_error("Error on line " + node.getLine() + ": a class cannot extend an interface; did you mean to implement int?");
+			}
+			else report_error("Error on line " + node.getLine() + ": class type expected after extends keyword");
+		}
+		else report_error("Error on line " + node.getLine() + ": a class cannot extend itself");
+	}
+	public void visit(InterfaceImplementationNode node)
+	{
+	
 	}
 	
 	public void visit(ClassNode node)
