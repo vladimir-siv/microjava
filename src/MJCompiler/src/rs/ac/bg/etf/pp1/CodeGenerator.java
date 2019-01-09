@@ -32,14 +32,20 @@ public class CodeGenerator extends VisitorAdaptor
 			||
 			parent instanceof CalleeNode
 			||
-			parent.getParent() instanceof CalleeNode
-			||
 			node.obj.getType() == Extensions.enumType	// only should be able to happen with DesignatorNode
 		) return;
 		
 		Code.load(node.obj);
 	}
-	public void visit(DesignatorNode node) { visit((Designator)node); }
+	public void visit(DesignatorNode node)
+	{
+		if (node.obj.getKind() == Obj.Fld)
+		{
+			Code.load(Tab.find("this"));
+		}
+		
+		visit((Designator)node);
+	}
 	public void visit(DesignatorIndexingNode node) { visit((Designator)node); }
 	public void visit(DesignatorChainNode node) { visit((Designator)node); }
 	
@@ -61,6 +67,29 @@ public class CodeGenerator extends VisitorAdaptor
 	// ======= [E] CONSTANTS =======
 	
 	
+	// ======= [S] CLASSES =======
+	
+	private int thisParam = 0;
+	public void visit(ClassDeclNode node)
+	{
+		thisParam = 1;
+	}
+	public void visit(InterfaceDeclNode node)
+	{
+		thisParam = 1;
+	}
+	public void visit(ClassNode node)
+	{
+		thisParam = 0;
+	}
+	public void visit(InterfaceNode node)
+	{
+		thisParam = 0;
+	}
+	
+	// ======= [E] CLASSES =======
+	
+	
 	// ======= [S] METHODS =======
 	
 	public void visit(MethodDeclNode node)
@@ -80,8 +109,8 @@ public class CodeGenerator extends VisitorAdaptor
 		
 		// Generate method entry (enter instruction)
 		Code.put(Code.enter);
-		Code.put(counter.getParamCount());
-		Code.put(counter.getParamCount() + counter.getVarCount());
+		Code.put(thisParam + counter.getParamCount());
+		Code.put(thisParam + counter.getParamCount() + counter.getVarCount());
 	}
 	public void visit(ReturnExprNode node)
 	{

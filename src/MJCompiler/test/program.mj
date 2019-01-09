@@ -4,7 +4,7 @@ class A
 {
 	int k;
 	{
-		int x() { return 3; }
+		int x() { return 3 + k + this.k; }
 	}
 }
 
@@ -27,7 +27,7 @@ class A
 		print(a.k);		// 8
 		print(eol);
 
-		// PRINT: 9
+		// PRINT: 25
 		k = 6 + a.x();
 		print(k);
 	}

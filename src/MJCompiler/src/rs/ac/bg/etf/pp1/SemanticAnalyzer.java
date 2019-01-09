@@ -370,11 +370,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		if (currentClass != null) Tab.chainLocalSymbols(currentClass.getType());
 		closeScope();
+		currentClass = null;
 	}
 	public void visit(InterfaceNode node)
 	{
 		if (currentClass != null) Tab.chainLocalSymbols(currentClass.getType());
 		closeScope();
+		currentClass = null;
 	}
 	
 	// ======= [E] CLASSES =======
@@ -398,7 +400,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(MethodDeclNode node)
 	{
-		if (node.getMethodName().equals("main"))
+		if (currentClass == null && node.getMethodName().equals("main"))
 		{
 			mainFound = true;
 			if (node.getMethodType().struct != Tab.noType)
@@ -419,11 +421,21 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			node.obj = Tab.noObj;
 		}
 		
+		if (currentClass != null)
+		{
+			Tab.chainLocalSymbols(currentClass.getType()); // refresh symbols - find another way to do this peacefully
+		}
+		
 		paramNo = 0;
 		openScope(Obj.Var);
 		currentMethod = node.obj;
 		
 		IfContext.beginMethod();
+		
+		if (currentClass != null)
+		{
+			Tab.insert(Obj.Var, "this", currentClass.getType());
+		}
 	}
 	public void visit(ParamDeclNode node)
 	{

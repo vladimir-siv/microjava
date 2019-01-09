@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2e09c88f-2461-43df-9820-1674b81449c9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/spec/mjparser.cup" afterPath="$PROJECT_DIR$/spec/mjparser.cup" />
       <change beforePath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" afterPath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" />
       <change beforePath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" afterPath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" />
       <change beforePath="$PROJECT_DIR$/test/program.mj" afterPath="$PROJECT_DIR$/test/program.mj" />
@@ -17,13 +16,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.49713877">
+    <splitter split-orientation="horizontal" split-proportion="0.5693848">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="MJTest.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/rs/ac/bg/etf/pp1/MJTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="267">
+                <state relative-caret-position="299">
                   <caret line="66" column="16" lean-forward="false" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -35,8 +34,8 @@
           <file leaf-file-name="SemanticAnalyzer.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="142">
-                  <caret line="497" column="4" lean-forward="false" selection-start-line="497" selection-start-column="4" selection-end-line="497" selection-end-column="4" />
+                <state relative-caret-position="258">
+                  <caret line="427" column="8" lean-forward="true" selection-start-line="427" selection-start-column="8" selection-end-line="427" selection-end-column="8" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#passed#0;class#SemanticAnalyzer#0" expanded="false" />
@@ -62,15 +61,14 @@
                     <element signature="method#visit#18;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#19;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#isMainFound#0;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="method#visit#22;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#23;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#25;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#26;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#27;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#CalleeMethodContext#0;class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#14090#14091#0" expanded="true" />
-                    <element signature="e#14138#14139#0" expanded="true" />
+                    <element signature="e#14404#14405#0" expanded="true" />
+                    <element signature="e#14452#14453#0" expanded="true" />
                     <element signature="method#visit#28;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#29;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#30;class#SemanticAnalyzer#0" expanded="false" />
@@ -106,46 +104,52 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="Tab.java" pinned="false" current-in-tab="false">
+            <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/Tab.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="214">
+                  <caret line="82" column="26" lean-forward="false" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="26" />
+                  <folding>
+                    <element signature="e#2527#2528#0" expanded="true" />
+                    <element signature="e#2581#2582#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="850">
-                  <caret line="103" column="4" lean-forward="true" selection-start-line="103" selection-start-column="4" selection-end-line="103" selection-end-column="4" />
+                <state relative-caret-position="517">
+                  <caret line="43" column="39" lean-forward="true" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="method#visit#0;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#4;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#5;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#6;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#7;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#8;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#9;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#10;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#11;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#12;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#13;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#14;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#15;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#16;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#17;class#CodeGenerator#0" expanded="false" />
                     <element signature="class#ForContext#0;class#CodeGenerator#0" expanded="false" />
-                    <element signature="e#3985#3986#0" expanded="true" />
-                    <element signature="e#4020#4021#0" expanded="true" />
-                    <element signature="e#4519#4520#0" expanded="true" />
-                    <element signature="e#4560#4561#0" expanded="true" />
-                    <element signature="method#visit#21;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#24;class#CodeGenerator#0" expanded="false" />
+                    <element signature="e#4391#4392#0" expanded="true" />
+                    <element signature="e#4426#4427#0" expanded="true" />
                     <element signature="method#visit#25;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#26;class#CodeGenerator#0" expanded="false" />
-                    <element signature="method#visit#27;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#28;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#29;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#30;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#31;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#32;class#CodeGenerator#0" expanded="false" />
-                    <element signature="e#7747#7748#0" expanded="true" />
-                    <element signature="e#7821#7822#0" expanded="true" />
+                    <element signature="method#visit#33;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#34;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#35;class#CodeGenerator#0" expanded="false" />
                     <element signature="method#visit#36;class#CodeGenerator#0" expanded="false" />
-                    <element signature="e#8645#8646#0" expanded="true" />
-                    <element signature="e#8669#8670#0" expanded="true" />
                     <element signature="method#visit#38;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#39;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#40;class#CodeGenerator#0" expanded="false" />
+                    <element signature="method#visit#42;class#CodeGenerator#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -154,8 +158,18 @@
           <file leaf-file-name="program.mj" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/program.mj">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="578">
-                  <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+                <state relative-caret-position="493">
+                  <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Struct.java" pinned="false" current-in-tab="false">
+            <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="197">
+                  <caret line="32" column="16" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -165,11 +179,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="mjparser.cup" pinned="false" current-in-tab="false">
+          <file leaf-file-name="mjparser.cup" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="332">
-                  <caret line="153" column="12" lean-forward="false" selection-start-line="153" selection-start-column="12" selection-end-line="153" selection-end-column="47" />
+                <state relative-caret-position="190">
+                  <caret line="244" column="0" lean-forward="false" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
                   <folding>
                     <marker date="1547004885491" expanded="true" signature="189:1187" ph="{...}" />
                     <marker date="1547004885491" expanded="true" signature="1203:1205" ph=" { " />
@@ -201,11 +215,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="program.asm" pinned="false" current-in-tab="true">
+          <file leaf-file-name="program.asm" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/program.asm">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="475">
-                  <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+                <state relative-caret-position="71">
+                  <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -224,9 +238,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Syntax error</find>
-      <find>Ass</find>
-      <find>MethodDeclNode</find>
       <find>can be assigned to the method parameter</find>
       <find>print2</find>
       <find>Iterator</find>
@@ -254,6 +265,9 @@
       <find>DesignatorNode</find>
       <find>MethodNode node</find>
       <find>Designator</find>
+      <find>param</find>
+      <find>this</find>
+      <find>neither</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -285,10 +299,10 @@
         <option value="$PROJECT_DIR$/spec/mjlexer.flex" />
         <option value="$PROJECT_DIR$/test/rs/ac/bg/etf/pp1/MJTest.java" />
         <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/Extensions.java" />
-        <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/spec/mjparser.cup" />
         <option value="$PROJECT_DIR$/test/program.asm" />
+        <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/test/program.mj" />
       </list>
     </option>
@@ -625,12 +639,12 @@
       <workItem from="1546869522349" duration="72000" />
       <workItem from="1546869676419" duration="110000" />
       <workItem from="1546881107665" duration="38340000" />
-      <workItem from="1546950128577" duration="51001000" />
+      <workItem from="1546950128577" duration="54091000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285539000" />
+    <option name="totallyTimeSpent" value="288629000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -651,11 +665,11 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17934783" sideWeight="0.45575693" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17934783" sideWeight="0.4706823" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4914712" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26630434" sideWeight="0.5143923" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17934783" sideWeight="0.5442431" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26630434" sideWeight="0.49520257" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17934783" sideWeight="0.5293177" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17750533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -667,7 +681,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.48294243" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.47867805" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -683,7 +697,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="63" />
+      <option name="time" value="65" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1019,22 +1033,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="30" column="39" lean-forward="false" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/Tab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-37">
-          <caret line="110" column="78" lean-forward="false" selection-start-line="110" selection-start-column="50" selection-end-line="110" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Scope.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1042,24 +1040,6 @@
           <folding>
             <element signature="e#959#960#0" expanded="false" />
             <element signature="e#1024#1025#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Obj.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/rs/ac/bg/etf/pp1/MJTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="66" column="16" lean-forward="false" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1089,10 +1069,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Obj.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/program.asm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="244" column="0" lean-forward="false" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
+          <folding>
+            <marker date="1547004885491" expanded="true" signature="189:1187" ph="{...}" />
+            <marker date="1547004885491" expanded="true" signature="1203:1205" ph=" { " />
+            <marker date="1547004885491" expanded="true" signature="1203:1228" ph="{...}" />
+            <marker date="1547004885491" expanded="true" signature="1203:1404" ph="{...}" />
+            <marker date="1547004885491" expanded="true" signature="1244:1404" ph="{...}" />
+            <marker date="1547004885491" expanded="true" signature="1291:1391" ph="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="32" column="16" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/Tab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="82" column="26" lean-forward="false" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="26" />
+          <folding>
+            <element signature="e#2527#2528#0" expanded="true" />
+            <element signature="e#2581#2582#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="497" column="4" lean-forward="false" selection-start-line="497" selection-start-column="4" selection-end-line="497" selection-end-column="4" />
+        <state relative-caret-position="258">
+          <caret line="427" column="8" lean-forward="true" selection-start-line="427" selection-start-column="8" selection-end-line="427" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#passed#0;class#SemanticAnalyzer#0" expanded="false" />
@@ -1118,15 +1148,14 @@
             <element signature="method#visit#18;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#19;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#isMainFound#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#22;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#23;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#25;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#26;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#27;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#CalleeMethodContext#0;class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#14090#14091#0" expanded="true" />
-            <element signature="e#14138#14139#0" expanded="true" />
+            <element signature="e#14404#14405#0" expanded="true" />
+            <element signature="e#14452#14453#0" expanded="true" />
             <element signature="method#visit#28;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#29;class#SemanticAnalyzer#0" expanded="false" />
             <element signature="method#visit#30;class#SemanticAnalyzer#0" expanded="false" />
@@ -1161,76 +1190,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
+    <entry file="file://$PROJECT_DIR$/test/rs/ac/bg/etf/pp1/MJTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="153" column="12" lean-forward="false" selection-start-line="153" selection-start-column="12" selection-end-line="153" selection-end-column="47" />
+        <state relative-caret-position="299">
+          <caret line="66" column="16" lean-forward="false" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
           <folding>
-            <marker date="1547004885491" expanded="true" signature="189:1187" ph="{...}" />
-            <marker date="1547004885491" expanded="true" signature="1203:1205" ph=" { " />
-            <marker date="1547004885491" expanded="true" signature="1203:1228" ph="{...}" />
-            <marker date="1547004885491" expanded="true" signature="1203:1404" ph="{...}" />
-            <marker date="1547004885491" expanded="true" signature="1244:1404" ph="{...}" />
-            <marker date="1547004885491" expanded="true" signature="1291:1391" ph="//..." />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="103" column="4" lean-forward="true" selection-start-line="103" selection-start-column="4" selection-end-line="103" selection-end-column="4" />
+        <state relative-caret-position="517">
+          <caret line="43" column="39" lean-forward="true" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#visit#0;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#4;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#5;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#6;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#7;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#8;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#9;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#10;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#11;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#12;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#13;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#14;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#15;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#16;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#17;class#CodeGenerator#0" expanded="false" />
             <element signature="class#ForContext#0;class#CodeGenerator#0" expanded="false" />
-            <element signature="e#3985#3986#0" expanded="true" />
-            <element signature="e#4020#4021#0" expanded="true" />
-            <element signature="e#4519#4520#0" expanded="true" />
-            <element signature="e#4560#4561#0" expanded="true" />
-            <element signature="method#visit#21;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#24;class#CodeGenerator#0" expanded="false" />
+            <element signature="e#4391#4392#0" expanded="true" />
+            <element signature="e#4426#4427#0" expanded="true" />
             <element signature="method#visit#25;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#26;class#CodeGenerator#0" expanded="false" />
-            <element signature="method#visit#27;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#28;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#29;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#30;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#31;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#32;class#CodeGenerator#0" expanded="false" />
-            <element signature="e#7747#7748#0" expanded="true" />
-            <element signature="e#7821#7822#0" expanded="true" />
+            <element signature="method#visit#33;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#34;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#35;class#CodeGenerator#0" expanded="false" />
             <element signature="method#visit#36;class#CodeGenerator#0" expanded="false" />
-            <element signature="e#8645#8646#0" expanded="true" />
-            <element signature="e#8669#8670#0" expanded="true" />
             <element signature="method#visit#38;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#39;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#40;class#CodeGenerator#0" expanded="false" />
+            <element signature="method#visit#42;class#CodeGenerator#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/program.asm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/program.mj">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state relative-caret-position="493">
+          <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
           <folding />
         </state>
       </provider>
