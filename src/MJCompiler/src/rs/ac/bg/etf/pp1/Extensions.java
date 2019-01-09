@@ -125,7 +125,48 @@ public class Extensions
 		return Tab.noObj;
 	}
 	
-	
+	public static Struct GetExtendingType(Struct type)
+	{
+		Obj superClass = type.getMembers().searchKey("$extends");
+		
+		if (superClass != Tab.noObj && superClass != null)
+		{
+			return superClass.getType();
+		}
+		
+		return Tab.noType;
+	}
+	public static boolean AssignmentPossible(Struct dstType, Struct srcType)
+	{
+		if (srcType.assignableTo(dstType)) return true;
+		
+		if (dstType.getKind() == Struct.Class && srcType.getKind() == Struct.Class)
+		{
+			Struct currentType = srcType;
+			
+			do
+			{
+				Iterator<Obj> i = currentType.getMembers().symbols().iterator();
+				
+				while (i.hasNext())
+				{
+					Obj obj = i.next();
+					
+					if (obj.getKind() == Obj.Type)
+					{
+						if (obj.getType().assignableTo(dstType))
+						{
+							return true;
+						}
+					}
+				}
+				
+				currentType = GetExtendingType(currentType);
+			} while (currentType != Tab.noType) ;
+		}
+		
+		return false;
+	}
 	
 	private static Field numOfFields = null;
 	private static void config()

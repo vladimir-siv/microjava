@@ -435,7 +435,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 							
 							if (classMethod != Tab.noObj && classMethod != null)
 							{
-								if (classMethod.getType().assignableTo(interfaceMethod.getType()))
+								if (Extensions.AssignmentPossible(interfaceMethod.getType(), classMethod.getType()))
 								{
 									boolean paramsAreEqual = true;
 									
@@ -598,7 +598,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		{
 			report_error("Error on line " + node.getLine() + ": return type of this function is void");
 		}
-		else if (!node.getExpr().struct.assignableTo(currentMethodType))
+		else if (!Extensions.AssignmentPossible(currentMethodType, node.getExpr().struct))
 		{
 			report_error("Error on line " + node.getLine() + ": expression type in return statement does not match with the return type of the surrounding function \'" + currentMethod.getName() + "\'");
 		}
@@ -713,7 +713,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (param == Tab.noObj) return;
 		
-		if (!node.getExpr().struct.assignableTo(param.getType()))
+		if (!Extensions.AssignmentPossible(param.getType(), node.getExpr().struct))
 		{
 			report_error("Error on line " + node.getLine() + ": argument " + argNo + " does not have a type that can be assigned to the method parameter");
 		}
@@ -727,7 +727,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (currentCalleeMethod == null) return;
 		
-		if (currentCalleeMethod.getLevel() != argNo)
+		int paramNo = currentCalleeMethod.getLevel();
+		if (paramNo < 0) paramNo = -paramNo - 1;
+		
+		if (paramNo != argNo)
 		{
 			report_error("Error on line " + node.getLine() + ": invalid number of arguments");
 			return;
@@ -750,7 +753,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": assignment can only be used on lvalues");
 		}
 		
-		if (!node.getExpr().struct.assignableTo(node.getDesignator().obj.getType()))
+		if (!Extensions.AssignmentPossible(node.getDesignator().obj.getType(), node.getExpr().struct))
 		{
 			report_error("Error on line " + node.getLine() + ": cannot do the assignment due to incompatible types");
 		}

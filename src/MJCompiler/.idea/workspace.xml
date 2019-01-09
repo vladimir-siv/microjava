@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e09c88f-2461-43df-9820-1674b81449c9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" afterPath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java" />
       <change beforePath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/Extensions.java" afterPath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/Extensions.java" />
       <change beforePath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" afterPath="$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java" />
       <change beforePath="$PROJECT_DIR$/test/program.mj" afterPath="$PROJECT_DIR$/test/program.mj" />
@@ -17,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.54011464">
+    <splitter split-orientation="horizontal" split-proportion="0.5386819">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="MJTest.java" pinned="false" current-in-tab="false">
@@ -35,8 +33,8 @@
           <file leaf-file-name="SemanticAnalyzer.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="385">
-                  <caret line="453" column="41" lean-forward="true" selection-start-line="453" selection-start-column="41" selection-end-line="453" selection-end-column="41" />
+                <state relative-caret-position="84">
+                  <caret line="721" column="4" lean-forward="false" selection-start-line="721" selection-start-column="4" selection-end-line="721" selection-end-column="4" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#passed#0;class#SemanticAnalyzer#0" expanded="false" />
@@ -51,7 +49,6 @@
                     <element signature="method#visit#2;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#3;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#4;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="method#visit#5;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#10;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#12;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#13;class#SemanticAnalyzer#0" expanded="false" />
@@ -60,25 +57,20 @@
                     <element signature="method#visit#16;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#17;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#18;class#SemanticAnalyzer#0" expanded="false" />
+                    <element signature="method#visit#19;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#20;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#21;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#isMainFound#0;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#15162#15163#0" expanded="true" />
-                    <element signature="e#15204#15205#0" expanded="true" />
-                    <element signature="e#15247#15248#0" expanded="true" />
-                    <element signature="e#15278#15279#0" expanded="true" />
                     <element signature="method#visit#24;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#25;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#17197#17198#0" expanded="true" />
-                    <element signature="e#17238#17239#0" expanded="true" />
                     <element signature="method#visit#27;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#28;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#29;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#30;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#CalleeMethodContext#0;class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#19784#19785#0" expanded="true" />
-                    <element signature="e#19832#19833#0" expanded="true" />
+                    <element signature="e#19820#19821#0" expanded="true" />
+                    <element signature="e#19868#19869#0" expanded="true" />
                     <element signature="method#visit#31;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#32;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#33;class#SemanticAnalyzer#0" expanded="false" />
@@ -103,24 +95,12 @@
                     <element signature="method#visit#43;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#44;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#45;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#25919#25920#0" expanded="true" />
-                    <element signature="e#25959#25960#0" expanded="true" />
                     <element signature="method#visit#47;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#48;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#49;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#50;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#27642#27643#0" expanded="true" />
-                    <element signature="e#27686#27687#0" expanded="true" />
-                    <element signature="e#27735#27736#0" expanded="true" />
-                    <element signature="e#27783#27784#0" expanded="true" />
-                    <element signature="e#27830#27831#0" expanded="true" />
-                    <element signature="e#27885#27886#0" expanded="true" />
                     <element signature="method#visit#54;class#SemanticAnalyzer#0" expanded="false" />
                     <element signature="method#visit#55;class#SemanticAnalyzer#0" expanded="false" />
-                    <element signature="e#29234#29235#0" expanded="true" />
-                    <element signature="e#29267#29268#0" expanded="true" />
-                    <element signature="e#29314#29315#0" expanded="true" />
-                    <element signature="e#29356#29357#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -129,7 +109,7 @@
           <file leaf-file-name="CodeGenerator.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
+                <state relative-caret-position="-739">
                   <caret line="96" column="4" lean-forward="false" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="4" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -167,8 +147,8 @@
           <file leaf-file-name="program.mj" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/program.mj">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="13" column="23" lean-forward="false" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+                <state relative-caret-position="463">
+                  <caret line="121" column="23" lean-forward="false" selection-start-line="121" selection-start-column="23" selection-end-line="121" selection-end-column="23" />
                   <folding />
                 </state>
               </provider>
@@ -177,8 +157,8 @@
           <file leaf-file-name="Extensions.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/Extensions.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="145">
-                  <caret line="54" column="4" lean-forward="true" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
+                <state relative-caret-position="335">
+                  <caret line="169" column="4" lean-forward="true" selection-start-line="169" selection-start-column="4" selection-end-line="169" selection-end-column="4" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#getType#0;class#Extensions#0" expanded="false" />
@@ -188,8 +168,10 @@
                     <element signature="method#FindEnumConstant#0;class#Extensions#0" expanded="false" />
                     <element signature="method#FindMethodParameter#0;class#Extensions#0" expanded="false" />
                     <element signature="method#FindClassField#0;class#Extensions#0" expanded="false" />
+                    <element signature="method#GetExtendingType#0;class#Extensions#0" expanded="false" />
+                    <element signature="method#AssignmentPossible#0;class#Extensions#0" expanded="false" />
+                    <element signature="method#config#0;class#Extensions#0" expanded="false" />
                     <element signature="method#setNumOfFields#0;class#Extensions#0" expanded="false" />
-                    <marker date="1547050324615" expanded="false" signature="3056:3222" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -202,7 +184,7 @@
           <file leaf-file-name="mjparser.cup" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="621">
+                <state relative-caret-position="-339">
                   <caret line="253" column="29" lean-forward="false" selection-start-line="253" selection-start-column="15" selection-end-line="253" selection-end-column="29" />
                   <folding>
                     <marker date="1547036421244" expanded="true" signature="189:1187" ph="{...}" />
@@ -258,8 +240,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Code.load</find>
-      <find>void store</find>
       <find>Assignment</find>
       <find>ReadNode</find>
       <find>ParamsNode</find>
@@ -288,6 +268,8 @@
       <find>Tab.insert(Obj.Meth</find>
       <find>setAdr</find>
       <find>MethodPrototypeNode</find>
+      <find>Invalid use of dot operator</find>
+      <find>invalid number of</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -660,12 +642,12 @@
       <workItem from="1546869676419" duration="110000" />
       <workItem from="1546881107665" duration="38340000" />
       <workItem from="1546950128577" duration="54237000" />
-      <workItem from="1547035190650" duration="15875000" />
+      <workItem from="1547035190650" duration="22535000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="304650000" />
+    <option name="totallyTimeSpent" value="311310000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -685,23 +667,23 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16413043" sideWeight="0.4477612" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29456523" sideWeight="0.46695095" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.4914712" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1923913" sideWeight="0.4696162" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16413043" sideWeight="0.5522388" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1923913" sideWeight="0.45042643" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29456523" sideWeight="0.53304905" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17910448" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.48720682" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32826087" sideWeight="0.48507464" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07675906" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30326086" sideWeight="0.47014925" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30326086" sideWeight="0.46801707" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -717,7 +699,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="79" />
+      <option name="time" value="80" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1078,7 +1060,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/mjparser.cup">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
+        <state relative-caret-position="-339">
           <caret line="253" column="29" lean-forward="false" selection-start-line="253" selection-start-column="15" selection-end-line="253" selection-end-column="29" />
           <folding>
             <marker date="1547036421244" expanded="true" signature="189:1187" ph="{...}" />
@@ -1091,31 +1073,133 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding>
-            <element signature="e#1815#1816#0" expanded="true" />
-            <element signature="e#1859#1860#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Obj.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28">
           <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
           <folding>
-            <element signature="e#1779#1780#0" expanded="true" />
-            <element signature="e#1798#1799#0" expanded="true" />
+            <element signature="e#1779#1780#0" expanded="false" />
+            <element signature="e#1798#1799#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/rs/ac/bg/etf/pp1/MJTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="614">
+          <caret line="83" column="94" lean-forward="true" selection-start-line="83" selection-start-column="3" selection-end-line="83" selection-end-column="94" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/symboltable.jar!/rs/etf/pp1/symboltable/concepts/Struct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="104" column="25" lean-forward="true" selection-start-line="104" selection-start-column="25" selection-end-line="104" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/Extensions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="169" column="4" lean-forward="true" selection-start-line="169" selection-start-column="4" selection-end-line="169" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getType#0;class#Extensions#0" expanded="false" />
+            <element signature="method#arrayType#0;class#Extensions#0" expanded="false" />
+            <element signature="method#init#0;class#Extensions#0" expanded="false" />
+            <element signature="method#UpdateConstantValue#0;class#Extensions#0" expanded="false" />
+            <element signature="method#FindEnumConstant#0;class#Extensions#0" expanded="false" />
+            <element signature="method#FindMethodParameter#0;class#Extensions#0" expanded="false" />
+            <element signature="method#FindClassField#0;class#Extensions#0" expanded="false" />
+            <element signature="method#GetExtendingType#0;class#Extensions#0" expanded="false" />
+            <element signature="method#AssignmentPossible#0;class#Extensions#0" expanded="false" />
+            <element signature="method#config#0;class#Extensions#0" expanded="false" />
+            <element signature="method#setNumOfFields#0;class#Extensions#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="721" column="4" lean-forward="false" selection-start-line="721" selection-start-column="4" selection-end-line="721" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#passed#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#openScope#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#closeScope#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#getnVars#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#report_error#1;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#report_info#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#report_info#1;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#1;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#2;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#3;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#4;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#10;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#12;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#13;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#14;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#15;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#16;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#17;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#18;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#19;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#20;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#21;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#isMainFound#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#24;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#25;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#27;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#28;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#29;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#30;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#CalleeMethodContext#0;class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="e#19820#19821#0" expanded="true" />
+            <element signature="e#19868#19869#0" expanded="true" />
+            <element signature="method#visit#31;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#32;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#33;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#34;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#35;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#36;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#IfContext#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#beginMethod#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#returnDetected#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#beginIf#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#beginElse#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#endIf#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#beginFor#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#endFor#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#37;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#38;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#39;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#40;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#41;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#42;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#43;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#44;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#45;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#47;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#48;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#49;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#50;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#54;class#SemanticAnalyzer#0" expanded="false" />
+            <element signature="method#visit#55;class#SemanticAnalyzer#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
+        <state relative-caret-position="-739">
           <caret line="96" column="4" lean-forward="false" selection-start-line="96" selection-start-column="4" selection-end-line="96" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1149,131 +1233,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/Extensions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="54" column="4" lean-forward="true" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getType#0;class#Extensions#0" expanded="false" />
-            <element signature="method#arrayType#0;class#Extensions#0" expanded="false" />
-            <element signature="method#init#0;class#Extensions#0" expanded="false" />
-            <element signature="method#UpdateConstantValue#0;class#Extensions#0" expanded="false" />
-            <element signature="method#FindEnumConstant#0;class#Extensions#0" expanded="false" />
-            <element signature="method#FindMethodParameter#0;class#Extensions#0" expanded="false" />
-            <element signature="method#FindClassField#0;class#Extensions#0" expanded="false" />
-            <element signature="method#setNumOfFields#0;class#Extensions#0" expanded="false" />
-            <marker date="1547050324615" expanded="false" signature="3056:3222" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rs/ac/bg/etf/pp1/SemanticAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="453" column="41" lean-forward="true" selection-start-line="453" selection-start-column="41" selection-end-line="453" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#passed#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#openScope#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#closeScope#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#getnVars#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#report_error#1;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#report_info#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#report_info#1;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#1;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#2;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#3;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#4;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#5;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#10;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#12;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#13;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#14;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#15;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#16;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#17;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#18;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#20;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#21;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#isMainFound#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#15162#15163#0" expanded="true" />
-            <element signature="e#15204#15205#0" expanded="true" />
-            <element signature="e#15247#15248#0" expanded="true" />
-            <element signature="e#15278#15279#0" expanded="true" />
-            <element signature="method#visit#24;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#25;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#17197#17198#0" expanded="true" />
-            <element signature="e#17238#17239#0" expanded="true" />
-            <element signature="method#visit#27;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#28;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#29;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#30;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#CalleeMethodContext#0;class#CalleeMethodContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#19784#19785#0" expanded="true" />
-            <element signature="e#19832#19833#0" expanded="true" />
-            <element signature="method#visit#31;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#32;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#33;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#34;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#35;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#36;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#IfContext#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#beginMethod#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#returnDetected#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#beginIf#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#beginElse#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#endIf#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#beginFor#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#endFor#0;class#IfContext#0;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#37;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#38;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#39;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#40;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#41;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#42;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#43;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#44;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#45;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#25919#25920#0" expanded="true" />
-            <element signature="e#25959#25960#0" expanded="true" />
-            <element signature="method#visit#47;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#48;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#49;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#50;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#27642#27643#0" expanded="true" />
-            <element signature="e#27686#27687#0" expanded="true" />
-            <element signature="e#27735#27736#0" expanded="true" />
-            <element signature="e#27783#27784#0" expanded="true" />
-            <element signature="e#27830#27831#0" expanded="true" />
-            <element signature="e#27885#27886#0" expanded="true" />
-            <element signature="method#visit#54;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="method#visit#55;class#SemanticAnalyzer#0" expanded="false" />
-            <element signature="e#29234#29235#0" expanded="true" />
-            <element signature="e#29267#29268#0" expanded="true" />
-            <element signature="e#29314#29315#0" expanded="true" />
-            <element signature="e#29356#29357#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/rs/ac/bg/etf/pp1/MJTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="83" column="94" lean-forward="true" selection-start-line="83" selection-start-column="3" selection-end-line="83" selection-end-column="94" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/program.mj">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="23" lean-forward="false" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        <state relative-caret-position="463">
+          <caret line="121" column="23" lean-forward="false" selection-start-line="121" selection-start-column="23" selection-end-line="121" selection-end-column="23" />
           <folding />
         </state>
       </provider>
