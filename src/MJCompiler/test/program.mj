@@ -3,13 +3,20 @@ program MJProgram
 class A
 {
 	int k;
+	{
+		int x() { return 3; }
+	}
 }
 
 {
+	int x() { return 2; }
+	void func2() { }
+
 	void main() A a; int k;
 	{
 		a = new A;
 
+		// PRINT: 6778
 		read(a.k);		// a.k = 5
 		a.k++;			// a.k = 6
 		k = a.k + 1;	// k = 7
@@ -18,5 +25,10 @@ class A
 		a.k = k + 1;	// a.k = 8
 		print(k);		// 7
 		print(a.k);		// 8
+		print(eol);
+
+		// PRINT: 9
+		k = 6 + a.x();
+		print(k);
 	}
 }

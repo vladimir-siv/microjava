@@ -181,7 +181,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 				Struct type = chain.obj.getType();
 				Obj memberObj = type.getMembers().searchKey(node.getChainedDesignatorName());
 				
-				if (memberObj != Tab.noObj)
+				if (memberObj != Tab.noObj && memberObj != null)
 				{
 					int memberKind = memberObj.getKind();
 					
@@ -451,6 +451,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 	}
+	public void visit(MethodPrototypeNode node)
+	{
+		node.obj = node.getMethodReg().obj;
+	}
 	public void visit(ReturnExprNode node)
 	{
 		IfContext.returnDetected();
@@ -484,6 +488,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": not all code paths in function \'" + currentMethod.getName() + "\' lead to a return statement");
 		}
 		
+		node.obj = node.getMethodPrototype().obj;
 		currentMethod.setLevel(paramNo);
 		Tab.chainLocalSymbols(currentMethod);
 		closeScope();
@@ -528,11 +533,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(CalleeNode node)
 	{
-		Obj currentCalleeMethod = Tab.find(node.getDesignator().obj.getName());
+		Obj currentCalleeMethod = node.getDesignator().obj;
 		
-		if (currentMethod == Tab.noObj || currentCalleeMethod.getKind() != Obj.Meth)
+		if (currentCalleeMethod == Tab.noObj)
 		{
-			report_error("Error on line " + node.getLine() + ": name \'" + node.getDesignator().obj.getName() + "\' is not a function");
+			errorDetected = true;
+			currentCalleeMethod = null;
+		}
+		else if (currentCalleeMethod.getKind() != Obj.Meth)
+		{
+			report_error("Error on line " + node.getLine() + ": name \'" + currentCalleeMethod.getName() + "\' is not a function");
 			currentCalleeMethod = null;
 		}
 		
@@ -827,7 +837,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		else
 		{
 			node.struct = Tab.noType;
-			report_error("Error on line " + node.getLine() + ": name \'" + obj.getName() + "\' is not a function");
+			errorDetected = true;	// this should already be true (from CalleeNode visit)
 		}
 	}
 	public void visit(NewNode node)

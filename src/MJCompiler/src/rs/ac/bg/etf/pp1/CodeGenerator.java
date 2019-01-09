@@ -32,6 +32,8 @@ public class CodeGenerator extends VisitorAdaptor
 			||
 			parent instanceof CalleeNode
 			||
+			parent.getParent() instanceof CalleeNode
+			||
 			node.obj.getType() == Extensions.enumType	// only should be able to happen with DesignatorNode
 		) return;
 		
@@ -93,8 +95,11 @@ public class CodeGenerator extends VisitorAdaptor
 	}
 	public void visit(MethodNode node)
 	{
-		Code.put(Code.exit);
-		Code.put(Code.return_);
+		if (node.obj.getType() == Tab.noType)
+		{
+			Code.put(Code.exit);
+			Code.put(Code.return_);
+		}
 	}
 	
 	// ======= [E] METHODS =======

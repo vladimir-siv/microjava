@@ -151,7 +151,7 @@ nonterminal											ExtendsDecl, ImplementsDecl;
 nonterminal											InterfaceDecl, InterfaceReg;
 
 nonterminal											MethodDeclList;
-nonterminal											MethodDecl, MethodPrototype;
+nonterminal	rs.etf.pp1.symboltable.concepts.Obj		MethodDecl, MethodPrototype;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj		MethodReg;
 nonterminal	rs.etf.pp1.symboltable.concepts.Struct	MethodType;
 
