@@ -146,9 +146,9 @@ nonterminal											EnumConstDecl, EnumOptValue;
 
 nonterminal											IList, IMethodList;
 nonterminal											FieldSectList, FieldSect;
-nonterminal											ClassDecl, ClassBody, ClassMethodDeclList;
+nonterminal											ClassDecl, ClassReg, ClassBody;
 nonterminal											ExtendsDecl, ImplementsDecl;
-nonterminal											InterfaceDecl;
+nonterminal											InterfaceDecl, InterfaceReg;
 
 nonterminal											MethodDeclList;
 nonterminal											MethodDecl, MethodPrototype;
@@ -236,15 +236,16 @@ EnumOptValue ::= (EnumValueNode) EQUAL INT:value | (EnumEmptyValueNode) /* epsil
 IList ::= (IListNode) IList COMMA Type | (INode) Type;
 IMethodList ::= (IMethodsNode) IMethodList MethodPrototype SEMI | (IEmptyMethodsNode) /* epsilon */;
 
-FieldSectList ::= (FieldSectListNode) FieldSectList FieldSect | (EmptyFieldSectListNode) /* epsilon */;
+FieldSectList ::= (FieldSectListNode) FieldSectList FieldSect | (EmptyFieldSectListNode) /* epsilon */ | (ErrorFieldSectListNode) error:err;
 FieldSect ::= (FieldSectNode) VarSectDecl VarDeclList SEMI;
 
-ClassDecl ::= (ClassNode) CLASS IDENT:name ExtendsDecl ImplementsDecl LBRACE ClassBody RBRACE;
-ClassBody ::= (StructBodyNode) FieldSectList | (ClassBodyNode) FieldSectList ClassMethodDeclList | (ErrorClassBodyNode) error:err ClassMethodDeclList:methods {: parser.report_error("Additional syntax error info: invalid field specification", null); :};
-ClassMethodDeclList ::= LBRACE MethodDeclList RBRACE;
-ExtendsDecl ::= (ClassExtendsNode) EXTENDS Type | (ClassEmptyExtendsNode) /* epsilon */ | (ErrorClassExtendsNode) error:err {: parser.report_error("Additional syntax error info: invalid extends declaration", null); :};
+ClassDecl ::= (ClassNode) ClassReg ExtendsDecl ImplementsDecl LBRACE ClassBody RBRACE;
+ClassReg ::= (ClassDeclNode) CLASS IDENT:className;
+ClassBody ::= (StructBodyNode) FieldSectList | (ClassBodyNode) FieldSectList LBRACE MethodDeclList RBRACE;
+ExtendsDecl ::= (ClassExtendsNode) EXTENDS Type | (ClassEmptyExtendsNode) /* epsilon */ | (ErrorClassExtendsNode) error:err;// {: parser.report_error("Additional syntax error info: invalid extends declaration", null); :};
 ImplementsDecl ::= (ClassImplementsNode) IMPLEMENTS IList | (ClassEmptyImplementsNode) /* epsilon */;
-InterfaceDecl ::= (InterfaceNode) INTERFACE IDENT:name LBRACE IMethodList RBRACE;
+InterfaceDecl ::= (InterfaceNode) InterfaceReg LBRACE IMethodList RBRACE;
+InterfaceReg ::= (InterfaceDeclNode) INTERFACE IDENT:interfaceName;
 
 MethodDeclList ::= (MethodListNode) MethodDeclList MethodDecl | (EmptyMethodListNode) /* epsilon */;
 MethodDecl ::= (MethodNode) MethodPrototype VarSectList LBRACE StatementList RBRACE;

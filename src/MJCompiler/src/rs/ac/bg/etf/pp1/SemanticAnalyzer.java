@@ -18,6 +18,24 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	private boolean errorDetected = false;
 	public boolean passed() { return !errorDetected; }
 	
+	private Stack<Integer> varKindContext = new Stack<>();
+	private int currentVarKind() { return varKindContext.peek(); }
+	private void openScope(int varKind) throws Error
+	{
+		if (varKind != Obj.Var && varKind != Obj.Fld)
+		{
+			throw new Error("Invalid var kind!");
+		}
+		
+		Tab.openScope();
+		varKindContext.push(varKind);
+	}
+	private void closeScope()
+	{
+		Tab.closeScope();
+		varKindContext.pop();
+	}
+	
 	private int nVars;
 	public int getnVars() { return nVars; }
 	
@@ -67,13 +85,13 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	public void visit(ProgDeclNode node)
 	{
 		node.obj = Tab.insert(Obj.Prog, node.getProgName(), Tab.noType);
-		Tab.openScope();
+		openScope(Obj.Var);
 	}
 	public void visit(ProgramNode node)
 	{
 		nVars = Tab.currentScope.getnVars();
 		Tab.chainLocalSymbols(node.getProgDecl().obj);
-		Tab.closeScope();
+		closeScope();
 	}
 	
 	// ======= [E] PROGRAM =======
@@ -139,14 +157,42 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		node.obj = Tab.noObj;
 		
 		Designator chain = node.getDesignator();
+		int chainKind = chain.obj.getKind();
 		
-		if (chain.obj.getKind() == Obj.Type)
+		if
+		(
+			chainKind == Obj.Type
+			||
+			chainKind == Obj.Var
+			||
+			chainKind == Obj.Elem
+			||
+			chainKind == Obj.Fld
+		)
 		{
 			if (chain.obj.getType() == Extensions.enumType)
 			{
 				Obj enumConst = Extensions.FindEnumConstant(chain.obj, node.getChainedDesignatorName());
 				if (enumConst != Tab.noObj) node.obj = enumConst;
 				else report_error("Error on line " + node.getLine() + ": enum \'" + chain.obj.getName() + "\' does not have a constant named \'" + node.getChainedDesignatorName() + "\'");
+			}
+			else if (chain.obj.getType().getKind() == Struct.Class)
+			{
+				Struct type = chain.obj.getType();
+				Obj memberObj = type.getMembers().searchKey(node.getChainedDesignatorName());
+				
+				if (memberObj != Tab.noObj)
+				{
+					int memberKind = memberObj.getKind();
+					
+					if (memberKind == Obj.Meth || memberKind == Obj.Fld)
+					{
+						node.obj = memberObj;
+						return;
+					}
+				}
+				
+				report_error("Error on line " + node.getLine() + ": could not resolve name \'" + node.getChainedDesignatorName() + "\' (it is neither a method nor a field)");
 			}
 			else report_error("Error on line " + node.getLine() + ": invalid use of dot operator [x02]");
 		}
@@ -210,14 +256,15 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		if (declared == Tab.noObj || declared == null)
 		{
 			Struct type = varTypeNode.struct != Extensions.enumType ? varTypeNode.struct : Tab.intType;
+			int currentVarKind = currentVarKind();
 			
 			if (node.getArrayType() instanceof ArrayTypeNode)
 			{
-				Tab.insert(Obj.Var, node.getVarName(), Extensions.arrayType(type));
+				Tab.insert(currentVarKind, node.getVarName(), Extensions.arrayType(type));
 			}
 			else
 			{
-				Tab.insert(Obj.Var, node.getVarName(), type);
+				Tab.insert(currentVarKind, node.getVarName(), type);
 			}
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
@@ -241,9 +288,10 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		if (declared == Tab.noObj || declared == null)
 		{
 			currentEnum = Tab.insert(Obj.Type, node.getEnumName(), Extensions.enumType);
-			Tab.openScope();
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
+		
+		openScope(Obj.Var);	// var kind is actually not important (and ignored here), since enum (by syntax) can't have var declarations inside it
 	}
 	public void visit(EnumConstDeclNode node)
 	{
@@ -276,11 +324,60 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(EnumNode node)
 	{
-		Tab.chainLocalSymbols(currentEnum);
-		Tab.closeScope();
+		if (currentEnum != null) Tab.chainLocalSymbols(currentEnum);
+		closeScope();
 	}
 	
 	// ======= [E] ENUMS =======
+	
+	
+	// ======= [S] CLASSES =======
+	
+	private Obj currentClass = null;
+	
+	public void visit(ClassDeclNode node)
+	{
+		currentClass = null;
+		String className = node.getClassName();
+		
+		Obj declared = Tab.currentScope.findSymbol(className);
+		
+		if (declared == Tab.noObj || declared == null)
+		{
+			currentClass = Tab.insert(Obj.Type, className, Extensions.classType(className));
+		}
+		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
+		
+		openScope(Obj.Fld);
+	}
+	public void visit(InterfaceDeclNode node)
+	{
+		currentClass = null;
+		String interfaceName = node.getInterfaceName();
+		
+		Obj declared = Tab.currentScope.findSymbol(interfaceName);
+		
+		if (declared == Tab.noObj || declared == null)
+		{
+			currentClass = Tab.insert(Obj.Type, interfaceName, Extensions.interfaceType(interfaceName));
+		}
+		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
+		
+		openScope(Obj.Fld);	// interfaces actually can't have fields, so var kind is ignored
+	}
+	
+	public void visit(ClassNode node)
+	{
+		if (currentClass != null) Tab.chainLocalSymbols(currentClass.getType());
+		closeScope();
+	}
+	public void visit(InterfaceNode node)
+	{
+		if (currentClass != null) Tab.chainLocalSymbols(currentClass.getType());
+		closeScope();
+	}
+	
+	// ======= [E] CLASSES =======
 	
 	
 	// ======= [S] METHODS =======
@@ -323,7 +420,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		}
 		
 		paramNo = 0;
-		Tab.openScope();
+		openScope(Obj.Var);
 		currentMethod = node.obj;
 		
 		IfContext.beginMethod();
@@ -364,7 +461,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		{
 			report_error("Error on line " + node.getLine() + ": return type of this function is void");
 		}
-		else if (!currentMethodType.compatibleWith(node.getExpr().struct))
+		else if (!node.getExpr().struct.assignableTo(currentMethodType))
 		{
 			report_error("Error on line " + node.getLine() + ": expression type in return statement does not match with the return type of the surrounding function \'" + currentMethod.getName() + "\'");
 		}
@@ -389,7 +486,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		currentMethod.setLevel(paramNo);
 		Tab.chainLocalSymbols(currentMethod);
-		Tab.closeScope();
+		closeScope();
 		
 		currentMethod = null;
 	}
@@ -753,7 +850,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		{
 			node.struct = type;
 			
-			if (node.struct != Extensions.classType)
+			if (node.struct.getKind() != Struct.Class)
 			{
 				report_error("Error on line " + node.getLine() + ": new operator cannot be used on anything other than class types or arrays");
 			}

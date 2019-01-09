@@ -111,6 +111,7 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(IncrementNode node)
 	{
 		if (node.getDesignator() instanceof DesignatorIndexingNode) Code.put(Code.dup2);
+		if (node.getDesignator().obj.getKind() == Obj.Fld) Code.put(Code.dup);
 		Code.load(node.getDesignator().obj);
 		Code.loadConst(1);
 		Code.put(Code.add);
@@ -119,6 +120,7 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(DecrementNode node)
 	{
 		if (node.getDesignator() instanceof DesignatorIndexingNode) Code.put(Code.dup2);
+		if (node.getDesignator().obj.getKind() == Obj.Fld) Code.put(Code.dup);
 		Code.load(node.getDesignator().obj);
 		Code.loadConst(1);
 		Code.put(Code.sub);
@@ -365,7 +367,11 @@ public class CodeGenerator extends VisitorAdaptor
 			}
 			else Code.put(1);
 		}
-		//else new for classes only...
+		else
+		{
+			Code.put(Code.new_);
+			Code.put2(node.struct.getNumberOfFields() * 4);
+		}
 	}
 	public void visit(NullNode node)
 	{

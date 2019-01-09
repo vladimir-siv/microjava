@@ -10,6 +10,8 @@ import java.util.*;
 public class Extensions
 {
 	private static LinkedHashMap<Struct, Struct> arrayTypes = new LinkedHashMap<>();
+	private static LinkedHashMap<String, Struct> classTypes = new LinkedHashMap<>();
+	private static LinkedHashMap<String, Struct> interfaceTypes = new LinkedHashMap<>();
 	
 	public enum Bool
 	{
@@ -19,7 +21,6 @@ public class Extensions
 		public int v() { return value; }
 	}
 	
-	public static final Struct classType = new Struct(Struct.Class);
 	public static final Struct boolType = new Struct(5);
 	public static final Struct enumType = new Struct(6);
 	
@@ -32,10 +33,40 @@ public class Extensions
 		arrayTypes.put(elemType, type);
 		return type;
 	}
+	public static Struct classType(String className)
+	{
+		Struct type = classTypes.get(className);
+		if (type != null) return type;
+		
+		type = new Struct(Struct.Class);
+		classTypes.put(className, type);
+		
+		return type;
+	}
+	public static Struct interfaceType(String interfaceName)
+	{
+		Struct type = interfaceTypes.get(interfaceName);
+		if (type != null) return type;
+		
+		type = new Struct(Struct.Class);
+		interfaceTypes.put(interfaceName, type);
+		
+		try { numOfFields.set(type, -1); }
+		catch (Exception ex) { ex.printStackTrace(); }
+		
+		return type;
+	}
 	
 	public static void init()
 	{
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", boolType));
+		
+		try
+		{
+			numOfFields = Struct.class.getDeclaredField("numOfFields");
+			numOfFields.setAccessible(true);
+		}
+		catch (Exception ex) { ex.printStackTrace(); }
 	}
 	
 	public static void UpdateConstantValue(ConstValue constValue, Obj cnst)
@@ -87,4 +118,6 @@ public class Extensions
 		
 		return Tab.noObj;
 	}
+	
+	private static java.lang.reflect.Field numOfFields = null;
 }
