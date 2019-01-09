@@ -508,6 +508,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	public boolean isMainFound() { return mainFound; }
 	
 	private Obj currentMethod = null;
+	private Obj overrideMethod = null;
 	private int paramNo = 0;
 	
 	public void visit(TypedMethodNode node)
@@ -529,6 +530,21 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			}
 		}
 		
+		if (currentClass != null)
+		{
+			Struct extendingType = Extensions.GetExtendingType(currentClass.getType());
+			
+			if (extendingType != Tab.noType)
+			{
+				Obj obj = extendingType.getMembers().searchKey(node.getMethodName());
+				if (obj != Tab.noObj && obj != null && obj.getKind() == Obj.Meth)
+				{
+					overrideMethod = obj;
+					Tab.currentScope.getLocals().deleteKey(node.getMethodName());
+				}
+			}
+		}
+		
 		Obj declared = Tab.currentScope.findSymbol(node.getMethodName());
 		
 		if (declared == Tab.noObj || declared == null)
@@ -543,7 +559,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (currentClass != null)
 		{
-			// refresh symbols - find another way to do this peacefully
+			// refresh symbols
 			Tab.chainLocalSymbols(currentClass.getType());
 		}
 		
@@ -577,7 +593,22 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			
 			node.obj.setFpPos(++paramNo);
 			
-			if (currentMethod.getName().equals("main"))
+			if (overrideMethod != null)
+			{
+				Obj param = Extensions.FindMethodParameter(overrideMethod, paramNo);
+				
+				if (param == Tab.noObj)
+				{
+					// this should be done later when detecting invalid number of parameters
+					errorDetected = true;
+				}
+				else if (node.obj.getType() != param.getType())
+				{
+					report_error("Error on line " + node.getLine() + ": override method \'" + overrideMethod.getName() + "\' in class \'" + currentClass.getName() + "\' has an invalid parameter type for \'" + node.obj.getName() + "\'");
+				}
+			}
+			
+			if (currentClass == null && currentMethod.getName().equals("main"))
 			{
 				report_error("Semantic error on line " + node.getLine() + ": main function cannot have parameters");
 			}
@@ -621,12 +652,26 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			report_error("Error on line " + node.getLine() + ": not all code paths in function \'" + currentMethod.getName() + "\' lead to a return statement");
 		}
 		
+		if (overrideMethod != null)
+		{
+			if (overrideMethod.getLevel() != paramNo)
+			{
+				report_error("Error on line " + node.getLine() + ": override method \'" + overrideMethod.getName() + "\' in class \'" + currentClass.getName() + "\' has an invalid number of parameters");
+			}
+			
+			if (!Extensions.AssignmentPossible(overrideMethod.getType(), currentMethod.getType()))
+			{
+				report_error("Error on line " + node.getLine() + ": override method \'" + overrideMethod.getName() + "\' in class \'" + currentClass.getName() + "\' has an invalid return type");
+			}
+		}
+		
 		node.obj = node.getMethodPrototype().obj;
 		currentMethod.setLevel(paramNo);
 		Tab.chainLocalSymbols(currentMethod);
 		closeScope();
 		
 		currentMethod = null;
+		overrideMethod = null;
 	}
 	public void visit(IMethodsNode node)
 	{
@@ -647,6 +692,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		closeScope();
 		
 		currentMethod = null;
+		overrideMethod = null;
 	}
 	
 	private static final class CalleeMethodContext

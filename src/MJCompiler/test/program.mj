@@ -38,6 +38,14 @@ class C implements IFoo
 	{
 		int what() { return 0; }
 		int not(bool check) { if (check) return 10; else return -10; }
+		A getA(int p1, A p2, char p3) { return new A; }
+	}
+}
+
+class D extends C
+{
+	{
+		B getA(int p1, A p2, char p3) { return new B; }
 	}
 }
 
