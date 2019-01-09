@@ -351,22 +351,6 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		openScope(Obj.Fld);
 	}
-	public void visit(InterfaceDeclNode node)
-	{
-		currentClass = null;
-		String interfaceName = node.getInterfaceName();
-		
-		Obj declared = Tab.currentScope.findSymbol(interfaceName);
-		
-		if (declared == Tab.noObj || declared == null)
-		{
-			currentClass = Tab.insert(Obj.Type, interfaceName, Extensions.interfaceType(interfaceName));
-		}
-		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
-		
-		openScope(Obj.Fld);	// interfaces actually can't have fields, so var kind is ignored
-	}
-	
 	public void visit(ClassExtendsNode node)
 	{
 		Struct extendType = node.getType().struct;
@@ -417,18 +401,100 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	}
 	public void visit(InterfaceImplementationNode node)
 	{
-	
+		Struct implementType = node.getType().struct;
+		int fields = implementType.getNumberOfFields();
+		
+		if (implementType.getKind() == Struct.Class && fields == -1)
+		{
+			Tab.insert(Obj.Type, "$implements-" + ((TypeNode)node.getType()).getTypeName(), implementType);
+		}
+		else report_error("Error on line " + node.getLine() + ": interface type expected after implements keyword");
 	}
-	
 	public void visit(ClassNode node)
 	{
-		if (currentClass != null) Tab.chainLocalSymbols(currentClass.getType());
+		if (currentClass != null)
+		{
+			Tab.chainLocalSymbols(currentClass.getType());
+			
+			// Check if all interfaces are implemented
+			for (Iterator<Obj> i = currentClass.getType().getMembers().symbols().iterator(); i.hasNext(); )
+			{
+				Obj obj = i.next();
+				
+				if (obj.getKind() == Obj.Type)
+				{
+					Struct type = obj.getType();
+					
+					if (type.getKind() == Struct.Class && type.getNumberOfFields() == -1)
+					{
+						for (Iterator<Obj> m = type.getMembers().symbols().iterator(); m.hasNext(); )
+						{
+							Obj interfaceMethod = m.next();
+							
+							Obj classMethod = Tab.currentScope.findSymbol(interfaceMethod.getName());
+							
+							if (classMethod != Tab.noObj && classMethod != null)
+							{
+								if (classMethod.getType().assignableTo(interfaceMethod.getType()))
+								{
+									boolean paramsAreEqual = true;
+									
+									if (-interfaceMethod.getLevel() - 1 == classMethod.getLevel())
+									{
+										for (int paramNo = 1; paramNo <= classMethod.getLevel(); ++paramNo)
+										{
+											Obj iparam = Extensions.FindMethodParameter(interfaceMethod, paramNo);
+											Obj cparam = Extensions.FindMethodParameter(classMethod, paramNo);
+											
+											if (iparam.getType() != cparam.getType())
+											{
+												paramsAreEqual = false;
+												break;
+											}
+										}
+									} else paramsAreEqual = false;
+									
+									if (!paramsAreEqual)
+									{
+										report_error("Error on line " + node.getLine() + ": class \'" + currentClass.getName() + "\' does implement method \'" + interfaceMethod.getName() + "\' of interface \'" + obj.getName().substring(12) + "\', but the parameter lists differ");
+									}
+								}
+								else report_error("Error on line " + node.getLine() + ": class \'" + currentClass.getName() + "\' does implement method \'" + interfaceMethod.getName() + "\' of interface \'" + obj.getName().substring(12) + "\', but the return types differ");
+							}
+							else report_error("Error on line " + node.getLine() + ": class \'" + currentClass.getName() + "\' does not implement method \'" + interfaceMethod.getName() + "\' of interface \'" + obj.getName().substring(12) + "\'");
+						}
+					}
+				}
+			}
+		}
+		
 		closeScope();
 		currentClass = null;
 	}
+	
+	public void visit(InterfaceDeclNode node)
+	{
+		currentClass = null;
+		String interfaceName = node.getInterfaceName();
+		
+		Obj declared = Tab.currentScope.findSymbol(interfaceName);
+		
+		if (declared == Tab.noObj || declared == null)
+		{
+			currentClass = Tab.insert(Obj.Type, interfaceName, Extensions.interfaceType(interfaceName));
+		}
+		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
+		
+		openScope(Obj.Fld);	// interfaces actually can't have fields, so var kind is ignored
+	}
 	public void visit(InterfaceNode node)
 	{
-		if (currentClass != null) Tab.chainLocalSymbols(currentClass.getType());
+		if (currentClass != null)
+		{
+			Tab.chainLocalSymbols(currentClass.getType());
+			Extensions.setNumOfFields(currentClass.getType(), -1);
+		}
+		
 		closeScope();
 		currentClass = null;
 	}
@@ -477,7 +543,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		if (currentClass != null)
 		{
-			Tab.chainLocalSymbols(currentClass.getType()); // refresh symbols - find another way to do this peacefully
+			// refresh symbols - find another way to do this peacefully
+			Tab.chainLocalSymbols(currentClass.getType());
 		}
 		
 		paramNo = 0;
@@ -556,6 +623,26 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		
 		node.obj = node.getMethodPrototype().obj;
 		currentMethod.setLevel(paramNo);
+		Tab.chainLocalSymbols(currentMethod);
+		closeScope();
+		
+		currentMethod = null;
+	}
+	public void visit(IMethodsNode node)
+	{
+		// This visit actually represents ending of an interface method declaration
+		MethodPrototypeNode imethod = (MethodPrototypeNode)node.getMethodPrototype();
+		
+		if (imethod.obj != currentMethod)
+		{
+			report_info("Warning: interface method object is not the same as global current method set");
+		}
+		
+		// ATTENTION: INTERFACE METHOD HAS NEGATIVE NUMBRER OF PARAMETERS
+		// THE REASON FOR THIS IS TO DISTINGUISH IN CODE GENERATION WHETHER TO
+		// GENERATE METHOD BODY FOR THE METHOD OR NOT (IMETHODS ARE ABSTRACT)
+		// Real number of parameters is: -methodObj.getLevel() - 1;
+		currentMethod.setLevel(-paramNo - 1);
 		Tab.chainLocalSymbols(currentMethod);
 		closeScope();
 		

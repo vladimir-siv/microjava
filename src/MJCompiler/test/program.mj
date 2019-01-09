@@ -1,6 +1,17 @@
 program MJProgram
 
-class A
+interface IFoo
+{
+	int what();
+	int not(bool check);
+}
+
+interface IBar
+{
+	int x();
+}
+
+class A implements IBar
 {
 	int k;
 	{
@@ -11,7 +22,20 @@ class A
 class B extends A
 {
 	{
-		int y() { return this.k * k; }
+		int y(int c)
+		{
+			c++; k++; this.k++;
+			k = this.k + 1;
+			return this.k * k + c;
+		}
+	}
+}
+
+class C implements IFoo
+{
+	{
+		int what() { return 0; }
+		int not(bool check) { if (check) return 10; else return -10; }
 	}
 }
 
@@ -45,8 +69,14 @@ class B extends A
 		print(b.x() + b.k);
 		print(eol);
 
-		// PRINT: 36
-		print(b.y());
+		// PRINT: 85 25 8 9
+		print(b.y(3));	// 85
+		print(' ');
+		print(k);		// 25
+		print(' ');
+		print(a.k);		// 8
+		print(' ');
+		print(b.k);		// 9
 		print(eol);
 	}
 }

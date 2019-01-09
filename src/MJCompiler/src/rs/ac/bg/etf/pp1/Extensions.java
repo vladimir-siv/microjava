@@ -6,6 +6,7 @@ import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
 
 import java.util.*;
+import java.lang.reflect.*;
 
 public class Extensions
 {
@@ -24,6 +25,16 @@ public class Extensions
 	public static final Struct boolType = new Struct(5);
 	public static final Struct enumType = new Struct(6);
 	
+	private static Struct getType(LinkedHashMap<String, Struct> types, String name)
+	{
+		Struct type = types.get(name);
+		if (type != null) return type;
+		
+		type = new Struct(Struct.Class);
+		types.put(name, type);
+		
+		return type;
+	}
 	public static Struct arrayType(Struct elemType)
 	{
 		Struct type = arrayTypes.get(elemType);
@@ -35,38 +46,17 @@ public class Extensions
 	}
 	public static Struct classType(String className)
 	{
-		Struct type = classTypes.get(className);
-		if (type != null) return type;
-		
-		type = new Struct(Struct.Class);
-		classTypes.put(className, type);
-		
-		return type;
+		return getType(classTypes, className);
 	}
 	public static Struct interfaceType(String interfaceName)
 	{
-		Struct type = interfaceTypes.get(interfaceName);
-		if (type != null) return type;
-		
-		type = new Struct(Struct.Class);
-		interfaceTypes.put(interfaceName, type);
-		
-		try { numOfFields.set(type, -1); }
-		catch (Exception ex) { ex.printStackTrace(); }
-		
-		return type;
+		return getType(interfaceTypes, interfaceName);
 	}
 	
 	public static void init()
 	{
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", boolType));
-		
-		try
-		{
-			numOfFields = Struct.class.getDeclaredField("numOfFields");
-			numOfFields.setAccessible(true);
-		}
-		catch (Exception ex) { ex.printStackTrace(); }
+		config();
 	}
 	
 	public static void UpdateConstantValue(ConstValue constValue, Obj cnst)
@@ -135,5 +125,21 @@ public class Extensions
 		return Tab.noObj;
 	}
 	
-	private static java.lang.reflect.Field numOfFields = null;
+	
+	
+	private static Field numOfFields = null;
+	private static void config()
+	{
+		try
+		{
+			numOfFields = Struct.class.getDeclaredField("numOfFields");
+			numOfFields.setAccessible(true);
+		}
+		catch (Exception ex) { ex.printStackTrace(); }
+	}
+	public static void setNumOfFields(Struct interfaceType, int value)
+	{
+		try { numOfFields.set(interfaceType, value); }
+		catch (Exception ex) { ex.printStackTrace(); }
+	}
 }

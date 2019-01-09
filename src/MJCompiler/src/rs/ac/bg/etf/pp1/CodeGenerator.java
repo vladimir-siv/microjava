@@ -95,7 +95,9 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(MethodDeclNode node)
 	{
-		if (node.getMethodName().equals("main"))
+		if (node.obj.getLevel() < 0) return;
+		
+		if (thisParam == 0 && node.getMethodName().equals("main"))
 		{
 			mainPc = Code.pc;
 		}
@@ -107,6 +109,12 @@ public class CodeGenerator extends VisitorAdaptor
 		
 		CounterVisitor counter = new CounterVisitor();
 		methodNode.traverseTopDown(counter);
+		
+		if (counter.getParamCount() != node.obj.getLevel())
+		{
+			org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(getClass());
+			log.info("Warning: parameter count does not match visitor param count.");
+		}
 		
 		// Generate method entry (enter instruction)
 		Code.put(Code.enter);
