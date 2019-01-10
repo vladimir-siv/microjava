@@ -6,6 +6,7 @@ import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 import java.util.function.Consumer;
@@ -88,15 +89,49 @@ public class CodeGenerator extends VisitorAdaptor
 	private boolean inClass = false;
 	public void visit(ClassDeclNode node)
 	{
-		// Set vtp address for this class
-		vtable.add(e -> node.obj.setAdr(dataSize));
 		inClass = true;
 	}
 	public void visit(ClassNode node)
 	{
-		// Generate end of vt
+		// Generate the vtable
 		vtable.add(e ->
 		{
+			// Set vtp
+			node.obj.setAdr(dataSize);
+			
+			Iterator<Obj> enumerator = node.obj.getType().getMembers().symbols().iterator();
+			
+			while (enumerator.hasNext())
+			{
+				Obj method = enumerator.next();
+				
+				if (method.getKind() == Obj.Meth)
+				{
+					// Generate vtp structure for this method
+					String methodName = method.getName();
+					
+					// Generate method name
+					for (int i = 0; i < methodName.length(); ++i)
+					{
+						int ascii = (int) methodName.charAt(i);
+						
+						Code.loadConst(ascii);
+						Code.put(Code.putstatic);
+						Code.put2(dataSize++);
+					}
+					
+					// Generate -1 (end of method)
+					Code.loadConst(-1);
+					Code.put(Code.putstatic);
+					Code.put2(dataSize++);
+					
+					// Generate the address where the method resides
+					Code.loadConst(method.getAdr());
+					Code.put(Code.putstatic);
+					Code.put2(dataSize++);
+				}
+			}
+			
 			Code.loadConst(-2);
 			Code.put(Code.putstatic);
 			Code.put2(dataSize++);
@@ -167,43 +202,6 @@ public class CodeGenerator extends VisitorAdaptor
 		{
 			Code.put(Code.exit);
 			Code.put(Code.return_);
-		}
-		
-		if (inClass)
-		{
-			// Generate vtp structure for this method
-			// this could have been done in MethodDeclNode visit, but for
-			// the sake of code simplicity, it is done here
-			
-			String methodName = node.obj.getName();
-			
-			// Generate method name
-			for (int i = 0; i < methodName.length(); ++i)
-			{
-				final int chr = i;
-				
-				vtable.add(e ->
-				{
-					int ascii = (int) methodName.charAt(chr);
-					
-					Code.loadConst(ascii);
-					Code.put(Code.putstatic);
-					Code.put2(dataSize++);
-				});
-			}
-			
-			vtable.add(e ->
-			{
-				// Generate -1 (end of method)
-				Code.loadConst(-1);
-				Code.put(Code.putstatic);
-				Code.put2(dataSize++);
-				
-				// Generate the address where the method resides
-				Code.loadConst(node.obj.getAdr());
-				Code.put(Code.putstatic);
-				Code.put2(dataSize++);
-			});
 		}
 	}
 	
