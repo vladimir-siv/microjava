@@ -146,7 +146,8 @@ nonterminal											EnumConstDecl, EnumOptValue;
 
 nonterminal											IList, IMethodList, InterfaceType;
 nonterminal											FieldSectList, FieldSect;
-nonterminal											ClassDecl, ClassReg, ClassBody;
+nonterminal	rs.etf.pp1.symboltable.concepts.Obj		ClassDecl, ClassReg;
+nonterminal											ClassBody;
 nonterminal											ExtendsDecl, ImplementsDecl;
 nonterminal											InterfaceDecl, InterfaceReg;
 

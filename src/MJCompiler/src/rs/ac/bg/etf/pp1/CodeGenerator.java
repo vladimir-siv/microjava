@@ -8,13 +8,28 @@ import rs.etf.pp1.symboltable.concepts.Obj;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.function.Consumer;
 
 public class CodeGenerator extends VisitorAdaptor
 {
 	// ======= [S] GLOBAL =======
 	
+	public CodeGenerator(int initialDataSize) { dataSize = initialDataSize; }
+	
+	private int dataSize;
+	public int getDataSize() { return dataSize; }
+	
 	private int mainPc;
 	public int getMainPC() { return mainPc; }
+	
+	private ArrayList<Consumer<Void>> vtable = new ArrayList<>();
+	private void vtableInit()
+	{
+		for (int i = 0; i < vtable.size(); ++i)
+		{
+			vtable.get(i).accept(null);
+		}
+	}
 	
 	// ======= [E] GLOBAL =======
 	
@@ -39,7 +54,7 @@ public class CodeGenerator extends VisitorAdaptor
 	}
 	public void visit(DesignatorNode node)
 	{
-		if (node.obj.getKind() == Obj.Fld)
+		if (node.obj.getKind() == Obj.Fld || node.obj.getKind() == Obj.Meth)
 		{
 			// implicit this
 			Code.put(Code.load_n);
@@ -57,11 +72,11 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(ConstantFactorNode node)
 	{
-		Obj cnst = Tab.insert(Obj.Con, "$", node.struct);
+		//Obj cnst = Tab.insert(Obj.Con, "$", node.struct);
+		//cnst.setLevel(0);
 		
-		cnst.setLevel(0);
-		Extensions.UpdateConstantValue( node.getConstValue(), cnst);
-		
+		Obj cnst = new Obj(Obj.Con, "$", node.struct);
+		Extensions.UpdateConstantValue(node.getConstValue(), cnst);
 		Code.load(cnst);
 	}
 	
@@ -70,22 +85,32 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	// ======= [S] CLASSES =======
 	
-	private int thisParam = 0;
+	private boolean inClass = false;
 	public void visit(ClassDeclNode node)
 	{
-		thisParam = 1;
-	}
-	public void visit(InterfaceDeclNode node)
-	{
-		thisParam = 1;
+		// Set vtp address for this class
+		vtable.add(e -> node.obj.setAdr(dataSize));
+		inClass = true;
 	}
 	public void visit(ClassNode node)
 	{
-		thisParam = 0;
+		// Generate end of vt
+		vtable.add(e ->
+		{
+			Code.loadConst(-2);
+			Code.put(Code.putstatic);
+			Code.put2(dataSize++);
+		});
+		
+		inClass = false;
+	}
+	public void visit(InterfaceDeclNode node)
+	{
+		inClass = true;
 	}
 	public void visit(InterfaceNode node)
 	{
-		thisParam = 0;
+		inClass = false;
 	}
 	
 	// ======= [E] CLASSES =======
@@ -97,9 +122,12 @@ public class CodeGenerator extends VisitorAdaptor
 	{
 		if (node.obj.getLevel() < 0) return;
 		
-		if (thisParam == 0 && node.getMethodName().equals("main"))
+		boolean initVTable = false;
+		
+		if (!inClass && node.getMethodName().equals("main"))
 		{
 			mainPc = Code.pc;
+			initVTable = true;
 		}
 		
 		node.obj.setAdr(Code.pc);
@@ -118,8 +146,10 @@ public class CodeGenerator extends VisitorAdaptor
 		
 		// Generate method entry (enter instruction)
 		Code.put(Code.enter);
-		Code.put(thisParam + counter.getParamCount());
-		Code.put(thisParam + counter.getParamCount() + counter.getVarCount());
+		Code.put((inClass ? 1 : 0) + counter.getParamCount());
+		Code.put((inClass ? 1 : 0) + counter.getParamCount() + counter.getVarCount());
+		
+		if (initVTable) vtableInit();
 	}
 	public void visit(ReturnExprNode node)
 	{
@@ -137,6 +167,43 @@ public class CodeGenerator extends VisitorAdaptor
 		{
 			Code.put(Code.exit);
 			Code.put(Code.return_);
+		}
+		
+		if (inClass)
+		{
+			// Generate vtp structure for this method
+			// this could have been done in MethodDeclNode visit, but for
+			// the sake of code simplicity, it is done here
+			
+			String methodName = node.obj.getName();
+			
+			// Generate method name
+			for (int i = 0; i < methodName.length(); ++i)
+			{
+				final int chr = i;
+				
+				vtable.add(e ->
+				{
+					int ascii = (int) methodName.charAt(chr);
+					
+					Code.loadConst(ascii);
+					Code.put(Code.putstatic);
+					Code.put2(dataSize++);
+				});
+			}
+			
+			vtable.add(e ->
+			{
+				// Generate -1 (end of method)
+				Code.loadConst(-1);
+				Code.put(Code.putstatic);
+				Code.put2(dataSize++);
+				
+				// Generate the address where the method resides
+				Code.loadConst(node.obj.getAdr());
+				Code.put(Code.putstatic);
+				Code.put2(dataSize++);
+			});
 		}
 	}
 	
@@ -414,6 +481,16 @@ public class CodeGenerator extends VisitorAdaptor
 		{
 			Code.put(Code.new_);
 			Code.put2(node.struct.getNumberOfFields() * 4);
+			
+			// Insert vtp address in the object
+			
+			// [FTP] solution
+			int vtpAddress = Tab.currentScope.findSymbol(((TypeNode)node.getType()).getTypeName()).getAdr();
+			
+			Code.put(Code.dup);
+			Code.loadConst(vtpAddress);
+			Code.put(Code.putfield);
+			Code.put2(0);
 		}
 	}
 	public void visit(NullNode node)
@@ -423,7 +500,15 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(FuncCallNode node)
 	{
-		Obj functionObj = ((CalleeNode)node.getCallee()).getDesignator().obj;
+		CalleeNode callee = (CalleeNode)node.getCallee();
+		boolean isVirtualCall = true;
+		
+		if (!inClass && callee.getDesignator() instanceof DesignatorNode)
+		{
+			isVirtualCall = false;
+		}
+		
+		Obj functionObj = callee.getDesignator().obj;
 		
 		if
 		(
@@ -434,9 +519,37 @@ public class CodeGenerator extends VisitorAdaptor
 		{
 			if (!functionObj.getName().equals("len"))
 			{
-				int offset = functionObj.getAdr() - Code.pc;
-				Code.put(Code.call);
-				Code.put2(offset);
+				if (isVirtualCall)
+				{
+					String functionName = functionObj.getName();
+					
+					// load this
+					if (inClass && callee.getDesignator() instanceof DesignatorNode)
+					{
+						// implicit this
+						Code.put(Code.load_n);
+					}
+					else
+					{
+						// load this from chain
+						DesignatorChainNode chain = (DesignatorChainNode)callee.getDesignator();
+						Code.load(chain.getDesignator().obj);
+					}
+					
+					Code.put(Code.getfield);
+					Code.put2(0);
+					
+					Code.put(Code.invokevirtual);
+					for (int i = 0; i < functionName.length(); ++i)
+						Code.put4((int)functionName.charAt(i));
+					Code.put4(-1);
+				}
+				else
+				{
+					int offset = functionObj.getAdr() - Code.pc;
+					Code.put(Code.call);
+					Code.put2(offset);
+				}
 			}
 			else Code.put(Code.arraylength);
 		}

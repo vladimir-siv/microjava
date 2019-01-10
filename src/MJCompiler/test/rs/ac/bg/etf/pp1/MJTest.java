@@ -58,10 +58,10 @@ public class MJTest
 				
 				if (objFile.exists()) objFile.delete();
 				
-				CodeGenerator generator = new CodeGenerator();
+				CodeGenerator generator = new CodeGenerator(analyzer.getnVars());
 				prog.traverseBottomUp(generator);
 				
-				Code.dataSize = analyzer.getnVars();
+				Code.dataSize = generator.getDataSize();
 				Code.mainPc = generator.getMainPC();
 				Code.write(new FileOutputStream(objFile));
 				

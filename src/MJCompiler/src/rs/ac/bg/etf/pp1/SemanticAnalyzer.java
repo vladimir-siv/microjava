@@ -92,7 +92,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		nVars = Tab.currentScope.getnVars();
 		Tab.chainLocalSymbols(node.getProgDecl().obj);
-		closeScope();
+		//closeScope();
 	}
 	
 	// ======= [E] PROGRAM =======
@@ -338,18 +338,23 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	
 	public void visit(ClassDeclNode node)
 	{
+		node.obj = Tab.noObj;
 		currentClass = null;
+		
 		String className = node.getClassName();
 		
 		Obj declared = Tab.currentScope.findSymbol(className);
 		
 		if (declared == Tab.noObj || declared == null)
 		{
-			currentClass = Tab.insert(Obj.Type, className, Extensions.classType(className));
+			node.obj = Tab.insert(Obj.Type, className, Extensions.classType(className));
+			currentClass = node.obj;
 		}
 		else report_error("Error on line " + node.getLine() + ": name \'" + declared.getName() + "\' has already been declared in this scope");
 		
 		openScope(Obj.Fld);
+		
+		Tab.insert(Obj.Fld, "$vtp", Tab.noType);
 	}
 	public void visit(ClassExtendsNode node)
 	{
@@ -468,6 +473,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 			}
 		}
 		
+		node.obj = node.getClassReg().obj;
 		closeScope();
 		currentClass = null;
 	}
@@ -734,14 +740,22 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		Obj currentCalleeMethod = node.getDesignator().obj;
 		
-		if (currentCalleeMethod == Tab.noObj)
+		if (!(node.getDesignator() instanceof DesignatorIndexingNode))
 		{
-			errorDetected = true;
-			currentCalleeMethod = null;
+			if (currentCalleeMethod == Tab.noObj)
+			{
+				errorDetected = true;
+				currentCalleeMethod = null;
+			}
+			else if (currentCalleeMethod.getKind() != Obj.Meth)
+			{
+				report_error("Error on line " + node.getLine() + ": name \'" + currentCalleeMethod.getName() + "\' is not a function");
+				currentCalleeMethod = null;
+			}
 		}
-		else if (currentCalleeMethod.getKind() != Obj.Meth)
+		else
 		{
-			report_error("Error on line " + node.getLine() + ": name \'" + currentCalleeMethod.getName() + "\' is not a function");
+			report_error("Error on line " + node.getLine() + ": such statement cannot evaluate into a function which can be called");
 			currentCalleeMethod = null;
 		}
 		
