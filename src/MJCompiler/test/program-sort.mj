@@ -1,0 +1,152 @@
+program MJProgram
+
+interface IConstructable
+{
+	void construct();
+	void populate(int v);
+}
+
+class A implements IConstructable
+{
+	int arr[];
+
+	{
+		void construct()
+		{
+			arr = new int[5];
+		}
+
+		void populate(int v)
+		{
+
+		}
+	}
+}
+
+class B implements IConstructable
+{
+	A a;
+
+	{
+		void construct()
+		{
+			a = new A;
+			a.construct();
+		}
+
+		void populate(int v)
+			int i;
+		{
+			for (i = 0; i < len(a.arr); i++)
+			{
+				a.arr[i] = v * (v - i);
+			}
+		}
+
+		int sum() int r, i;
+		{
+			r = 0;
+			for (i = 0; i < len(a.arr); i++)
+				r = r + a.arr[i];
+			return r;
+		}
+	}
+}
+
+class C implements IConstructable
+{
+	B arr[];
+
+	{
+		void construct()
+		{
+			arr = new B[5];
+		}
+
+		void populate(int v)
+			int i;
+		{
+			for (i = 0; i < len(arr); i++)
+			{
+				arr[i] = new B;
+				arr[i].construct();
+				arr[i].populate(v + i);
+			}
+		}
+
+		void dump()
+			int i, j;
+		{
+			for (i = 0; i < len(arr); i++)
+			{
+				for (j = 0; j < len(arr[i].a.arr); j++)
+				{
+					print(arr[i].a.arr[j]); print(' ');
+				}
+
+				print(eol);
+			}
+		}
+
+		void swap(int i, int j) B temp;
+		{
+			temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+		}
+
+		void sort()
+			int i, j;
+		{
+			for (i = 0; i < len(arr) - 1; i++)
+			{
+				for (j = i + 1; j < len(arr); j++)
+				{
+					if (arr[i].sum() > arr[j].sum())
+					{
+						swap(i, j);
+					}
+				}
+			}
+		}
+	}
+}
+
+{
+	void main() C c;
+	{
+		c = new C;
+		c.construct();
+		c.populate(10);
+
+		// 100 90 80 70 60
+		// 121 110 99 88 77
+		// 144 132 120 108 96
+		// 169 156 143 130 117
+		// 196 182 168 154 140
+		c.dump(); print(eol);
+
+		c.swap(0, 3);
+		c.swap(1, 2);
+		c.swap(1, 0);
+
+		// 144 132 120 108 96
+		// 169 156 143 130 117
+		// 121 110 99 88 77
+		// 100 90 80 70 60
+		// 196 182 168 154 140
+		c.dump(); print(eol);
+
+		c.sort();
+
+		// 100 90 80 70 60
+		// 121 110 99 88 77
+		// 144 132 120 108 96
+		// 169 156 143 130 117
+		// 196 182 168 154 140
+		c.dump(); print(eol);
+
+		print(eol);
+		print('D'); print('O'); print('N'); print('E'); print('!');
+	}
+}
