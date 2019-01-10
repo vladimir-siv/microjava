@@ -65,7 +65,7 @@ public class CodeGenerator extends VisitorAdaptor
 	}
 	public void visit(DesignatorNode node)
 	{
-		if (node.obj.getKind() == Obj.Fld || node.obj.getKind() == Obj.Meth)
+		if (node.obj.getKind() == Obj.Fld || (inClass && node.obj.getKind() == Obj.Meth))
 		{
 			String designatorName = node.obj.getName();
 			
@@ -89,7 +89,10 @@ public class CodeGenerator extends VisitorAdaptor
 		visit((Designator)node);
 	}
 	public void visit(DesignatorIndexingNode node) { visit((Designator)node); }
-	public void visit(DesignatorChainNode node) { visit((Designator)node, true); }
+	public void visit(DesignatorChainNode node)
+	{
+		visit(node, node.getDesignator().obj.getType() != Extensions.enumType);
+	}
 	
 	// ======= [E] PERMA LEAVES =======
 	
