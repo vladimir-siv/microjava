@@ -39,6 +39,16 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(Designator node)
 	{
+		visit(node, false);
+	}
+	public void visit(Designator node, boolean setstatic)
+	{
+		if (setstatic)
+		{
+			Code.put(Code.dup);
+			Code.put(Code.putstatic); Code.put2(0);
+		}
+		
 		SyntaxNode parent = node.getParent();
 		if
 		(
@@ -67,14 +77,19 @@ public class CodeGenerator extends VisitorAdaptor
 				&&
 				!designatorName.equals("len")
 			)
-			// implicit this
-			Code.put(Code.load_n);
+			{
+				// implicit this
+				Code.put(Code.load_n);
+				
+				Code.put(Code.load_n);
+				Code.put(Code.putstatic); Code.put2(0);
+			}
 		}
 		
 		visit((Designator)node);
 	}
 	public void visit(DesignatorIndexingNode node) { visit((Designator)node); }
-	public void visit(DesignatorChainNode node) { visit((Designator)node); }
+	public void visit(DesignatorChainNode node) { visit((Designator)node, true); }
 	
 	// ======= [E] PERMA LEAVES =======
 	
@@ -143,25 +158,21 @@ public class CodeGenerator extends VisitorAdaptor
 						int ascii = (int) methodName.charAt(i);
 						
 						Code.loadConst(ascii);
-						Code.put(Code.putstatic);
-						Code.put2(position++);
+						Code.put(Code.putstatic); Code.put2(position++);
 					}
 					
 					// Generate -1 (end of method)
 					Code.loadConst(-1);
-					Code.put(Code.putstatic);
-					Code.put2(position++);
+					Code.put(Code.putstatic); Code.put2(position++);
 					
 					// Generate the address where the method resides
 					Code.loadConst(method.getAdr());
-					Code.put(Code.putstatic);
-					Code.put2(position++);
+					Code.put(Code.putstatic); Code.put2(position++);
 				}
 			}
 			
 			Code.loadConst(-2);
-			Code.put(Code.putstatic);
-			Code.put2(position++);
+			Code.put(Code.putstatic); Code.put2(position++);
 		});
 		
 		inClass = false;
@@ -514,8 +525,7 @@ public class CodeGenerator extends VisitorAdaptor
 			
 			Code.put(Code.dup);
 			Code.loadConst(vtpAddress);
-			Code.put(Code.putfield);
-			Code.put2(0);
+			Code.put(Code.putfield); Code.put2(0);
 		}
 	}
 	public void visit(NullNode node)
@@ -557,12 +567,10 @@ public class CodeGenerator extends VisitorAdaptor
 					else
 					{
 						// load this from chain
-						DesignatorChainNode chain = (DesignatorChainNode)callee.getDesignator();
-						Code.load(chain.getDesignator().obj);
+						Code.put(Code.getstatic); Code.put2(0);
 					}
 					
-					Code.put(Code.getfield);
-					Code.put2(0);
+					Code.put(Code.getfield); Code.put2(0);
 					
 					Code.put(Code.invokevirtual);
 					for (int i = 0; i < functionName.length(); ++i)

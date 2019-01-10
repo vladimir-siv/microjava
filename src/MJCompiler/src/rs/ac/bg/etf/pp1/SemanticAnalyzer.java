@@ -87,11 +87,16 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	{
 		node.obj = Tab.insert(Obj.Prog, node.getProgName(), Tab.noType);
 		openScope(Obj.Var);
+		
+		// static variable used for storing temp data
+		Tab.insert(Obj.Var, "$temp", Tab.noType);
 	}
 	public void visit(ProgramNode node)
 	{
 		nVars = Tab.currentScope.getnVars();
 		Tab.chainLocalSymbols(node.getProgDecl().obj);
+		
+		// don't close the scope, so that CodeGenerator can use Tab. and see other user types defined
 		//closeScope();
 	}
 	
@@ -1079,7 +1084,7 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		{
 			node.struct = type;
 			
-			if (node.struct.getKind() != Struct.Class)
+			if (node.struct.getKind() != Struct.Class || node.struct.getNumberOfFields() < 0)
 			{
 				report_error("Error on line " + node.getLine() + ": new operator cannot be used on anything other than class types or arrays");
 			}

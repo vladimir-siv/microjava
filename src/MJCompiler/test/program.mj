@@ -54,6 +54,7 @@ class C implements IFoo
 class D extends C
 {
 	{
+		int what() { return 1; }
 		B getA(int p1, A p2, char p3) B res;
 		{
 			res = new B;
@@ -78,7 +79,8 @@ char global3, global4;
 		D d;
 		IFoo foo;
 		IBar bar;
-		int k;
+		int k, i;
+		IFoo foos[];
 	{
 		a = new A;
 		b = new B;
@@ -161,6 +163,19 @@ char global3, global4;
 		print(' ');
 		bar = d.getA(5, null, 'a');
 		print(bar.u());
+		print(eol);
+
+		// PRINT: 00101
+		foos = new IFoo[5];
+
+		foos[0] = new C;
+		foos[1] = new C;
+		foos[2] = new D;
+		foos[3] = new C;
+		foos[4] = new D;
+
+		for (i = 0; i < 5; i++)
+			print(foos[i].what());
 		print(eol);
 	}
 }
