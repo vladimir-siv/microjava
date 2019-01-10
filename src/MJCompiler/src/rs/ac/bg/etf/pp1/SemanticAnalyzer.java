@@ -632,6 +632,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 	public void visit(MethodPrototypeNode node)
 	{
 		node.obj = node.getMethodReg().obj;
+		currentMethod.setLevel(paramNo);
+		Tab.chainLocalSymbols(currentMethod);
 	}
 	public void visit(ReturnExprNode node)
 	{
@@ -680,8 +682,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		}
 		
 		node.obj = node.getMethodPrototype().obj;
-		currentMethod.setLevel(paramNo);
-		Tab.chainLocalSymbols(currentMethod);
+		currentMethod.setLevel(paramNo);			// redundant
+		Tab.chainLocalSymbols(currentMethod);		// redundant
 		closeScope();
 		
 		currentMethod = null;

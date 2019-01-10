@@ -76,6 +76,12 @@ program MJProgram
 		return x;
 	}
 
+	int fibo(int n)
+	{
+		if (n < 2) return 1;
+		return fibo(n - 1) + fibo(n - 2);
+	}
+
 	void main()
 		int aa, bb;
 		char u; int e;
@@ -290,6 +296,11 @@ program MJProgram
 			print(ord(str[i]));
 			i = increment(i);
 		}
+		print(eol);
+
+		// PRINT: 21
+		// Fibo: 1 1 2 3 5 8 13 21 34 (0 indexed)
+		print(fibo(7));
 		print(eol);
 
 		// PRINT:
