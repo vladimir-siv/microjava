@@ -100,14 +100,31 @@ public class CodeGenerator extends VisitorAdaptor
 	public void visit(ClassDeclNode node)
 	{
 		inClass = true;
+		
+		// Set vtp
+		node.obj.setAdr(dataSize);
+		
+		Iterator<Obj> enumerator = node.obj.getType().getMembers().symbols().iterator();
+		
+		while (enumerator.hasNext())
+		{
+			Obj method = enumerator.next();
+			
+			if (method.getKind() == Obj.Meth)
+			{
+				dataSize += method.getName().length() + 2;
+			}
+		}
+		
+		// for -2
+		++dataSize;
 	}
 	public void visit(ClassNode node)
 	{
 		// Generate the vtable
 		vtable.add(e ->
 		{
-			// Set vtp
-			node.obj.setAdr(dataSize);
+			int position = node.obj.getAdr();
 			
 			Iterator<Obj> enumerator = node.obj.getType().getMembers().symbols().iterator();
 			
@@ -127,24 +144,24 @@ public class CodeGenerator extends VisitorAdaptor
 						
 						Code.loadConst(ascii);
 						Code.put(Code.putstatic);
-						Code.put2(dataSize++);
+						Code.put2(position++);
 					}
 					
 					// Generate -1 (end of method)
 					Code.loadConst(-1);
 					Code.put(Code.putstatic);
-					Code.put2(dataSize++);
+					Code.put2(position++);
 					
 					// Generate the address where the method resides
 					Code.loadConst(method.getAdr());
 					Code.put(Code.putstatic);
-					Code.put2(dataSize++);
+					Code.put2(position++);
 				}
 			}
 			
 			Code.loadConst(-2);
 			Code.put(Code.putstatic);
-			Code.put2(dataSize++);
+			Code.put2(position++);
 		});
 		
 		inClass = false;

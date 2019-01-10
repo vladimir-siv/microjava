@@ -64,6 +64,9 @@ class D extends C
 	}
 }
 
+int global1, global2;
+char global3, global4;
+
 {
 	int x() { return 2; }
 	void func2() { }
