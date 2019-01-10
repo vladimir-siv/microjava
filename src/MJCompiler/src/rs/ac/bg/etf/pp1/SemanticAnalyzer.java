@@ -381,8 +381,11 @@ public class SemanticAnalyzer extends VisitorAdaptor
 						
 						if (fld != Tab.noObj)
 						{
-							// Inherit the field
-							Tab.insert(fld.getKind(), fld.getName(), fld.getType());
+							if (fld.getType() != Tab.noType) // ignore vtp inheritance
+							{
+								// Inherit the field
+								Tab.insert(fld.getKind(), fld.getName(), fld.getType());
+							}
 						}
 						else report_error("Fatal error on line " + node.getLine() + ": could not inherit field \'" + fld.getName() + "\'");
 					}

@@ -9,6 +9,7 @@ interface IFoo
 interface IBar
 {
 	int x();
+	int u();
 }
 
 class A implements IBar
@@ -16,6 +17,7 @@ class A implements IBar
 	int k;
 	{
 		int x() { return 3 + k + this.k; }
+		int u() { return x(); }
 	}
 }
 
@@ -30,6 +32,8 @@ class B extends A
 			k = this.k + 1;
 			return this.k * k + c;
 		}
+
+		int u() { return 5 + y(l); }
 	}
 }
 
@@ -38,14 +42,25 @@ class C implements IFoo
 	{
 		int what() { return 0; }
 		int not(bool check) { if (check) return 10; else return -10; }
-		A getA(int p1, A p2, char p3) { return new A; }
+		A getA(int p1, A p2, char p3) A res;
+		{
+			res = new A;
+			res.k = p1;
+			return res;
+		}
 	}
 }
 
 class D extends C
 {
 	{
-		B getA(int p1, A p2, char p3) { return new B; }
+		B getA(int p1, A p2, char p3) B res;
+		{
+			res = new B;
+			res.k = p1 + 2;
+			res.l = ord(p3);
+			return res;
+		}
 	}
 }
 
@@ -57,6 +72,7 @@ class D extends C
 		A a, temp;
 		B b;
 		C c;
+		D d;
 		IFoo foo;
 		IBar bar;
 		int k;
@@ -64,6 +80,7 @@ class D extends C
 		a = new A;
 		b = new B;
 		c = new C;
+		d = new D;
 
 		// PRINT: 6778
 		read(a.k);		// a.k = 5
@@ -133,6 +150,14 @@ class D extends C
 		print(' ');
 		bar = b;
 		print(bar.x());	// 23
+		print(eol);
+
+		// PRINT: 13 203
+		bar = c.getA(5, null, 'a');
+		print(bar.u());
+		print(' ');
+		bar = d.getA(5, null, 'a');
+		print(bar.u());
 		print(eol);
 	}
 }

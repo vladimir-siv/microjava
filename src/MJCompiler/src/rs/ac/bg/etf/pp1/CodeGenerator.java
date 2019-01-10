@@ -57,6 +57,16 @@ public class CodeGenerator extends VisitorAdaptor
 	{
 		if (node.obj.getKind() == Obj.Fld || node.obj.getKind() == Obj.Meth)
 		{
+			String designatorName = node.obj.getName();
+			
+			if
+			(
+				!designatorName.equals("ord")
+				&&
+				!designatorName.equals("chr")
+				&&
+				!designatorName.equals("len")
+			)
 			// implicit this
 			Code.put(Code.load_n);
 		}
