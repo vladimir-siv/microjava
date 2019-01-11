@@ -39,16 +39,6 @@ public class CodeGenerator extends VisitorAdaptor
 	
 	public void visit(Designator node)
 	{
-		visit(node, false);
-	}
-	public void visit(Designator node, boolean setstatic)
-	{
-		if (setstatic)
-		{
-			Code.put(Code.dup);
-			Code.put(Code.putstatic); Code.put2(0);
-		}
-		
 		SyntaxNode parent = node.getParent();
 		if
 		(
@@ -80,19 +70,13 @@ public class CodeGenerator extends VisitorAdaptor
 			{
 				// implicit this
 				Code.put(Code.load_n);
-				
-				Code.put(Code.load_n);
-				Code.put(Code.putstatic); Code.put2(0);
 			}
 		}
 		
 		visit((Designator)node);
 	}
 	public void visit(DesignatorIndexingNode node) { visit((Designator)node); }
-	public void visit(DesignatorChainNode node)
-	{
-		visit(node, node.getDesignator().obj.getType() != Extensions.enumType);
-	}
+	public void visit(DesignatorChainNode node) { visit((Designator)node); }
 	
 	// ======= [E] PERMA LEAVES =======
 	
@@ -562,19 +546,13 @@ public class CodeGenerator extends VisitorAdaptor
 					String functionName = functionObj.getName();
 					
 					// load this
-					if (inClass && callee.getDesignator() instanceof DesignatorNode)
-					{
-						// implicit this
-						Code.put(Code.load_n);
-					}
-					else
-					{
-						// load this from chain
-						Code.put(Code.getstatic); Code.put2(0);
-					}
+					Designator current = callee.getDesignator();
+					current.traverseBottomUp(this);
 					
+					// get vtp
 					Code.put(Code.getfield); Code.put2(0);
 					
+					// invoke
 					Code.put(Code.invokevirtual);
 					for (int i = 0; i < functionName.length(); ++i)
 						Code.put4((int)functionName.charAt(i));

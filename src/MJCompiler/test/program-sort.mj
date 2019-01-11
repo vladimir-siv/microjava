@@ -20,6 +20,12 @@ class A implements IConstructable
 		{
 
 		}
+
+		bool equal(A a)
+		{
+			if (this == a) return true;
+			else return false;
+		}
 	}
 }
 
@@ -145,6 +151,13 @@ class C implements IConstructable
 		// 169 156 143 130 117
 		// 196 182 168 154 140
 		c.dump(); print(eol);
+
+		// PRINT: 1001
+		print(c.arr[0].a.equal(c.arr[0].a));
+		print(c.arr[0].a.equal(c.arr[1].a));
+		print(c.arr[1].a.equal(c.arr[0].a));
+		print(c.arr[1].a.equal(c.arr[1].a));
+		print(eol);
 
 		print(eol);
 		print('D'); print('O'); print('N'); print('E'); print('!');

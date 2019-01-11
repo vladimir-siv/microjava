@@ -88,8 +88,8 @@ public class SemanticAnalyzer extends VisitorAdaptor
 		node.obj = Tab.insert(Obj.Prog, node.getProgName(), Tab.noType);
 		openScope(Obj.Var);
 		
-		// static variable used for storing temp data
-		Tab.insert(Obj.Var, "$temp", Tab.noType);
+		// static variable used for storing temp data [not used]
+		//Tab.insert(Obj.Var, "$temp", Tab.noType);
 	}
 	public void visit(ProgramNode node)
 	{
