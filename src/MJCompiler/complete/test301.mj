@@ -1,0 +1,57 @@
+// Test301
+
+program test301
+
+	enum Broj { NULA, JEDAN, PET=5, DESET=10}
+
+	const int jedan = 1;
+	const int pet = 5;
+
+	int niz[];
+	char nizch[];
+
+{
+	void main()
+		int bodovi;
+		Broj nula, jedan;
+	{
+		nula = Broj.NULA;
+		jedan = Broj.JEDAN;
+
+		bodovi = 0;
+		bodovi++;
+		bodovi = bodovi + jedan;
+		bodovi = bodovi * pet;
+		bodovi--;
+		print(bodovi);					// 9
+
+
+		niz = new int[2];
+		niz[nula] = pet;
+		niz[1] = Broj.DESET;
+		bodovi = niz[1]/niz[0];
+		print(bodovi);					// 2
+		print(niz[Broj.JEDAN]);			// 10
+
+
+		nizch = new char[3];
+		nizch[0] = 'a';
+		nizch[jedan] = 'b';
+		nizch[pet - 3] = 'c';
+		print( nizch[2 - 1]);			// b
+		print( nizch[jedan * 2]);		// c
+
+		// 2 + ((4) * 2 - (4) - 1 * 0)
+		bodovi = bodovi + ((pet * jedan - 1) * 2 - (3 % 2 + 3 * 2 - 3) - Broj.JEDAN * 0);
+		print(bodovi);					// 6
+
+
+		read(bodovi);
+		bodovi = bodovi + 1;
+		print(bodovi);					// +1 od reada
+
+
+	}
+}
+
+

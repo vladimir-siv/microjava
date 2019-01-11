@@ -16,6 +16,7 @@ public class Log4JUtils
 	}
 	
 	public URL findLoggerConfigFile() { return Thread.currentThread().getContextClassLoader().getResource("log4j.xml"); }
+	public URL findLoggerConfigProdFile() { return Thread.currentThread().getContextClassLoader().getResource("log4j-prod.xml"); }
 	
 	public void prepareLogFile(Logger root)
 	{

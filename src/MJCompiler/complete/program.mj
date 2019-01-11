@@ -1,0 +1,181 @@
+program MJProgram
+
+interface IFoo
+{
+	int what();
+	int not(bool check);
+}
+
+interface IBar
+{
+	int x();
+	int u();
+}
+
+class A implements IBar
+{
+	int k;
+	{
+		int x() { return 3 + k + this.k; }
+		int u() { return x(); }
+	}
+}
+
+class B extends A
+{
+	int l;
+	A a;
+	{
+		int y(int c)
+		{
+			c++; k++; this.k++;
+			k = this.k + 1;
+			return this.k * k + c;
+		}
+
+		int u() { return 5 + y(l); }
+	}
+}
+
+class C implements IFoo
+{
+	{
+		int what() { return 0; }
+		int not(bool check) { if (check) return 10; else return -10; }
+		A getA(int p1, A p2, char p3) A res;
+		{
+			res = new A;
+			res.k = p1;
+			return res;
+		}
+	}
+}
+
+class D extends C
+{
+	{
+		int what() { return 1; }
+		B getA(int p1, A p2, char p3) B res;
+		{
+			res = new B;
+			res.k = p1 + 2;
+			res.l = ord(p3);
+			return res;
+		}
+	}
+}
+
+int global1, global2;
+char global3, global4;
+
+{
+	int x() { return 2; }
+	void func2() { }
+
+	void main()
+		A a, temp;
+		B b;
+		C c;
+		D d;
+		IFoo foo;
+		IBar bar;
+		int k, i;
+		IFoo foos[];
+	{
+		a = new A;
+		b = new B;
+		c = new C;
+		d = new D;
+
+		// PRINT: 6778
+		read(a.k);		// a.k = 5
+		a.k++;			// a.k = 6
+		k = a.k + 1;	// k = 7
+		print(a.k);		// 6
+		print(k);		// 7
+		a.k = k + 1;	// a.k = 8
+		print(k);		// 7
+		print(a.k);		// 8
+		print(eol);
+
+		// PRINT: 25
+		k = 6 + a.x();
+		print(k);
+		print(eol);
+
+		// PRINT: 21
+		b.k = 6;
+		print(b.x() + b.k);
+		print(eol);
+
+		// PRINT: 85 25 8 9
+		print(b.y(3));	// 85
+		print(' ');
+		print(k);		// 25
+		print(' ');
+		print(a.k);		// 8
+		print(' ');
+		print(b.k);		// 9
+		print(eol);
+
+		// PRINT: 4 25 8 9
+		b.a = new A;
+		b.a.k = 3;
+		b.a.k++;
+		print(b.a.k);	// 4
+		print(' ');
+		print(k);		// 25
+		print(' ');
+		print(a.k);		// 8
+		print(' ');
+		print(b.k);		// 9
+		print(eol);
+
+		// PRINT: 8 9 9 10 10 8
+		print(a.k);		// 8
+		print(' ');
+		temp = a;
+        a = b;
+		print(a.k);		// 9
+		print(' ');
+		print(b.k);		// 9
+		print(' ');
+		a.k++;
+		print(a.k);		// 10
+		print(' ');
+		print(b.k);		// 10
+		print(' ');
+		a = temp;
+		print(a.k);		// 8
+		print(eol);
+
+		// PRINT: 19 23
+		bar = a;
+		print(bar.x());	// 19
+		print(' ');
+		bar = b;
+		print(bar.x());	// 23
+		print(eol);
+
+		// PRINT: 13 203
+		bar = c.getA(5, null, 'a');
+		print(bar.u());
+		print(' ');
+		bar = d.getA(5, null, 'a');
+		print(bar.u());
+		print(eol);
+
+		// PRINT: 00101
+		foos = new IFoo[5];
+
+		foos[0] = new C;
+		foos[1] = new C;
+		foos[2] = new D;
+		foos[3] = new C;
+		foos[4] = new D;
+
+		for (i = 0; i < 5; i++)
+			print(foos[i].what());
+		print(eol);
+	}
+}

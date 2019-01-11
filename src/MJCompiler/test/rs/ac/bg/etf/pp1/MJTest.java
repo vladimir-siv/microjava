@@ -5,22 +5,14 @@ import java.io.*;
 import java_cup.runtime.Symbol;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import rs.ac.bg.etf.pp1.ast.Program;
-import rs.ac.bg.etf.pp1.util.Log4JUtils;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 
 public class MJTest
 {
-	static
-	{
-		DOMConfigurator.configure(Log4JUtils.instance().findLoggerConfigFile());
-		Log4JUtils.instance().prepareLogFile(Logger.getRootLogger());
-	}
-	
-	public static void main(String[] args) throws Exception
+	public static void run() throws Exception
 	{
 		Logger log = Logger.getLogger(MJTest.class);
 		Reader br = null;
@@ -49,8 +41,8 @@ public class MJTest
 				analyzer.report_error("Semantic error: no main method found");
 			}
 			
-			//log.info(prog.toString(""));
-			//Tab.dump();
+			log.info(prog.toString(""));
+			Tab.dump();
 			
 			if (!parser.errorDetected && analyzer.passed())
 			{
@@ -79,6 +71,3 @@ public class MJTest
 		}
 	}
 }
-
-// java -cp lib/mj-runtime.jar rs.etf.pp1.mj.runtime.Run test/program.obj
-// java -cp lib/mj-runtime.jar rs.etf.pp1.mj.runtime.disasm test/program.obj >test/program.asm

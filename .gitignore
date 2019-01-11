@@ -30,6 +30,9 @@ hs_err_pid*
 # build files
 src/MJCompiler/out/
 
+# include jars in complete version
+!src/MJCompiler/complete/microjava/*.jar
+
 # ignore cup generated files
 src/MJCompiler/spec/mjparser_astbuild.cup
 src/MJCompiler/src/rs/ac/bg/etf/pp1/MJParser.java
