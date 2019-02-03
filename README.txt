@@ -1,3 +1,3 @@
 # microjava
 
-Compiler Collage Project
+Compiler College Project
